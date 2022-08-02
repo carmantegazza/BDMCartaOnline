@@ -1,38 +1,41 @@
-let miOrden = "";
-let itemPedido = parseInt(prompt("Ingresá el numero de tabla que querés pedir"));
-while (itemPedido < 4) {
-    let itemAgregar = prompt("Querés agregar la degustación de vinos? 1 para si, 0 para no");
-    miOrden = itemPedido + itemAgregar;
-    break
-}
-let miNombre = prompt("Cual es tu nombre?")
-let miOrdenDetalle = "";
-switch (miOrden) {
-    case "10":
-        miOrdenDetalle = "Tabla #1 sin degustación de vinos";
-        miTotal = 1500
-        break
-    case "20":
-        miOrdenDetalle = "Tabla #2 sin degustación de vinos";
-        miTotal = 2200
-        break
-    case "30":
-        miOrdenDetalle = "Tabla #3 sin degustación de vinos";
-        miTotal = 2700
-        break
-    case "11":
-        miOrdenDetalle = "Tabla #1 con degustación de vinos";
-        miTotal = 2300
-        break
-    case "21":
-        miOrdenDetalle = "Tabla #2 con degustación de vinos";
-        miTotal = 3000
-        break
-    case "31":
-        miOrdenDetalle = "Tabla #3 con degustación de vinos";
-        miTotal = 3500
-        break
-    default:
-        break
-}
-alert("Gracias, " + miNombre + "\n Tu orden es " + miOrdenDetalle + "\n El total es $" + miTotal);
+console.log('Simulador de: toma de pedidos para stand/foodtruck de bar')
+
+const totalOrden = (degus, vinos) => {
+    switch (degus) {
+        case '1':
+            totalParcial = 1500
+            break
+        case '2':
+            totalParcial = 2200
+            break
+        case '3':
+            totalParcial = 2700
+            break
+        default:
+            alert('Opcion no valida')
+            break
+    }
+    if (vinos == 0) {
+        totalVinos = 0
+    } else if (vinos == 1) {
+        totalVinos = 800
+    } else {
+        alert('Opcion no valida')
+    }
+    return totalParcial + totalVinos
+};
+
+const totalEft = (miOrden) => miOrden * 0.9;
+
+
+for (let i = 1; i < 6; i++) {
+    alert('Bienvenido a Bar du Marche! \nPodes realizar tu pedido, y aguardar a que te llamemos para retirarlo');
+    let nombre = prompt('Cual es tu nombre?');
+    let miOrden = totalOrden(prompt('Ingresá el número de tabla elegida'), parseInt(prompt('Querés agregar la degustación de vinos? 1 para si, 0 para no')));
+    let miOrdenEft = totalEft(miOrden);
+    let demora = i * 3;
+    alert(`Muchas gracias, ${nombre}. 
+    Tu orden es la # ${i} El total es de $ ${miOrden} 
+    En efectivo tenes 10% de descuento, seria $ ${miOrdenEft}
+    La demora aproximada es de ${demora} minutos`);
+};
