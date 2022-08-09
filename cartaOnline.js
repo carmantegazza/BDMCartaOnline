@@ -1,3 +1,4 @@
+//objetos
 class Tabla {
     constructor(nombre, detalle, precio, disponibilidad) {
         this.nombre = nombre
@@ -5,7 +6,7 @@ class Tabla {
         this.precio = precio
         this.disponibilidad = disponibilidad
     }
-}
+};
 
 class Queso {
     constructor(nombre, leche, origen, precio, disponibilidad) {
@@ -15,12 +16,11 @@ class Queso {
         this.precio = precio
         this.disponibilidad = disponibilidad
     }
-}
-
+};
+//arrays
 let tabla1 = new Tabla(1, 'Gouda, Camembert, Crottin', 1500, true)
 let tabla2 = new Tabla(2, 'Lincoln, Brie, Patagonzola', 2200, true)
 let tabla3 = new Tabla(3, 'Goya, Pecorino, Chevrotin', 2700, true)
-
 const tablas = []
 tablas.push(tabla1, tabla2, tabla3)
 
@@ -33,10 +33,10 @@ let queso6 = new Queso('Brie', 'Vaca', 'Buenos Aires', 750, true)
 let queso7 = new Queso('Goya', 'Vaca', 'Buenos Aires', 750, true)
 let queso8 = new Queso('Pecorino', 'Oveja', 'San Luis', 1200, true)
 let queso9 = new Queso('Chevrotin', 'Cabra', 'Buenos Aires', 1080, true)
-
 const quesos = []
 quesos.push(queso1, queso2, queso3, queso4, queso5, queso6, queso7, queso8, queso9)
 
+//funciones
 const totalOrdenTabla = (degus, vinos) => {
     let tablaElegida = tablas.find(tabla => tabla.numero == degus.Number)
     let totalParcial = tablaElegida.precio
@@ -58,14 +58,30 @@ const totalQueso = (nombre) => {
         let precioQueso = quesoElegido.precio
         return precioQueso
     }
-}
+};
 
+//mensaje en consola para contexto en entregas
 console.log('Simulador de: toma de pedidos para stand/foodtruck de bar')
-console.table(tablas)
-console.table(quesos['nombre', 'precio'])
+let opcionesTabla = tablas.map((tabla) => {
+    return {
+        nombre: tabla.nombre,
+        precio: tabla.precio
+    }
+});
+let opcionesQuesos = quesos.map((queso)=> {
+    return {
+        nombre: queso.nombre,
+        precio: queso.precio
+    }
+});
+console.log('Opciones de Tablas de Degustacion')
+console.table(opcionesTabla)
+console.log('Opciones de quesos por porcion')
+console.table(opcionesQuesos)
 
-for (let i = 1; i < 1; i++) {
-    alert('Bienvenido a Bar du Marche! \nPodes realizar tu pedido, y aguardar a que te llamemos para retirarlo');
+//ciclo para crear orden
+alert('Bienvenido a Bar du Marche! \nPodes realizar tu pedido, y aguardar a que te llamemos para retirarlo');
+for (let i = 1; i < 3; i++) {
     let demora = i * 3;
     let nombre = prompt('Cual es tu nombre?');
     let ordenTabla = confirm('Queres pedir una de nuestras tablas de quesos? Apreta "cancelar" si solo queres elegir una porcion')

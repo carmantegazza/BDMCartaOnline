@@ -17,6 +17,10 @@ h2 {
     }
 }
 
+h3 {
+    color: $color-marca;
+}
+
 /*main*/
 .grillaCarta {
     display: flex;
@@ -26,7 +30,7 @@ h2 {
     margin: 2rem;
 }
 
-.cardVinos {
+.subtitulo {
     text-align: center
 }
 
@@ -46,4 +50,27 @@ h2 {
     font-style: italic;
     background-color: $color-faded;
     border-radius: 0.5rem;
+}
+
+//grilla quesos
+
+.grillaQuesos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    justify-items: stretch;
+    margin: 2rem;
+}
+
+.cardQueso {
+    @include bordeEspecial();
+    background-image: url(../media/images/tablaQuesos.jpg);
+    background-size: cover;
+    padding: 30px;
+    margin: 10px;
+    border-radius: 0.5rem;
+    p {
+        font-style: italic;
+        font-weight: bold;
+    }
 }

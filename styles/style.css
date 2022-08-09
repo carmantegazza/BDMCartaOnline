@@ -24,6 +24,10 @@ h2 .titulo {
   font-size: 3rem;
 }
 
+h3 {
+  color: #DD4740;
+}
+
 /*main*/
 .grillaCarta {
   display: -webkit-box;
@@ -40,7 +44,7 @@ h2 .titulo {
   margin: 2rem;
 }
 
-.cardVinos {
+.subtitulo {
   text-align: center;
 }
 
@@ -65,5 +69,31 @@ h2 .titulo {
   font-style: italic;
   background-color: #eddfb3d2;
   border-radius: 0.5rem;
+}
+
+.grillaQuesos {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[3];
+      grid-template-columns: repeat(3, 1fr);
+  -ms-grid-rows: (1fr)[3];
+      grid-template-rows: repeat(3, 1fr);
+  justify-items: stretch;
+  margin: 2rem;
+}
+
+.cardQueso {
+  border: 0.3rem solid #DD4740;
+  border-radius: 0.5rem;
+  background-image: url(../media/images/tablaQuesos.jpg);
+  background-size: cover;
+  padding: 30px;
+  margin: 10px;
+  border-radius: 0.5rem;
+}
+
+.cardQueso p {
+  font-style: italic;
+  font-weight: bold;
 }
 /*# sourceMappingURL=style.css.map */
