@@ -38,11 +38,11 @@ quesos.push(queso1, queso2, queso3, queso4, queso5, queso6, queso7, queso8, ques
 
 //funciones
 const totalOrdenTabla = (degus, vinos) => {
-    let tablaElegida = tablas.find(tabla => tabla.numero == degus.Number)
+    let tablaElegida = tablas.find(tabla => tabla.nombre == degus)
     let totalParcial = tablaElegida.precio
-    if (vinos == 0) {
+    if (vinos == 'NO') {
         totalVinos = 0
-    } else if (vinos == 1) {
+    } else if (vinos == 'SI') {
         totalVinos = 800
     } else {
         alert('Opcion no valida')
@@ -86,7 +86,7 @@ for (let i = 1; i < 3; i++) {
     let nombre = prompt('Cual es tu nombre?');
     let ordenTabla = confirm('Queres pedir una de nuestras tablas de quesos? Apreta "cancelar" si solo queres elegir una porcion')
     if (ordenTabla == true) {
-        let miOrdenTabla = totalOrdenTabla(prompt('Ingresá el número de tabla elegida'), parseInt(prompt('Querés agregar la degustación de vinos? 1 para si, 0 para no')));
+        let miOrdenTabla = totalOrdenTabla(parseInt(prompt('Ingresá el número de tabla elegida')), prompt('Querés agregar la degustación de vinos? SI/NO').toUpperCase());
         alert(`Muchas gracias, ${nombre}. 
         Tu orden es la # ${i} El total es de $ ${miOrdenTabla} 
         La demora aproximada es de ${demora} minutos`);
