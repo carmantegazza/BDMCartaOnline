@@ -60,43 +60,43 @@ const totalQueso = (nombre) => {
     }
 };
 
-//mensaje en consola para contexto en entregas
-console.log('Simulador de: toma de pedidos para stand/foodtruck de bar')
-let opcionesTabla = tablas.map((tabla) => {
-    return {
-        nombre: tabla.nombre,
-        precio: tabla.precio
-    }
-});
-let opcionesQuesos = quesos.map((queso)=> {
-    return {
-        nombre: queso.nombre,
-        precio: queso.precio
-    }
-});
-console.log('Opciones de Tablas de Degustacion')
-console.table(opcionesTabla)
-console.log('Opciones de quesos por porcion')
-console.table(opcionesQuesos)
+//crear nodos de items en el html desde los obejtos de la clase quesos
+const grillaQuesos = document.getElementsByClassName('grillaQuesos')
+const divGrillaQuesos = grillaQuesos [0]
 
-//ciclo para crear orden
-alert('Bienvenido a Bar du Marche! \nPodes realizar tu pedido, y aguardar a que te llamemos para retirarlo');
-for (let i = 1; i < 3; i++) {
-    let demora = i * 3;
-    let nombre = prompt('Cual es tu nombre?');
-    let ordenTabla = confirm('Queres pedir una de nuestras tablas de quesos? Apreta "cancelar" si solo queres elegir una porcion')
-    if (ordenTabla == true) {
-        let miOrdenTabla = totalOrdenTabla(parseInt(prompt('Ingresá el número de tabla elegida')), prompt('Querés agregar la degustación de vinos? SI/NO').toUpperCase());
-        alert(`Muchas gracias, ${nombre}. 
-        Tu orden es la # ${i} El total es de $ ${miOrdenTabla} 
-        La demora aproximada es de ${demora} minutos`);
-    } else {
-        let miOrdenQueso = totalQueso(prompt('Ingresa el nombre del queso elegido'))
-        while (miOrdenQueso != undefined) {
-            alert(`Muchas gracias, ${nombre}.    
-                Tu orden es la # ${i} El total es de $ ${miOrdenQueso} 
-                La demora aproximada es de ${demora} minutos`);
-                break
+//funcion para crear Cards para quesos
+const crearCard = queso => {
+    let botonAgregar = document.createElement('button');
+    botonAgregar.className = 'botonAgregar';
+    botonAgregar.innerText = 'Agregar';
+
+    let cardQueso = document.createElement('div');
+    cardQueso.className = 'cardQueso';
+    cardQueso.innerHTML = `
+        <h3>${queso.nombre}</h3>
+        <p>${queso.leche}</p>
+        <p>${queso.origen}</p>
+        <p>$ ${queso.precio}</p>
+        `;
+    cardQueso.append(botonAgregar);    
+
+    let grillaQuesos = document.createElement('div')
+    grillaQuesos.className = 'grillaQuesos';
+    grillaQuesos.append(cardQueso);
+
+    return grillaQuesos;
+}
+
+const ordenarGrillaQuesos = () => {
+    quesos.forEach(
+        (queso) => {
+            let grillaQuesos = crearCard(queso)
+            divGrillaQuesos.append(grillaQuesos);
         }
-    }
-};
+    );
+}
+
+//llamar funciones que crean elementos html
+//falta crear orden
+//ordenarItemsPedidos();
+ordenarGrillaQuesos();
