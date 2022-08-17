@@ -18,7 +18,7 @@ class Queso {
   }
 };
 
-class Vinos {
+class Vino {
   constructor(nombre, cepa, bodega, precio, disponibilidad) {
     this.nombre = nombre
     this.cepa = cepa
@@ -142,7 +142,8 @@ ordenarGrillaQuesos();
 
 //orden
 //llamado al contenedor de la orden
-const contenedorOrden = document.querySelector('#contenedorOrden')
+const cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
+const footTablaOrden = document.querySelector('#footTablaOrden')
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
@@ -153,13 +154,13 @@ const ordenarItemsPedidos = () => {
       renglonesOrden += `
             <tr>
             <td>${item.cantidad}</td>
-                <td>${item.queso.nombre}</td>
-                <td>$ ${item.queso.precio}</td>
+            <td>${item.queso.nombre}</td>
+            <td>$ ${item.queso.precio}</td>
             </tr>
             `;
     }
   );
-  contenedorOrden.innerHTML = renglonesOrden;
+  cuerpoTablaOrden.innerHTML = renglonesOrden;
 }
 ordenarItemsPedidos();
 
