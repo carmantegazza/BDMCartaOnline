@@ -14,39 +14,73 @@
         <h1 class="titulo">BAR DU MARCHE</h1>
     </header>
     <main>
-        <div class="grillaCarta">
-            <div class="subtitulo">
+        <div class="block">
+            <div class="content">
                 <p>A cualquiera de nuestras tablas podes sumarle una degustación de 3 copas de vinos elegidos por
                     nuestra Sommelier</p>
             </div>
-            <div class="cardTabla">
-                <h2>Tabla 1</h2>
-                <div class="cardTablaTexto">
-                    <p>Gouda (Buenos Aires), Camembert de Vaca (Cordoba), Crottin de Cabra (Buenos Aires)</p>
-                    <p>$1500</p>
-                </div>
-            </div>
-            <div class="cardTabla">
-                <h2>Tabla 2</h2>
-                <div class="cardTablaTexto">
-                    <p>Lincoln (San Luis), Brie (Buenos Aires), Patagonzola (Neuquen)</p>
-                    <p>$2200</p>
-                </div>
-            </div>
-            <div class="cardTabla">
-                <h2>Tabla 3</h2>
-                <div class="cardTablaTexto">
-                    <p>Goya (Buenos Aires), Pecorino de Oveja (San Luis), Chevrotin de Cabra (Buenos Aires)</p>
-                    <p>$2700</p>
-                </div>
-            </div>
         </div>
-        <h2>Quesos</h2>
-        <div class="subtitulo">
-            <p>Porciones de quesos seleccionados, acompañados de pan de masamadre y dip de conservas casera</p>
-        </div>
+        <button class="js-modal-trigger is-large is-danger" data-target="modal-js-example">
+            Orden
+        </button>
+        <div id="modal-js-example" class="modal">
+            <div class="modal-background"></div>
 
-        <div class="grillaQuesos">
+            <div class="modal-content">
+                <div class="box">
+                    <div class="content" id="contenedorOrden"></div>
+                </div>
+            </div>
+
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+        <div class="block">
+            <div class="columns is-3 is-centered">
+                <div class="column is-two-thirds">
+                    <div class="card">
+                        <div class="card-content">
+                            <h2 class="title">Tabla 1</h2>
+                            <p>Gouda (Buenos Aires), Camembert de Vaca (Cordoba), Crottin de Cabra (Buenos Aires)</p>
+                            <p>$1500</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="button is-dark">Agregar</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h2 class="title">Tabla 2</h2>
+                            <p>Lincoln (San Luis), Brie (Buenos Aires), Patagonzola (Neuquen)</p>
+                            <p>$2200</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="button is-dark">Agregar</button>
+                        </div>
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h2 class="title">Tabla 3</h2>
+                            <p>Goya (Buenos Aires), Pecorino de Oveja (San Luis), Chevrotin de Cabra (Buenos Aires)</p>
+                            <p>$2700</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="button is-dark">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="block">
+            <h2>Quesos</h2>
+            <div class="subtitulo">
+                <p>Porciones de quesos seleccionados, acompañados de pan de masamadre y dip de conservas casera</p>
+            </div>
+        </div>
+        <div class="block">
+            <div class="columns is-3 is-multiline is-centered mx-2" id="grillaQuesos">
+            </div>
         </div>
     </main>
     <script src="./cartaOnline.js"></script>

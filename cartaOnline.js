@@ -36,67 +36,135 @@ let queso9 = new Queso('Chevrotin', 'Cabra', 'Buenos Aires', 1080, true)
 const quesos = []
 quesos.push(queso1, queso2, queso3, queso4, queso5, queso6, queso7, queso8, queso9)
 
-//funciones
-const totalOrdenTabla = (degus, vinos) => {
-    let tablaElegida = tablas.find(tabla => tabla.nombre == degus)
-    let totalParcial = tablaElegida.precio
-    if (vinos == 'NO') {
-        totalVinos = 0
-    } else if (vinos == 'SI') {
-        totalVinos = 800
-    } else {
-        alert('Opcion no valida')
+//armar orden, esta clase son los item que se van sumando a la orden
+class ItemPedido {
+    constructor(queso, cantidad) {
+        this.queso = queso;
+        this.cantidad = cantidad;
     }
-    return totalParcial + totalVinos
-};
+}
+//array con los items de la orden
+const itemsPedidos = [];
 
-const totalQueso = (nombre) => {
-    let quesoElegido = quesos.find(queso => queso.nombre.toUpperCase() == nombre.toUpperCase())
-    if (quesoElegido == undefined) {
-        alert('No es valido')
-    } else {
-        let precioQueso = quesoElegido.precio
-        return precioQueso
-    }
-};
+//agregar items a la orden (falta crear el html con este id!)
+const contenedorOrden = document.querySelector('#contenedorOrden')
 
-//crear nodos de items en el html desde los obejtos de la clase quesos
-const grillaQuesos = document.getElementsByClassName('grillaQuesos')
-const divGrillaQuesos = grillaQuesos [0]
+
+const ordenarItemsPedidos = () => {
+    let renglonesOrden = '';
+
+    itemsPedidos.forEach(
+        (queso) => {
+            renglonesOrden += `
+            <tr>
+                <td>${queso.nombre}</td>
+                <td>${queso.cantidad}</td>
+                <td>$ ${queso.precio}</td>
+            </tr>
+            `;
+        }
+    );
+    contenedorOrden.innerHTML = renglonesOrden;
+}
+
+//ca este contenedor van a ir las cards de quesos
+const grillaQuesos = document.getElementById('grillaQuesos')
 
 //funcion para crear Cards para quesos
 const crearCard = queso => {
     let botonAgregar = document.createElement('button');
-    botonAgregar.className = 'botonAgregar';
+    botonAgregar.className = 'button is-primary is-fullwidth';
     botonAgregar.innerText = 'Agregar';
 
-    let cardQueso = document.createElement('div');
-    cardQueso.className = 'cardQueso';
-    cardQueso.innerHTML = `
-        <h3>${queso.nombre}</h3>
+    let cardFooter = document.createElement('div');
+    cardFooter.className = 'card-footer';
+    cardFooter.append(botonAgregar);
+
+    let cardContent = document.createElement('div');
+    cardContent.className = 'card-content';
+    cardContent.innerHTML = `
+        <h3 class="title is-4">${queso.nombre}</h3>
         <p>${queso.leche}</p>
         <p>${queso.origen}</p>
         <p>$ ${queso.precio}</p>
         `;
-    cardQueso.append(botonAgregar);    
 
-    let grillaQuesos = document.createElement('div')
-    grillaQuesos.className = 'grillaQuesos';
-    grillaQuesos.append(cardQueso);
+    let cardQueso = document.createElement('div');
+    cardQueso.className = 'card';
+    cardQueso.append(cardContent);
+    cardQueso.append(cardFooter);
 
-    return grillaQuesos;
+    let columnaCardQueso = document.createElement('div');
+    columnaCardQueso.className = 'column is-one-third';
+    columnaCardQueso.append(cardQueso);
+
+    //evento para agregar items a la orden
+    botonAgregar.onclick = () => {
+        let itemPedido = new ItemPedido(queso, 1);
+        itemsPedidos.push(itemPedido);
+
+        ordenarItemsPedidos();
+    };
+        
+    return columnaCardQueso;
 }
 
 const ordenarGrillaQuesos = () => {
     quesos.forEach(
         (queso) => {
-            let grillaQuesos = crearCard(queso)
-            divGrillaQuesos.append(grillaQuesos);
+            let columnaCardQueso = crearCard(queso)
+            grillaQuesos.append(columnaCardQueso);
         }
     );
 }
 
 //llamar funciones que crean elementos html
 //falta crear orden
-//ordenarItemsPedidos();
+ordenarItemsPedidos();
 ordenarGrillaQuesos();
+
+//codigo para el modal sacado de Bulma, leer y cambiar segun necesidad
+document.addEventListener('DOMContentLoaded', () => {
+    // Functions to open and close a modal
+    function openModal($el) {
+      $el.classList.add('is-active');
+    }
+  
+    function closeModal($el) {
+      $el.classList.remove('is-active');
+    }
+  
+    function closeAllModals() {
+      (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+        closeModal($modal);
+      });
+    }
+  
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+      const modal = $trigger.dataset.target;
+      const $target = document.getElementById(modal);
+  
+      $trigger.addEventListener('click', () => {
+        openModal($target);
+      });
+    });
+  
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+      const $target = $close.closest('.modal');
+  
+      $close.addEventListener('click', () => {
+        closeModal($target);
+      });
+    });
+  
+    // Add a keyboard event to close all modals
+    document.addEventListener('keydown', (event) => {
+      const e = event || window.event;
+  
+      if (e.keyCode === 27) { // Escape key
+        closeAllModals();
+      }
+    });
+  });
