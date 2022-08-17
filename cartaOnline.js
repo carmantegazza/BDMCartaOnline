@@ -70,31 +70,32 @@ Manipoulacion del html segun objetos
 //llamado al elemento html donde va la grilla de quesos
 const grillaQuesos = document.getElementById('grillaQuesos')
 
+//funcion para crear el boton segun disponibilidad
+const crearBotonDeItem = (disponibilidad) => {
+
+  let botonAgregar = document.createElement('button');
+  botonAgregar.className = 'button is-primary is-fullwidth';
+  botonAgregar.innerText = 'Agregar';
+
+  let botonNoDisponible = document.createElement('button');
+  botonNoDisponible.className = 'button is-primary is-fullwidth';
+  botonNoDisponible.title = 'Disabled button';
+  botonNoDisponible.disabled = true;
+  botonNoDisponible.innerText = 'No Disponible';
+
+  if (disponibilidad == true) {
+    boton = botonAgregar
+  } else {
+    boton = botonNoDisponible
+  };
+  return boton
+};
+
+
 //funcion para crear Cards para quesos
 const crearCard = queso => {
 
-  //funcion para crear el boton segun disponibilidad
-  const crearBotonDeItem = () => {
-
-    let botonAgregar = document.createElement('button');
-    botonAgregar.className = 'button is-primary is-fullwidth';
-    botonAgregar.innerText = 'Agregar';
-
-    let botonNoDisponible = document.createElement('button');
-    botonNoDisponible.className = 'button is-primary is-fullwidth';
-    botonNoDisponible.title = 'Disabled button';
-    botonNoDisponible.disabled = true;
-    botonNoDisponible.innerText = 'No Disponible';
-
-    if (queso.disponibilidad == true) {
-      boton = botonAgregar
-    } else {
-      boton = botonNoDisponible
-    };
-    return boton
-  };
-
-  let botonDeItem = crearBotonDeItem();
+  let botonDeItem = crearBotonDeItem(queso.disponibilidad);
 
   let cardFooter = document.createElement('div');
   cardFooter.className = 'card-footer';
@@ -161,6 +162,14 @@ const ordenarItemsPedidos = () => {
     }
   );
   cuerpoTablaOrden.innerHTML = renglonesOrden;
+  /*footTablaOrden.innerHTML = `
+    <tr>
+    <p>Total = $ ${orden.total}</p> 
+    <p>Tu orden es la numero ${orden.numero}</p>
+    </tr>
+  
+  `;*/
+
 }
 ordenarItemsPedidos();
 
