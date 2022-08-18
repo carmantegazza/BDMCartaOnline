@@ -13,7 +13,8 @@
     <header>
         <section class="hero" id="top">
             <div class="hero-body is-small has-background-light">
-                <nav class="navbar is-fixed-top has-background-light p-2" role="navigation" aria-label="main navigation">
+                <nav class="navbar is-fixed-top has-background-light p-2" role="navigation"
+                    aria-label="main navigation">
                     <div class="navbar-brand">
                         <h1><a class="title is-1" href="#top">BAR DU MARCHE</a></h1>
                     </div>
@@ -48,6 +49,7 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
@@ -103,6 +105,79 @@
             <div class="hero-body bg-vinos">
                 <div class="columns is-3 is-multiline is-centered" id="grillaVinos">
                 </div>
+            </div>
+        </section>
+        <!--footer-->
+        <section class="hero has-background-light">
+            <div class="hero-body">
+                <a><button class="button is-primary botonModalAcceso" data-target="modalAcceso">Acceso
+                        Personal</button></a>
+            </div>
+            <div id="modalAcceso" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <nav class="panel is-primary">
+                            <p class="panel-heading">Disponibilidad</p>
+                            <p class="panel-tabs">
+                                <a class="is-active">Todos los productos</a>
+                                <a data-target="tabAccesoTabla">Tablas</a>
+                                <a data-target="tabAccesoQuesos">Quesos</a>
+                                <a data-target="tabAccesoVinos">Vinos</a>
+                            </p>
+                            <div class="panel-block is-active" id="tabAccessoAll">
+                                <table class="table is-striped is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th class="is-light">Item</th>
+                                            <th class="is-light">Disponibilidad</th>
+                                        </tr>
+                                    <tbody id="listaAccesoAll">
+                                    </tbody>
+                                    </thead>
+                                </table>
+                            </div>
+                           <!-- <div class="panel-block" id="tabAccessoTablas" aria-hidden="true">
+                                <table class="table is-striped is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th class="is-light">Item</th>
+                                            <th class="is-light">Disponibilidad</th>
+                                        </tr>
+                                    <tbody id="listaAccesoTablas">
+                                    </tbody>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="panel-block" id="tabAccessoQuesos">
+                                <table class="table is-striped is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th class="is-light">Item</th>
+                                            <th class="is-light">Disponibilidad</th>
+                                        </tr>
+                                    <tbody id="listaAccesoQuesos">
+                                    </tbody>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="panel-block" id="tabAccessoVinos">
+                                <table class="table is-striped is-fullwidth">
+                                    <thead>
+                                        <tr>
+                                            <th class="is-light">Item</th>
+                                            <th class="is-light">Disponibilidad</th>
+                                        </tr>
+                                    <tbody id="listaAccesoVinos">
+                                    </tbody>
+                                    </thead>
+                                </table>
+                            </div>-->
+                        </nav>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+
             </div>
         </section>
     </main>

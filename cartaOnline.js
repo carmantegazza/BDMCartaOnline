@@ -9,6 +9,12 @@ class Tabla {
     this.precio = precio
     this.disponibilidad = disponibilidad
   }
+  deshabilitar(){
+    if(this.disponibilidad == true) {
+      this.disponibilidad = false
+    } else {
+    }
+  }
 };
 
 class Queso {
@@ -50,7 +56,7 @@ let queso1 = new Queso('Gouda', 'Vaca', 'Buenos Aires', 500, true)
 let queso2 = new Queso('Camembert', 'Vaca', 'Cordoba', 580, true)
 let queso3 = new Queso('Crottin', 'Cabra', 'Buenos Aires', 630, true)
 let queso4 = new Queso('Lincoln', 'Vaca', 'San Luis', 690, true)
-let queso5 = new Queso('Patagonzola', 'Oveja', 'Neuquen', 900, false)
+let queso5 = new Queso('Patagonzola', 'Oveja', 'Neuquen', 900, true)
 let queso6 = new Queso('Brie', 'Vaca', 'Buenos Aires', 750, true)
 let queso7 = new Queso('Goya', 'Vaca', 'Buenos Aires', 750, true)
 let queso8 = new Queso('Pecorino', 'Oveja', 'San Luis', 1200, false)
@@ -78,6 +84,21 @@ const degus = {
   nombre: 'Degustacion de Vinos',
   precio: '800'
 };
+
+//metodo para deshabilitar, como hago uno para todos los abjetos? el console log es para prbar si funciona, NO FUNCIONA
+const desabilitar = (disponibilidad) => {
+  if (disponibilidad == true) {
+    disponibilidad =false
+  } else {
+  }
+  return disponibilidad
+}
+let desabilitarItem = desabilitar();
+
+vino8.desabilitarItem
+//console.log(vino8)
+tabla2.deshabilitar()
+//console.log(tabla2)
 
 /*
 Manipoulacion del html segun objetos
@@ -214,13 +235,6 @@ const crearCardTabla = tabla => {
   columnaCardTabla.className = 'column is-one-third';
   columnaCardTabla.append(cardTabla);
 
-  //evento que hace que se sume la degustacion a la orden, NO ANDA NO ANDA NO ANDA
-  /*const sumarDegus = document.getElementById('sumarDegus')
-  sumarDegus.addEventListener('change', () => {
-    let itemPedido = new ItemPedido(degus, 1);
-    itemsPedidos.push(itemPedido);
-  })*/
-
   //evento para agregar tablas a la orden
   botonDeItem.onclick = () => {
     let itemPedido = new ItemPedido(tabla, 1);
@@ -235,11 +249,22 @@ const crearCardTabla = tabla => {
 
 //orden de elementos en html
 //llamado al elemento html donde van las grillas
+const listaTablas = document.getElementById('listaTablas')
 const grillaQuesos = document.getElementById('grillaQuesos')
 const grillaVinos = document.getElementById('grillaVinos')
-const listaTablas = document.getElementById('listaTablas')
 
-//funciones son las rtes iguales, no se como simplicar KMN
+//funciones para las grillas, son iguales, no se como simplicar KMN
+//funcion para ordenar lista de tablitas
+const ordenarListaTablas = () => {
+  tablas.forEach(
+    (tabla) => {
+      let columnaCardTabla = crearCardTabla(tabla)
+      listaTablas.append(columnaCardTabla)
+    }
+  )
+}
+ordenarListaTablas();
+
 //funcion que ordena la grilla de quesos
 const ordenarGrillaQuesos = () => {
   quesos.forEach(
@@ -262,16 +287,6 @@ const ordenarGrillaVinos = () => {
 }
 ordenarGrillaVinos();
 
-//funcion para ordenar lista de tablitas
-const ordenarListaTablas = () => {
-  tablas.forEach(
-    (tabla) => {
-      let columnaCardTabla = crearCardTabla(tabla)
-      listaTablas.append(columnaCardTabla)
-    }
-  )
-}
-ordenarListaTablas();
 
 //orden
 //llamado al contenedor de la orden
@@ -290,7 +305,7 @@ const ordenarItemsPedidos = () => {
             <td>${item.cantidad}</td>
             <td>${item.pedido.nombre}</td>
             <td>$ ${item.pedido.precio}</td>
-            <td><button class="delete" id="borrarItem${item.pedido.nombre}"></button>
+            <td><button class="delete" id="borrarItem${item.pedido.nombre}"></button></td>
             </tr>
             `;
       cuerpoTablaOrden.innerHTML = renglonesOrden;
@@ -306,30 +321,75 @@ const ordenarItemsPedidos = () => {
     }
   );
 };
+
 //funcion para borrar items de la orden NO ANDA, REVISAR, NO ENCUENTRO EL DESGRACIADO ERROR DE REFERENCIA =(
 const removerItemPedido = (itemAEliminar) => {
-  const itemsAMantener = itemsPedidos.filter((item) => itemAEliminar.item.nombre != item.pedido.nombre);
+  const itemsAMantener = itemsPedidos.filter((item) => itemAEliminar.pedido.nombre != item.pedido.nombre);
   itemsPedidos.length = 0;
 
   itemsAMantener.forEach((item) => itemsPedidos.push(item))
 }
-
 ordenarItemsPedidos();
+
+
+//seteando el modal de acceso (desde donde se va a cambiar la disponibilidad)
+//llamado a elementos del panel donde van las listas, los tengo que crear en el html cuando ve como activar los tabs
+let listaAccesoTablas = document.getElementById('listaAccesoTablas');
+let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
+let listaAccesoVinos = document.getElementById('listaAccesoVinos');
+
+//funcion que crea listas con radio de disponibilidad segun arrays
+//EL RADIO NO ANDA WHY?
+const listarItems = (arrayItems) => {
+  let renglonesLista = '';
+
+  arrayItems.forEach(
+    (item) => {
+      renglonesLista += `
+            <tr>
+            <td>${item.nombre}</td>
+            <td>
+            <div class="control">
+            <label class="radio">
+              <input type="radio" name="answer">
+              Si
+            </label>
+            <label class="radio">
+              <input type="radio" name="answer">
+              No
+            </label>
+            </div>
+            </td>
+            </tr>
+            `;
+    }
+  );
+
+  return renglonesLista
+};
+
+//guardo los resultados de las funciones para cada array
+renglonesListaTablas = listarItems(tablas)
+renglonesListaQuesos = listarItems(quesos)
+renglonesListaVinos = listarItems(vinos)
+
+//inyecto la lista en el html
+listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaQuesos
 
 /*
 ME FALTA:
 ARREGLAR LO QUE NO ANDA
-ESTILOS, COLORES, IMAGENES
-CREAR SECCION PARA DESABILITAR OPCIONES: METODO .DEHABILITAR Y MODAL O PANEL DE CONTROL
+ESTILOS, COLORES, IMAGENES (CASI)
+ACCESO PERSONAL: HACER EL METODO GENERAL, HACER QUE FUNCIONEN LAS TABS
 */
 
 /*
-CODIGO DE BULMA, eventos para abrir y cerrar modal
+CODIGO COPIADO DE BULMA, eventos para abrir y cerrar modal
 */
 
 //codigo para el modal sacado de Bulma, leer y cambiar segun necesidad
 document.addEventListener('DOMContentLoaded', () => {
-  // Functions to open and close a modal
+  // funciones que abren y cierran modales
   function openModal($el) {
     $el.classList.add('is-active');
   }
@@ -344,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Add a click event on buttons to open a specific modal
+  // evento para que el boton dispare el modal
   (document.querySelectorAll('.botonModalOrden') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
@@ -354,7 +414,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Add a click event on various child elements to close the parent modal
+  //
+  (document.querySelectorAll('.botonModalAcceso') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+  // evento para que el modal se cierre desde cualquier lado donde haga click
   (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
     const $target = $close.closest('.modal');
 
