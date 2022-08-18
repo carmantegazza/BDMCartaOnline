@@ -188,23 +188,9 @@ const crearCardTabla = tabla => {
 
   let botonDeItem = crearBotonDeItem(tabla.disponibilidad);
 
-  //esto seria el input checkbox y el contenedor que lo contiene NO ANDA, OBVS
-  let checkBoxAgregar = document.createElement('input');
-  checkBoxAgregar.className = 'checkbox';
-  checkBoxAgregar.innertext = 'Agregar degustacion de vinos ($ 800)';
-
-  let boxCheckBoxAgregar = document.createElement('div');
-  boxCheckBoxAgregar.className = 'box';
-  boxCheckBoxAgregar.innerHTML = `
-      <label>
-      ${checkBoxAgregar}
-      </label>
-  `;
-
   let cardFooter = document.createElement('div');
   cardFooter.className = 'card-footer';
   cardFooter.append(botonDeItem);
-  cardFooter.append(boxCheckBoxAgregar)
 
   let cardContent = document.createElement('div');
   cardContent.className = 'card-content';
@@ -212,6 +198,11 @@ const crearCardTabla = tabla => {
           <h3 class="title is-4">${tabla.nombre}</h3>
           <p>${tabla.detalle}</p>
           <p>$ ${tabla.precio}</p>
+          <div class="content mt-3 has-text-weight-semibold">
+          <label class="checkbox">
+          <input type="checkbox" id="sumarDegus"> Sumar degustacion de vinos ($ 800)
+          </label>
+          </div>
           `;
 
   let cardTabla = document.createElement('div');
@@ -223,11 +214,12 @@ const crearCardTabla = tabla => {
   columnaCardTabla.className = 'column is-one-third';
   columnaCardTabla.append(cardTabla);
 
-  //evento que hace que se sume la degustacion a la orden, NO ANDA PORQUE NO ANDA EL CHECKBOX OBVS
-  checkBoxAgregar.onclick = degus => {
+  //evento que hace que se sume la degustacion a la orden, NO ANDA NO ANDA NO ANDA
+  /*const sumarDegus = document.getElementById('sumarDegus')
+  sumarDegus.addEventListener('change', () => {
     let itemPedido = new ItemPedido(degus, 1);
     itemsPedidos.push(itemPedido);
-  }
+  })*/
 
   //evento para agregar tablas a la orden
   botonDeItem.onclick = () => {

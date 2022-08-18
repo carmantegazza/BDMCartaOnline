@@ -11,18 +11,22 @@
 
 <body>
     <header>
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <h1 class="title is-1">BAR DU MARCHE</h1>
+        <section class="hero" id="top">
+            <div class="hero-body is-small has-background-light">
+                <nav class="navbar is-fixed-top has-background-light p-2" role="navigation" aria-label="main navigation">
+                    <div class="navbar-brand">
+                        <h1><a class="title is-1" href="#top">BAR DU MARCHE</a></h1>
+                    </div>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <button class="button is-primary botonModalOrden" data-target="modalOrden">
+                                Mi Orden
+                            </button>
+                        </div>
+                    </div>
+                </nav>
             </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <button class="button is-light botonModalOrden" data-target="modalOrden">
-                        Mi Orden
-                    </button>
-                </div>
-            </div>
-        </nav>
+        </section>
     </header>
     <main>
         <!--modal de orden-->
