@@ -1,85 +1,14 @@
-/*generales*/
+/*fondos*/
 
-/*bordes*/
-@mixin bordeEspecial {
-    border: 0.3rem solid $color-marca;
-    border-radius: 0.5rem;
-}
-
-/*titulos*/
-h1,
-h2 {
-    color: $color-marca;
-    text-align: center;
-
-    .titulo {
-        font-size: 3rem;
-    }
-}
-
-h3 {
-    color: $color-marca;
-}
-
-/*main*/
-.grillaCarta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: 1rem;
-    margin: 2rem;
-}
-
-.subtitulo {
-    text-align: center
-}
-
-.cardTabla {
-    @include bordeEspecial();
-    background-image: url(../media/images/tablaQuesos.jpg);
+.bg-tablas {
+    background-image: url(../media/images/quesos.bg.jpg);
     background-size: cover;
-    height: 30vh;
-    width: 70vw;
 }
 
-.cardTablaTexto {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    margin: 1rem;
-    font-style: italic;
-    background-color: $color-faded;
-    border-radius: 0.5rem;
-}
-
-//grilla quesos
-
-.grillaQuesos {
-    display: grid;
-    grid-template-columns: 30vw 30vw 30vw;
-    margin: 0.5rem;
-    gap: 1rem;
-}
-
-.cardQueso {
-    @include bordeEspecial();
-    display: flex;
-    flex-direction: column;
+.bg-quesos {
     background-image: url(../media/images/tablaQuesos.jpg);
-    background-size: cover;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    p {
-        font-style: italic;
-        font-weight: bold;
-    }
 }
 
-.botonAgregar {
-    background-color: $color-faded;
-    border: $color-marca 0.2rem solid;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    width: 50%;
-    align-self: flex-end;
+.bg-vinos {
+    background-image: url(../media/images/vinos-bg.jpg);
 }

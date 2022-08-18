@@ -1,3 +1,6 @@
+/*
+objetos y arrays
+*/
 //clases para objetos
 class Tabla {
   constructor(nombre, detalle, precio, disponibilidad) {
@@ -30,16 +33,16 @@ class Vino {
 
 //clase para item de la orden
 class ItemPedido {
-  constructor(queso, cantidad) {
-    this.queso = queso;
+  constructor(pedido, cantidad) {
+    this.pedido = pedido;
     this.cantidad = cantidad;
   }
 }
 
 //creacion de objetos y arrays
-let tabla1 = new Tabla(1, 'Gouda, Camembert, Crottin', 1500, true)
-let tabla2 = new Tabla(2, 'Lincoln, Brie, Patagonzola', 2200, true)
-let tabla3 = new Tabla(3, 'Goya, Pecorino, Chevrotin', 2700, true)
+let tabla1 = new Tabla('Tablita #1', 'Gouda, Camembert, Crottin', 1500, true)
+let tabla2 = new Tabla('Tablita #2', 'Lincoln, Brie, Patagonzola', 2200, true)
+let tabla3 = new Tabla('Tablita #3', 'Goya, Pecorino, Chevrotin', 2700, true)
 const tablas = []
 tablas.push(tabla1, tabla2, tabla3)
 
@@ -55,21 +58,30 @@ let queso9 = new Queso('Chevrotin', 'Cabra', 'Buenos Aires', 1080, true)
 const quesos = []
 quesos.push(queso1, queso2, queso3, queso4, queso5, queso6, queso7, queso8, queso9)
 
-let vino1 = new Vino('Zorzal', 'Pinot Noir', 'Zorzal', 240, true)
-let vino2 = new Vino('A Lisa', 'Malbec', 'Noemia', 330, true)
-let vino3 = new Vino('Nuna', 'Chardonnay', 'Nuna Wines', 270, false)
+let vino1 = new Vino('Zorzal', 'Pinot Noir', 'Zorzal', 650, true)
+let vino2 = new Vino('A Lisa', 'Malbec', 'Noemia', 720, true)
+let vino3 = new Vino('Nuna', 'Chardonnay', 'Nuna Wines', 570, false)
+let vino4 = new Vino('Zaha', 'Marsanne', 'Teho', 700, true)
+let vino5 = new Vino('Asa Nisi Masa', 'Malbec', 'Mundo al Reves', 720, true)
+let vino6 = new Vino('Petite Fleur', 'Malbec', 'Monteviejo', 750, false)
+let vino7 = new Vino('Castizo', 'Cabernet Franc', 'FOW', 650, true)
+let vino8 = new Vino('Pinto Verdot', 'Petit Verdot', 'Pielihueso', 800, true)
+let vino9 = new Vino('Demencial', 'Blanco de Corte', 'Finca Las Moras', 650, false)
 const vinos = []
-vinos.push(vino1, vino2, vino3)
+vinos.push(vino1, vino2, vino3, vino4, vino5, vino6, vino7, vino8, vino9)
 
 //array con los items de la orden
 const itemsPedidos = [];
 
+//creo el objeto degus para despues agregarlo a la orden como extra
+const degus = {
+  nombre: 'Degustacion de Vinos',
+  precio: '800'
+};
+
 /*
 Manipoulacion del html segun objetos
 */
-//llamado al elemento html donde va la grilla de quesos
-const grillaQuesos = document.getElementById('grillaQuesos')
-
 //funcion para crear el boton segun disponibilidad
 const crearBotonDeItem = (disponibilidad) => {
 
@@ -78,7 +90,7 @@ const crearBotonDeItem = (disponibilidad) => {
   botonAgregar.innerText = 'Agregar';
 
   let botonNoDisponible = document.createElement('button');
-  botonNoDisponible.className = 'button is-primary is-fullwidth';
+  botonNoDisponible.className = 'button is-light is-fullwidth';
   botonNoDisponible.title = 'Disabled button';
   botonNoDisponible.disabled = true;
   botonNoDisponible.innerText = 'No Disponible';
@@ -91,9 +103,11 @@ const crearBotonDeItem = (disponibilidad) => {
   return boton
 };
 
+let botonDeItem = crearBotonDeItem();
 
+//funciones para crear cards, REVISAR COMO ACHICAR ESTO, NO ME SALIO, AMPLIAREMOS
 //funcion para crear Cards para quesos
-const crearCard = queso => {
+const crearCardQueso = queso => {
 
   let botonDeItem = crearBotonDeItem(queso.disponibilidad);
 
@@ -130,16 +144,142 @@ const crearCard = queso => {
   return columnaCardQueso;
 }
 
+//funcion para vinos
+const crearCardVino = vino => {
+
+  let botonDeItem = crearBotonDeItem(vino.disponibilidad);
+
+  let cardFooter = document.createElement('div');
+  cardFooter.className = 'card-footer';
+  cardFooter.append(botonDeItem);
+
+  let cardContent = document.createElement('div');
+  cardContent.className = 'card-content';
+  cardContent.innerHTML = `
+          <h3 class="title is-4">${vino.nombre}</h3>
+          <p>${vino.cepa}</p>
+          <p>${vino.bodega}</p>
+          <p>$ ${vino.precio}</p>
+  `;
+
+  let cardVino = document.createElement('div');
+  cardVino.className = 'card';
+  cardVino.append(cardContent);
+  cardVino.append(cardFooter);
+
+  let columnaCardVino = document.createElement('div');
+  columnaCardVino.className = 'column is-one-third';
+  columnaCardVino.append(cardVino);
+
+  //evento para agregar vinos a la orden
+  botonDeItem.onclick = () => {
+    let itemPedido = new ItemPedido(vino, 1);
+    itemsPedidos.push(itemPedido);
+
+    ordenarItemsPedidos();
+  };
+
+  return columnaCardVino;
+
+};
+
+//funcion para tablas
+const crearCardTabla = tabla => {
+
+  let botonDeItem = crearBotonDeItem(tabla.disponibilidad);
+
+  //esto seria el input checkbox y el contenedor que lo contiene NO ANDA, OBVS
+  let checkBoxAgregar = document.createElement('input');
+  checkBoxAgregar.className = 'checkbox';
+  checkBoxAgregar.innertext = 'Agregar degustacion de vinos ($ 800)';
+
+  let boxCheckBoxAgregar = document.createElement('div');
+  boxCheckBoxAgregar.className = 'box';
+  boxCheckBoxAgregar.innerHTML = `
+      <label>
+      ${checkBoxAgregar}
+      </label>
+  `;
+
+  let cardFooter = document.createElement('div');
+  cardFooter.className = 'card-footer';
+  cardFooter.append(botonDeItem);
+  cardFooter.append(boxCheckBoxAgregar)
+
+  let cardContent = document.createElement('div');
+  cardContent.className = 'card-content';
+  cardContent.innerHTML = `
+          <h3 class="title is-4">${tabla.nombre}</h3>
+          <p>${tabla.detalle}</p>
+          <p>$ ${tabla.precio}</p>
+          `;
+
+  let cardTabla = document.createElement('div');
+  cardTabla.className = 'card';
+  cardTabla.append(cardContent);
+  cardTabla.append(cardFooter);
+
+  let columnaCardTabla = document.createElement('div');
+  columnaCardTabla.className = 'column is-one-third';
+  columnaCardTabla.append(cardTabla);
+
+  //evento que hace que se sume la degustacion a la orden, NO ANDA PORQUE NO ANDA EL CHECKBOX OBVS
+  checkBoxAgregar.onclick = degus => {
+    let itemPedido = new ItemPedido(degus, 1);
+    itemsPedidos.push(itemPedido);
+  }
+
+  //evento para agregar tablas a la orden
+  botonDeItem.onclick = () => {
+    let itemPedido = new ItemPedido(tabla, 1);
+    itemsPedidos.push(itemPedido);
+
+    ordenarItemsPedidos();
+  };
+
+  return columnaCardTabla
+
+};
+
+//orden de elementos en html
+//llamado al elemento html donde van las grillas
+const grillaQuesos = document.getElementById('grillaQuesos')
+const grillaVinos = document.getElementById('grillaVinos')
+const listaTablas = document.getElementById('listaTablas')
+
+//funciones son las rtes iguales, no se como simplicar KMN
 //funcion que ordena la grilla de quesos
 const ordenarGrillaQuesos = () => {
   quesos.forEach(
     (queso) => {
-      let columnaCardQueso = crearCard(queso)
-      grillaQuesos.append(columnaCardQueso);
+      let columnaCard = crearCardQueso(queso)
+      grillaQuesos.append(columnaCard);
     }
   );
 }
 ordenarGrillaQuesos();
+
+//funcion para ordenar grilla vinos
+const ordenarGrillaVinos = () => {
+  vinos.forEach(
+    (vino) => {
+      let columnaCard = crearCardVino(vino)
+      grillaVinos.append(columnaCard)
+    }
+  );
+}
+ordenarGrillaVinos();
+
+//funcion para ordenar lista de tablitas
+const ordenarListaTablas = () => {
+  tablas.forEach(
+    (tabla) => {
+      let columnaCardTabla = crearCardTabla(tabla)
+      listaTablas.append(columnaCardTabla)
+    }
+  )
+}
+ordenarListaTablas();
 
 //orden
 //llamado al contenedor de la orden
@@ -148,6 +288,7 @@ const footTablaOrden = document.querySelector('#footTablaOrden')
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
+  let sumaOrden = 0;
   let renglonesOrden = '';
 
   itemsPedidos.forEach(
@@ -155,34 +296,43 @@ const ordenarItemsPedidos = () => {
       renglonesOrden += `
             <tr>
             <td>${item.cantidad}</td>
-            <td>${item.queso.nombre}</td>
-            <td>$ ${item.queso.precio}</td>
+            <td>${item.pedido.nombre}</td>
+            <td>$ ${item.pedido.precio}</td>
+            <td><button class="delete" id="borrarItem${item.pedido.nombre}"></button>
             </tr>
             `;
+      cuerpoTablaOrden.innerHTML = renglonesOrden;
+
+      let borrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
+      borrarItem.addEventListener('click', (e) => {
+        removerItemPedido(item);
+        ordenarItemsPedidos();
+      });
+
+      sumaOrden += item.cantidad * item.pedido.precio;
+      footTablaOrden.innerText = `Total: $ ${sumaOrden}`
     }
   );
-  cuerpoTablaOrden.innerHTML = renglonesOrden;
-  /*footTablaOrden.innerHTML = `
-    <tr>
-    <p>Total = $ ${orden.total}</p> 
-    <p>Tu orden es la numero ${orden.numero}</p>
-    </tr>
-  
-  `;*/
+};
+//funcion para borrar items de la orden NO ANDA, REVISAR, NO ENCUENTRO EL DESGRACIADO ERROR DE REFERENCIA =(
+const removerItemPedido = (itemAEliminar) => {
+  const itemsAMantener = itemsPedidos.filter((item) => itemAEliminar.item.nombre != item.pedido.nombre);
+  itemsPedidos.length = 0;
 
+  itemsAMantener.forEach((item) => itemsPedidos.push(item))
 }
+
 ordenarItemsPedidos();
 
 /*
-CODIGO DE BULMA, REVISAR
+ME FALTA:
+ARREGLAR LO QUE NO ANDA
+ESTILOS, COLORES, IMAGENES
+CREAR SECCION PARA DESABILITAR OPCIONES: METODO .DEHABILITAR Y MODAL O PANEL DE CONTROL
 */
 
 /*
-HACER TABLA DE ORDEN EN CONTENEDORORDEN
-HACER GRILLA TABLA Y VINOS, CREAR/MEJORAR CARDS
-ESTILOS, CAMBIAR PRIMARY, BACKGROUND IMAGE, TIPOGRAFIA
-
-CREAR MODAL PARA DESABILITAR OPCIONES
+CODIGO DE BULMA, eventos para abrir y cerrar modal
 */
 
 //codigo para el modal sacado de Bulma, leer y cambiar segun necesidad
@@ -203,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Add a click event on buttons to open a specific modal
-  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+  (document.querySelectorAll('.botonModalOrden') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
 
@@ -219,14 +369,5 @@ document.addEventListener('DOMContentLoaded', () => {
     $close.addEventListener('click', () => {
       closeModal($target);
     });
-  });
-
-  // Add a keyboard event to close all modals
-  document.addEventListener('keydown', (event) => {
-    const e = event || window.event;
-
-    if (e.keyCode === 27) { // Escape key
-      closeAllModals();
-    }
   });
 });

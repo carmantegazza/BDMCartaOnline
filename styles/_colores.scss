@@ -1,6 +1,14 @@
 /*colores**/
-
 $color-marca: #DD4740;
 $color-light: #EDDFB3;
 $color-faded: #eddfb3d2;
 $color-dark: #4A3933;
+
+/*OVERRIDEAR COLORES DE BULMA*/
+/*color primario*/
+$primary: $color-marca;
+$light: $color-light;
+
+/*modal*/
+$modal-background-background-color: $color-faded;
+$table-cell-heading-color: $color-marca;
