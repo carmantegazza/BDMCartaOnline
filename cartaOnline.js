@@ -9,11 +9,10 @@ class Tabla {
     this.precio = precio
     this.disponibilidad = disponibilidad
   }
-  deshabilitar(){
-    if(this.disponibilidad == true) {
+  deshabilitar() {
+    if (this.disponibilidad == true) {
       this.disponibilidad = false
-    } else {
-    }
+    } else {}
   }
 };
 
@@ -25,6 +24,11 @@ class Queso {
     this.precio = precio
     this.disponibilidad = disponibilidad
   }
+  deshabilitar() {
+    if (this.disponibilidad == true) {
+      this.disponibilidad = false
+    } else {}
+  }
 };
 
 class Vino {
@@ -34,6 +38,11 @@ class Vino {
     this.bodega = bodega
     this.precio = precio
     this.disponibilidad = disponibilidad
+  }
+  deshabilitar() {
+    if (this.disponibilidad == true) {
+      this.disponibilidad = false
+    } else {}
   }
 }
 
@@ -84,21 +93,6 @@ const degus = {
   nombre: 'Degustacion de Vinos',
   precio: '800'
 };
-
-//metodo para deshabilitar, como hago uno para todos los abjetos? el console log es para prbar si funciona, NO FUNCIONA
-const desabilitar = (disponibilidad) => {
-  if (disponibilidad == true) {
-    disponibilidad =false
-  } else {
-  }
-  return disponibilidad
-}
-let desabilitarItem = desabilitar();
-
-vino8.desabilitarItem
-//console.log(vino8)
-tabla2.deshabilitar()
-//console.log(tabla2)
 
 /*
 Manipoulacion del html segun objetos
@@ -369,12 +363,33 @@ const listarItems = (arrayItems) => {
 };
 
 //guardo los resultados de las funciones para cada array
-renglonesListaTablas = listarItems(tablas)
-renglonesListaQuesos = listarItems(quesos)
-renglonesListaVinos = listarItems(vinos)
+renglonesListaTablas = listarItems(tablas);
+renglonesListaQuesos = listarItems(quesos);
+renglonesListaVinos = listarItems(vinos);
 
 //inyecto la lista en el html
-listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaQuesos
+listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaVinos
+
+// evento para que se activen las tabs
+document.addEventListener('DOMContentLoaded', () => {
+  // funciones que abren y cierran modales
+  function openTab($el) {
+    $el.classList.add('is-active');
+  };
+
+  const closeTab = ($el) => {
+    $el.classList.remove('is-active')
+  };
+
+  (document.querySelectorAll('.tablinks') || []).forEach(($trigger) => {
+    const panelblock = $trigger.dataset.target;
+    const $target = document.getElementById(panelblock);
+
+    $trigger.addEventListener('click', () => {
+      openTab($target);
+    });
+  });
+});
 
 /*
 ME FALTA:

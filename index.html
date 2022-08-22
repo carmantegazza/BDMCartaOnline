@@ -120,12 +120,12 @@
                         <nav class="panel is-primary">
                             <p class="panel-heading">Disponibilidad</p>
                             <p class="panel-tabs">
-                                <a class="is-active">Todos los productos</a>
-                                <a data-target="tabAccesoTabla">Tablas</a>
-                                <a data-target="tabAccesoQuesos">Quesos</a>
-                                <a data-target="tabAccesoVinos">Vinos</a>
+                                <a class="tablinks is-active" data-target="tabAccesoAll" role="tab" aria-selected="true">Todos los productos</a>
+                                <a class="tablinks" data-target="tabAccesoTablas" role="tab" aria-selected="false" tabindex="-1">Tablas</a>
+                                <a class="tablinks" data-target="tabAccesoQuesos" role="tab" aria-selected="false" tabindex="-1">Quesos</a>
+                                <a class="tablinks" data-target="tabAccesoVinos" role="tab" aria-selected="false" tabindex="-1">Vinos</a>
                             </p>
-                            <div class="panel-block is-active" id="tabAccessoAll">
+                            <div class="panel-block is-active" id="tabAccessoAll" role="tabpanel" aria-hidden="false">
                                 <table class="table is-striped is-fullwidth">
                                     <thead>
                                         <tr>
@@ -137,7 +137,7 @@
                                     </thead>
                                 </table>
                             </div>
-                           <!-- <div class="panel-block" id="tabAccessoTablas" aria-hidden="true">
+                           <div class="panel-block" id="tabAccessoTablas" role="tabpanel" aria-hidden="true">
                                 <table class="table is-striped is-fullwidth">
                                     <thead>
                                         <tr>
@@ -149,7 +149,7 @@
                                     </thead>
                                 </table>
                             </div>
-                            <div class="panel-block" id="tabAccessoQuesos">
+                            <div class="panel-block" id="tabAccessoQuesos" role="tabpanel" aria-hidden="true">
                                 <table class="table is-striped is-fullwidth">
                                     <thead>
                                         <tr>
@@ -161,7 +161,7 @@
                                     </thead>
                                 </table>
                             </div>
-                            <div class="panel-block" id="tabAccessoVinos">
+                            <div class="panel-block" id="tabAccessoVinos" role="tabpanel" aria-hidden="true">
                                 <table class="table is-striped is-fullwidth">
                                     <thead>
                                         <tr>
@@ -172,7 +172,7 @@
                                     </tbody>
                                     </thead>
                                 </table>
-                            </div>-->
+                            </div>
                         </nav>
                     </div>
                 </div>
