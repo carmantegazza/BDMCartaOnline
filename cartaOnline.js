@@ -110,6 +110,7 @@ const crearBotonDeItem = (disponibilidad) => {
   botonNoDisponible.disabled = true;
   botonNoDisponible.innerText = 'No Disponible';
 
+  //(ACA PODRIA IR TERNARIO?)
   if (disponibilidad == true) {
     boton = botonAgregar
   } else {
@@ -117,10 +118,9 @@ const crearBotonDeItem = (disponibilidad) => {
   };
   return boton
 };
-
 let botonDeItem = crearBotonDeItem();
 
-//funciones para crear cards, REVISAR COMO ACHICAR ESTO, NO ME SALIO, AMPLIAREMOS
+//funciones para crear cards, REVISAR COMO ACHICAR ESTO, tengo uno que no funciona en drafts
 //funcion para crear Cards para quesos
 const crearCardQueso = queso => {
 
@@ -155,9 +155,8 @@ const crearCardQueso = queso => {
 
     ordenarItemsPedidos();
   };
-
   return columnaCardQueso;
-}
+};
 
 //funcion para vinos
 const crearCardVino = vino => {
@@ -195,10 +194,12 @@ const crearCardVino = vino => {
   };
 
   return columnaCardVino;
-
 };
 
 //funcion para tablas
+//checkbox para agregar degustacion, no anda revisar el evento
+let checkboxDegus = document.getElementById('sumarDegus')
+
 const crearCardTabla = tabla => {
 
   let botonDeItem = crearBotonDeItem(tabla.disponibilidad);
@@ -236,12 +237,10 @@ const crearCardTabla = tabla => {
 
     ordenarItemsPedidos();
   };
-
   return columnaCardTabla
-
 };
 
-//orden de elementos en html
+//ordenar elementos en html
 //llamado al elemento html donde van las grillas
 const listaTablas = document.getElementById('listaTablas')
 const grillaQuesos = document.getElementById('grillaQuesos')
@@ -281,8 +280,7 @@ const ordenarGrillaVinos = () => {
 }
 ordenarGrillaVinos();
 
-
-//orden
+//modal de orden
 //llamado al contenedor de la orden
 const cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
 const footTablaOrden = document.querySelector('#footTablaOrden')
@@ -299,7 +297,7 @@ const ordenarItemsPedidos = () => {
             <td>${item.cantidad}</td>
             <td>${item.pedido.nombre}</td>
             <td>$ ${item.pedido.precio}</td>
-            <td><button class="delete" id="borrarItem${item.pedido.nombre}"></button></td>
+            <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
             </tr>
             `;
       cuerpoTablaOrden.innerHTML = renglonesOrden;
@@ -316,7 +314,7 @@ const ordenarItemsPedidos = () => {
   );
 };
 
-//funcion para borrar items de la orden NO ANDA, REVISAR, NO ENCUENTRO EL DESGRACIADO ERROR DE REFERENCIA =(
+//funcion para borrar items de la orden ANDA RARO, NO ENCUENTRO EL ERROR
 const removerItemPedido = (itemAEliminar) => {
   const itemsAMantener = itemsPedidos.filter((item) => itemAEliminar.pedido.nombre != item.pedido.nombre);
   itemsPedidos.length = 0;
@@ -325,42 +323,76 @@ const removerItemPedido = (itemAEliminar) => {
 }
 ordenarItemsPedidos();
 
+/*
+MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
+habilitarse el boton que dispara el modal con una clave (x)
+en el modal navegar las tabs de listas de items (x)
+boton para cambiar dispnibilidad de item (x)
+*/
 
-//seteando el modal de acceso (desde donde se va a cambiar la disponibilidad)
-//llamado a elementos del panel donde van las listas, los tengo que crear en el html cuando ve como activar los tabs
+//llamado a elementos del panel donde van el input y las listas,
+let claveAcceso = document.getElementById('claveAcceso');
 let listaAccesoTablas = document.getElementById('listaAccesoTablas');
 let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
 let listaAccesoVinos = document.getElementById('listaAccesoVinos');
 
-//funcion que crea listas con radio de disponibilidad segun arrays
-//EL RADIO NO ANDA WHY?
+//INPUT
+
+
+//PRUEBA DE BOTON PARA CAMBIAR DISPONIBILIDAD, NO ANDA lo dejo comentado para seguir
+//funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
+const botonDisponibilidadClase = disponibilidad => {
+  if (disponibilidad == true) {
+    claseBoton = 'is-success'
+  } else {
+    claseBoton = 'is-primary'
+  }
+  return claseBoton
+}
+let claseBotonDisponibilidad = botonDisponibilidadClase();
+
+const botonDisponibilidadTexto = disponibilidad => {
+  if (disponibilidad == true) {
+    textoBoton = 'Disponible'
+  } else {
+    textoBoton = 'No Disponible'
+  }
+  return textoBoton
+}
+let textoBotonDisponibilidad = botonDisponibilidadTexto();
+
+//funcion para crear el contenido de las tabs, las tabs que no andan LOL
 const listarItems = (arrayItems) => {
   let renglonesLista = '';
 
   arrayItems.forEach(
     (item) => {
+      let claseBotonDisponibilidad = botonDisponibilidadClase(item.disponibilidad);
+      let textoBotonDisponibilidad = botonDisponibilidadTexto(item.disponibilidad);
       renglonesLista += `
             <tr>
             <td>${item.nombre}</td>
             <td>
-            <div class="control">
-            <label class="radio">
-              <input type="radio" name="answer">
-              Si
-            </label>
-            <label class="radio">
-              <input type="radio" name="answer">
-              No
-            </label>
-            </div>
+            <button class="button ${claseBotonDisponibilidad}" type="button" id="deshabilitarItem${item.nombre}">${textoBotonDisponibilidad}</button>
             </td>
             </tr>
             `;
-    }
-  );
 
+      //ESTO NO ANDA, INTENTO MAÑANA
+      /*let deshabilitarItem = document.getElementById(`deshabilitarItem${item.nombre}`);
+      deshabilitarItem.addEventListener('click', (e) => {
+        deshabilitarFuncion(item);
+      });*/
+    }
+
+  );
   return renglonesLista
 };
+
+//funcion para deshabilitar items 
+const deshabilitarFuncion = item => {
+  item.deshabilitar()
+}
 
 //guardo los resultados de las funciones para cada array
 renglonesListaTablas = listarItems(tablas);
@@ -368,38 +400,42 @@ renglonesListaQuesos = listarItems(quesos);
 renglonesListaVinos = listarItems(vinos);
 
 //inyecto la lista en el html
-listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaVinos
+listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaVinos;
+listaAccesoTablas.innerHTML = renglonesListaTablas;
+listaAccesoQuesos.innerHTML = renglonesListaQuesos;
+listaAccesoVinos.innerHTML = renglonesListaVinos;
 
-// evento para que se activen las tabs
-document.addEventListener('DOMContentLoaded', () => {
-  // funciones que abren y cierran modales
-  function openTab($el) {
-    $el.classList.add('is-active');
-  };
+//FUNCIONAMIENTO DE TABS, QUE NO FUNCIONAN
+//evento para que se activen las tabs (intento n3)
+const padreTabs = document.querySelector('#tabsDisponibilidad');
+const tablinks = document.querySelectorAll('.tablinks');
+const contenidoTabs = document.querySelectorAll('.contenidoTabs');
 
-  const closeTab = ($el) => {
-    $el.classList.remove('is-active')
-  };
-
-  (document.querySelectorAll('.tablinks') || []).forEach(($trigger) => {
-    const panelblock = $trigger.dataset.target;
-    const $target = document.getElementById(panelblock);
-
-    $trigger.addEventListener('click', () => {
-      openTab($target);
+padreTabs.onclick = e => {
+  const id = e.target.dataset.id;
+  if (id) {
+    tablinks.forEach(a => {
+      a.classList.remove('is-active');
     });
-  });
-});
+    e.target.classList.add('is-active');
+
+    contenidoTabs.forEach(block => {
+      block.classList.remove('active');
+    });
+
+    const element = document.getElementById(id);
+    element.classList.add('active');
+  }
+}
 
 /*
 ME FALTA:
 ARREGLAR LO QUE NO ANDA
-ESTILOS, COLORES, IMAGENES (CASI)
-ACCESO PERSONAL: HACER EL METODO GENERAL, HACER QUE FUNCIONEN LAS TABS
+HACER QUE FUNCIONEN LAS TABS, AAARAGGGGGSGSG
 */
 
 /*
-CODIGO COPIADO DE BULMA, eventos para abrir y cerrar modal
+CODIGO COPIADO DE BULMA, eventos para abrir y cerrar modal, agrego mis otros modales
 */
 
 //codigo para el modal sacado de Bulma, leer y cambiar segun necesidad
@@ -430,6 +466,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   //
+  (document.querySelectorAll('.botonModalClave') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+
   (document.querySelectorAll('.botonModalAcceso') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);

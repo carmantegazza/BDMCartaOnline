@@ -13,8 +13,7 @@
     <header>
         <section class="hero" id="top">
             <div class="hero-body is-small has-background-light">
-                <nav class="navbar is-fixed-top has-background-light p-2" role="navigation"
-                    aria-label="main navigation">
+                <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
                     <div class="navbar-brand">
                         <h1><a class="title is-1" href="#top">BAR DU MARCHE</a></h1>
                     </div>
@@ -28,8 +27,6 @@
                 </nav>
             </div>
         </section>
-    </header>
-    <main>
         <!--modal de orden-->
         <div id="modalOrden" class="modal">
             <div class="modal-background"></div>
@@ -49,11 +46,11 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
-
+    </header>
+    <main>
         <!--seccion Tablas-->
         <section class="hero is-primary is-small">
             <div class="hero-body">
@@ -107,80 +104,94 @@
                 </div>
             </div>
         </section>
-        <!--footer-->
+    </main>
+    <!--footer-->
+    <footer>
         <section class="hero has-background-light">
             <div class="hero-body">
-                <a><button class="button is-primary botonModalAcceso" data-target="modalAcceso">Acceso
-                        Personal</button></a>
-            </div>
-            <div id="modalAcceso" class="modal">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <div class="box">
-                        <nav class="panel is-primary">
-                            <p class="panel-heading">Disponibilidad</p>
-                            <p class="panel-tabs">
-                                <a class="tablinks is-active" data-target="tabAccesoAll" role="tab" aria-selected="true">Todos los productos</a>
-                                <a class="tablinks" data-target="tabAccesoTablas" role="tab" aria-selected="false" tabindex="-1">Tablas</a>
-                                <a class="tablinks" data-target="tabAccesoQuesos" role="tab" aria-selected="false" tabindex="-1">Quesos</a>
-                                <a class="tablinks" data-target="tabAccesoVinos" role="tab" aria-selected="false" tabindex="-1">Vinos</a>
-                            </p>
-                            <div class="panel-block is-active" id="tabAccessoAll" role="tabpanel" aria-hidden="false">
-                                <table class="table is-striped is-fullwidth">
-                                    <thead>
-                                        <tr>
-                                            <th class="is-light">Item</th>
-                                            <th class="is-light">Disponibilidad</th>
-                                        </tr>
-                                    <tbody id="listaAccesoAll">
-                                    </tbody>
-                                    </thead>
-                                </table>
-                            </div>
-                           <div class="panel-block" id="tabAccessoTablas" role="tabpanel" aria-hidden="true">
-                                <table class="table is-striped is-fullwidth">
-                                    <thead>
-                                        <tr>
-                                            <th class="is-light">Item</th>
-                                            <th class="is-light">Disponibilidad</th>
-                                        </tr>
-                                    <tbody id="listaAccesoTablas">
-                                    </tbody>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="panel-block" id="tabAccessoQuesos" role="tabpanel" aria-hidden="true">
-                                <table class="table is-striped is-fullwidth">
-                                    <thead>
-                                        <tr>
-                                            <th class="is-light">Item</th>
-                                            <th class="is-light">Disponibilidad</th>
-                                        </tr>
-                                    <tbody id="listaAccesoQuesos">
-                                    </tbody>
-                                    </thead>
-                                </table>
-                            </div>
-                            <div class="panel-block" id="tabAccessoVinos" role="tabpanel" aria-hidden="true">
-                                <table class="table is-striped is-fullwidth">
-                                    <thead>
-                                        <tr>
-                                            <th class="is-light">Item</th>
-                                            <th class="is-light">Disponibilidad</th>
-                                        </tr>
-                                    <tbody id="listaAccesoVinos">
-                                    </tbody>
-                                    </thead>
-                                </table>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-                <button class="modal-close is-large" aria-label="close"></button>
-
+                <a><button class="button is-primary botonModalClave" data-target="modalClave">Acceso Personal</button></a>
             </div>
         </section>
-    </main>
+        <!--Modal Acceso Personal-->
+        <div class="modal" id="modalClave">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <input class="input" type="text" placeholder="Clave de Acceso" id="claveAcceso">
+                    <a><button class="button is-primary botonModalAcceso" data-target="modalAcceso">Ingresar</button></a>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+      
+        <div id="modalAcceso" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box" id="tabsDisponibilidad">
+                    <p class="title is-3 has-text-primary has-text-centered">Disponibilidad</p>
+                    <div class="tabs is-centered">
+                        <ul>
+                            <li class="tablinks is-active" data-id="tabAccesoAll"><a>Todos los productos</a></li>
+                            <li class="tablinks" data-id="tabAccesoTablas"><a>Tablas</a></li>
+                            <li class="tablinks" data-id="tabAccesoQuesos"><a>Quesos</a></li>
+                            <li class="tablinks" data-id="tabAccesoVinos"><a>Vinos</a></li>
+                        </ul>
+                    </div>
+                    <div class="content">
+                        <div class="contenidoTabs active" id="tabAccessoAll">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th class="is-light">Item</th>
+                                        <th class="is-light">Disponibilidad</th>
+                                    </tr>
+                                <tbody id="listaAccesoAll">
+                                </tbody>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="contenidoTabs" id="tabAccessoTablas">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th class="is-light">Item</th>
+                                        <th class="is-light">Disponibilidad</th>
+                                    </tr>
+                                <tbody id="listaAccesoTablas">
+                                </tbody>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="contenidoTabs" id="tabAccessoQuesos">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th class="is-light">Item</th>
+                                        <th class="is-light">Disponibilidad</th>
+                                    </tr>
+                                <tbody id="listaAccesoQuesos">
+                                </tbody>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="contenidoTabs" id="tabAccessoVinos">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <th class="is-light">Item</th>
+                                        <th class="is-light">Disponibilidad</th>
+                                    </tr>
+                                <tbody id="listaAccesoVinos">
+                                </tbody>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+    </footer>
     <script src="./cartaOnline.js"></script>
 </body>
 
