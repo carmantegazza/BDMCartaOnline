@@ -331,13 +331,15 @@ boton para cambiar dispnibilidad de item (x)
 */
 
 //llamado a elementos del panel donde van el input y las listas,
+//el input
 let claveAcceso = document.getElementById('claveAcceso');
+//el boton que se tiene que habilitar
+let botonIngresar = document.getElementById('botonIngresar');
 let listaAccesoTablas = document.getElementById('listaAccesoTablas');
 let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
 let listaAccesoVinos = document.getElementById('listaAccesoVinos');
 
-//INPUT
-
+//evento que si es la clave correcta habilite el boton
 
 //PRUEBA DE BOTON PARA CAMBIAR DISPONIBILIDAD, NO ANDA lo dejo comentado para seguir
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
