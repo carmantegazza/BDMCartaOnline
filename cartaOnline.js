@@ -339,16 +339,25 @@ en el modal navegar las tabs de listas de items (x)
 boton para cambiar dispnibilidad de item (x)
 */
 
-//llamado a elementos del panel donde van el input y las listas,
-//el input
+//evento que si es la clave correcta habilite el boton
 let claveAcceso = document.getElementById('claveAcceso');
-//el boton que se tiene que habilitar
-let botonIngresar = document.getElementById('botonIngresar');
+
+claveAcceso.oninput = () => {
+  const habilitarBoton = () => {
+    if (claveAcceso.value == '1234') {
+      let botonIngresar = document.getElementById('botonIngresar');
+      botonIngresar.disabled = false;
+    }
+  }
+
+  habilitarBoton();
+}
+
+//llamado a elementos del panel donde van las listas,
 let listaAccesoTablas = document.getElementById('listaAccesoTablas');
 let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
 let listaAccesoVinos = document.getElementById('listaAccesoVinos');
 
-//evento que si es la clave correcta habilite el boton
 
 //PRUEBA DE BOTON PARA CAMBIAR DISPONIBILIDAD, NO ANDA lo dejo comentado para seguir
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
@@ -447,22 +456,6 @@ contenedorTabs.onclick = e => {
     const element = document.getElementById(id);
     element.classList.add('active');
   }
-}
-
-//STORAGE
-//esto deberia revisar el storage por la orden
-
-if (sessionStorage.getItem("itemsPedidos") != null) {
-  itemsPedidos = JSON.parse(localStorage.getItem("itemsPedidos"));
-  //esto deberia agregarlo a la tabla de orden
-  cuerpoTablaOrden.innerHTML +=
-    `<tr>
-          <td>${item.cantidad}</td>
-          <td>${item.pedido.nombre}</td>
-          <td>$ ${item.pedido.precio}</td>
-          <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
-          </tr>
-          `;
 }
 
 /*
