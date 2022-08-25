@@ -280,28 +280,48 @@ const ordenarGrillaVinos = () => {
 }
 ordenarGrillaVinos();
 
-//modal de orden
+//MODAL DE ORDEN
 //llamado al contenedor de la orden
-const cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
-const footTablaOrden = document.querySelector('#footTablaOrden')
+let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
+let footTablaOrden = document.querySelector('#footTablaOrden')
+
+//funciones
+//esto deberia recuperar los items del storage, ANDAAAAAAAAA 
+const recuperarOrden = () => {
+  if (localStorage.getItem('miOrden') != null) {
+    itemStorage = JSON.parse(localStorage.getItem('miOrden'));
+  }
+
+  return itemStorage
+}
+let itemsStorage = recuperarOrden();
+recuperarOrden();
+
+//esto imprime lo que quedo en el storage en el carrito, FUNCIONA VOY A LLORAR
+const imprimirStorage = () => {
+  let renglonesStorage = '';
+
+  itemsStorage.forEach(
+    (item) => {
+      renglonesStorage += `
+            <tr>
+            <td>${item.cantidad}</td>
+            <td>${item.pedido.nombre}</td>
+            <td>$ ${item.pedido.precio}</td>
+            <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
+            </tr>
+            `;
+
+      cuerpoTablaOrden.innerHTML = renglonesStorage;
+    }
+  )
+}
+imprimirStorage();
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
   let sumaOrden = 0;
   let renglonesOrden = '';
-
-  //esto deberia recuperar los items del storage, NO ANDA
-  /*if (localStorage.getItem('miOrden') != null) {
-    itemsPedidos = JSON.parse(localStorage.getItem('miOrden'));
-    cuerpoTablaOrden.innerHTML =
-    `<tr>
-    <td>${item.cantidad}</td>
-    <td>${item.pedido.nombre}</td>
-    <td>$ ${item.pedido.precio}</td>
-    <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
-    </tr>
-    `;
-  }*/
 
   itemsPedidos.forEach(
     (item) => {
@@ -313,7 +333,7 @@ const ordenarItemsPedidos = () => {
             <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
             </tr>
             `;
-      cuerpoTablaOrden.innerHTML = renglonesOrden;
+      cuerpoTablaOrden.innerHTML += renglonesOrden;
 
       //EVENTO PARA EL BOTON DE BORRAR ITEM DE LA ORDEN, INTENTO 4(SPLICE), NO ANDA NOT SURPRISED
       let botonBorrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
@@ -334,7 +354,7 @@ const ordenarItemsPedidos = () => {
 
 /*
 MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
-habilitarse el boton que dispara el modal con una clave (x)
+habilitarse el boton que dispara el modal con una clave (o)
 en el modal navegar las tabs de listas de items (x)
 boton para cambiar dispnibilidad de item (x)
 */
