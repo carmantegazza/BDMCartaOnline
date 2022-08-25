@@ -242,9 +242,9 @@ const crearCardTabla = tabla => {
 
 //ordenar elementos en html
 //llamado al elemento html donde van las grillas
-const listaTablas = document.getElementById('listaTablas')
-const grillaQuesos = document.getElementById('grillaQuesos')
-const grillaVinos = document.getElementById('grillaVinos')
+let listaTablas = document.getElementById('listaTablas')
+let grillaQuesos = document.getElementById('grillaQuesos')
+let grillaVinos = document.getElementById('grillaVinos')
 
 //funciones para las grillas, son iguales, no se como simplicar KMN
 //funcion para ordenar lista de tablitas
@@ -290,6 +290,19 @@ const ordenarItemsPedidos = () => {
   let sumaOrden = 0;
   let renglonesOrden = '';
 
+  //esto deberia recuperar los items del storage, NO ANDA
+  /*if (localStorage.getItem('miOrden') != null) {
+    itemsPedidos = JSON.parse(localStorage.getItem('miOrden'));
+    cuerpoTablaOrden.innerHTML =
+    `<tr>
+    <td>${item.cantidad}</td>
+    <td>${item.pedido.nombre}</td>
+    <td>$ ${item.pedido.precio}</td>
+    <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
+    </tr>
+    `;
+  }*/
+
   itemsPedidos.forEach(
     (item) => {
       renglonesOrden += `
@@ -302,26 +315,22 @@ const ordenarItemsPedidos = () => {
             `;
       cuerpoTablaOrden.innerHTML = renglonesOrden;
 
-      let borrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
-      borrarItem.addEventListener('click', (e) => {
-        removerItemPedido(item);
+      //EVENTO PARA EL BOTON DE BORRAR ITEM DE LA ORDEN, INTENTO 4(SPLICE), NO ANDA NOT SURPRISED
+      let botonBorrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
+      botonBorrarItem.onclick = () => {
+        let itemBorrado = itemsPedidos.indexOf(itemBorrar => itemBorrar.pedido.nombre == item.pedido.nombre);
+        itemsPedidos.splice(itemBorrado);
+
         ordenarItemsPedidos();
-      });
+      };
+
+      localStorage.setItem('miOrden', JSON.stringify(itemsPedidos));
 
       sumaOrden += item.cantidad * item.pedido.precio;
       footTablaOrden.innerText = `Total: $ ${sumaOrden}`
     }
   );
 };
-
-//funcion para borrar items de la orden ANDA RARO, NO ENCUENTRO EL ERROR
-const removerItemPedido = (itemAEliminar) => {
-  const itemsAMantener = itemsPedidos.filter((item) => itemAEliminar.pedido.nombre != item.pedido.nombre);
-  itemsPedidos.length = 0;
-
-  itemsAMantener.forEach((item) => itemsPedidos.push(item))
-}
-ordenarItemsPedidos();
 
 /*
 MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
@@ -380,21 +389,31 @@ const listarItems = (arrayItems) => {
             </tr>
             `;
 
-      //ESTO NO ANDA, INTENTO MAÑANA
-      /*let deshabilitarItem = document.getElementById(`deshabilitarItem${item.nombre}`);
-      deshabilitarItem.addEventListener('click', (e) => {
-        deshabilitarFuncion(item);
-      });*/
-    }
+      //funcion para deshabilitar items, NO ANDA, REVISAR
+      /*const deshabilitarFuncion = item => {
+        let disponibilidad = item.disponibilidad;
+        if (disponibilidad == true) {
+          disponibilidad == false;
+        } else {
+          disponibilidad == true
+        }
 
+        return disponibilidad
+      }
+
+      let botonDeshabilitarItem = document.getElementById(`deshabilitarItem${item.nombre}`);*/
+
+      //ESTO NO ANDA, INTENTO MAÑANA
+      /*botonDeshabilitarItem.onclick = () => {
+        let itemDeshabilitado = (itemDeshabilitar => itemDeshabilitar.nombre == item.nombre);
+        deshabilitarFuncion(itemDeshabilitado);
+
+        listarItems();
+      }*/
+    }
   );
   return renglonesLista
 };
-
-//funcion para deshabilitar items 
-const deshabilitarFuncion = item => {
-  item.deshabilitar()
-}
 
 //guardo los resultados de las funciones para cada array
 renglonesListaTablas = listarItems(tablas);
@@ -409,11 +428,11 @@ listaAccesoVinos.innerHTML = renglonesListaVinos;
 
 //FUNCIONAMIENTO DE TABS, QUE NO FUNCIONAN
 //evento para que se activen las tabs (intento n3)
-const padreTabs = document.querySelector('#tabsDisponibilidad');
-const tablinks = document.querySelectorAll('.tablinks');
-const contenidoTabs = document.querySelectorAll('.contenidoTabs');
+let contenedorTabs = document.querySelector('#tabsDisponibilidad');
+let tablinks = document.querySelectorAll('.tablinks');
+let contenidoTabs = document.querySelectorAll('.contenidoTabs');
 
-padreTabs.onclick = e => {
+contenedorTabs.onclick = e => {
   const id = e.target.dataset.id;
   if (id) {
     tablinks.forEach(a => {
@@ -428,6 +447,22 @@ padreTabs.onclick = e => {
     const element = document.getElementById(id);
     element.classList.add('active');
   }
+}
+
+//STORAGE
+//esto deberia revisar el storage por la orden
+
+if (sessionStorage.getItem("itemsPedidos") != null) {
+  itemsPedidos = JSON.parse(localStorage.getItem("itemsPedidos"));
+  //esto deberia agregarlo a la tabla de orden
+  cuerpoTablaOrden.innerHTML +=
+    `<tr>
+          <td>${item.cantidad}</td>
+          <td>${item.pedido.nombre}</td>
+          <td>$ ${item.pedido.precio}</td>
+          <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
+          </tr>
+          `;
 }
 
 /*
