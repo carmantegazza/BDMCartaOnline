@@ -235,6 +235,7 @@ const crearCardTabla = tabla => {
     let itemPedido = new ItemPedido(tabla, 1);
     itemsPedidos.push(itemPedido);
 
+    //localStorage.setItem('miOrden', JSON.stringify(itemsPedidos));
     ordenarItemsPedidos();
   };
   return columnaCardTabla
@@ -287,19 +288,20 @@ let footTablaOrden = document.querySelector('#footTablaOrden')
 
 //funciones
 //esto deberia recuperar los items del storage, ANDAAAAAAAAA 
-const recuperarOrden = () => {
+/*const recuperarOrden = () => {
   if (localStorage.getItem('miOrden') != null) {
     itemStorage = JSON.parse(localStorage.getItem('miOrden'));
   }
 
   return itemStorage
 }
-let itemsStorage = recuperarOrden();
 recuperarOrden();
 
 //esto imprime lo que quedo en el storage en el carrito, FUNCIONA VOY A LLORAR
 const imprimirStorage = () => {
   let renglonesStorage = '';
+
+  let itemsStorage = recuperarOrden();
 
   itemsStorage.forEach(
     (item) => {
@@ -316,7 +318,7 @@ const imprimirStorage = () => {
     }
   )
 }
-imprimirStorage();
+imprimirStorage();*/
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
@@ -378,8 +380,6 @@ let listaAccesoTablas = document.getElementById('listaAccesoTablas');
 let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
 let listaAccesoVinos = document.getElementById('listaAccesoVinos');
 
-
-//PRUEBA DE BOTON PARA CAMBIAR DISPONIBILIDAD, NO ANDA lo dejo comentado para seguir
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
   if (disponibilidad == true) {
@@ -402,6 +402,10 @@ const botonDisponibilidadTexto = disponibilidad => {
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
 
 //funcion para crear el contenido de las tabs, las tabs que no andan LOL
+const deshabilitarFuncion = item => {
+  item.deshabilitar();
+}
+
 const listarItems = (arrayItems) => {
   let renglonesLista = '';
 
@@ -409,40 +413,32 @@ const listarItems = (arrayItems) => {
     (item) => {
       let claseBotonDisponibilidad = botonDisponibilidadClase(item.disponibilidad);
       let textoBotonDisponibilidad = botonDisponibilidadTexto(item.disponibilidad);
+
       renglonesLista += `
             <tr>
             <td>${item.nombre}</td>
             <td>
-            <button class="button ${claseBotonDisponibilidad}" type="button" id="deshabilitarItem${item.nombre}">${textoBotonDisponibilidad}</button>
+            <button class="button ${claseBotonDisponibilidad}" type="button" id="botonDisponibilidad${item.nombre}">${textoBotonDisponibilidad}</button>
             </td>
             </tr>
             `;
 
-      //funcion para deshabilitar items, NO ANDA, REVISAR
-      /*const deshabilitarFuncion = item => {
-        let disponibilidad = item.disponibilidad;
-        if (disponibilidad == true) {
-          disponibilidad == false;
-        } else {
-          disponibilidad == true
-        }
+      listaAccesoAll.innerHTML = renglonesLista;
 
-        return disponibilidad
-      }
-
-      let botonDeshabilitarItem = document.getElementById(`deshabilitarItem${item.nombre}`);*/
+      let botonDeshabilitarItem = document.getElementById(`botonDisponibilidad${item.nombre}`);
 
       //ESTO NO ANDA, INTENTO MAÑANA
-      /*botonDeshabilitarItem.onclick = () => {
-        let itemDeshabilitado = (itemDeshabilitar => itemDeshabilitar.nombre == item.nombre);
+      botonDeshabilitarItem.onclick = () => {
+        let itemDeshabilitado = arrayItems.find(itemDeshabilitar => itemDeshabilitar.nombre == item.nombre);
         deshabilitarFuncion(itemDeshabilitado);
 
         listarItems();
-      }*/
+      }
     }
   );
   return renglonesLista
 };
+
 
 //guardo los resultados de las funciones para cada array
 renglonesListaTablas = listarItems(tablas);
