@@ -376,6 +376,7 @@ claveAcceso.oninput = () => {
 }
 
 //llamado a elementos del panel donde van las listas,
+let listaAccesoAll = document.getElementById('listaAccesoAll');
 let listaAccesoTablas = document.getElementById('listaAccesoTablas');
 let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
 let listaAccesoVinos = document.getElementById('listaAccesoVinos');
@@ -427,7 +428,7 @@ const listarItems = (arrayItems) => {
 
       let botonDeshabilitarItem = document.getElementById(`botonDisponibilidad${item.nombre}`);
 
-      //ESTO NO ANDA, INTENTO MAÑANA
+      //ESTO NO ANDA, NO DA ERROR
       botonDeshabilitarItem.onclick = () => {
         let itemDeshabilitado = arrayItems.find(itemDeshabilitar => itemDeshabilitar.nombre == item.nombre);
         deshabilitarFuncion(itemDeshabilitado);
@@ -438,7 +439,6 @@ const listarItems = (arrayItems) => {
   );
   return renglonesLista
 };
-
 
 //guardo los resultados de las funciones para cada array
 renglonesListaTablas = listarItems(tablas);
@@ -452,26 +452,34 @@ listaAccesoQuesos.innerHTML = renglonesListaQuesos;
 listaAccesoVinos.innerHTML = renglonesListaVinos;
 
 //FUNCIONAMIENTO DE TABS, QUE NO FUNCIONAN
-//evento para que se activen las tabs (intento n3)
-let contenedorTabs = document.querySelector('#tabsDisponibilidad');
+//evento para que se activen las tabs (intento n5)
+let contenedorTabs = document.querySelector('.tabs');
 let tablinks = document.querySelectorAll('.tablinks');
 let contenidoTabs = document.querySelectorAll('.contenidoTabs');
 
 contenedorTabs.onclick = e => {
-  const id = e.target.dataset.id;
-  if (id) {
-    tablinks.forEach(a => {
-      a.classList.remove('is-active');
-    });
-    e.target.classList.add('is-active');
+  //esta en la tab donde pasa el evento
+  const tabA = e.target;
+  //esto es para llamar a los elementos por el id del data-target
+  const id = e.target.dataset.target;
+  //esta para agarrar el contenido de la tab con id = target
+  const bloque = document.getElementById(id)
 
-    contenidoTabs.forEach(block => {
-      block.classList.remove('active');
-    });
+  //el remover anda en los dos, no anda el agregar class
+  tablinks.forEach(a => {
+    a.classList.remove('is-active');
+  });
+  tabA.classList.add('is-active');
 
-    const element = document.getElementById(id);
-    element.classList.add('active');
-  }
+  //este console.log es para ver que agarra bien el id
+  console.log(id)
+
+  contenidoTabs.forEach(block => {
+    block.classList.remove('active');
+  });
+
+  //aca no agarra el id, da null
+  bloque.classList.add('active');
 }
 
 /*
