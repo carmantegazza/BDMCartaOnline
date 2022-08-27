@@ -323,19 +323,20 @@ imprimirStorage();*/
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
   let sumaOrden = 0;
-  let renglonesOrden = '';
+cuerpoTablaOrden.innerHTML = '';
 
   itemsPedidos.forEach(
     (item) => {
-      renglonesOrden += `
-            <tr>
+      let renglonesOrden = document.createElement('tr');
+
+      renglonesOrden.innerHTML = `
             <td>${item.cantidad}</td>
             <td>${item.pedido.nombre}</td>
             <td>$ ${item.pedido.precio}</td>
             <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
-            </tr>
             `;
-      cuerpoTablaOrden.innerHTML += renglonesOrden;
+
+      cuerpoTablaOrden.append(renglonesOrden);
 
       //EVENTO PARA EL BOTON DE BORRAR ITEM DE LA ORDEN, INTENTO 4(SPLICE), NO ANDA NOT SURPRISED
       let botonBorrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
