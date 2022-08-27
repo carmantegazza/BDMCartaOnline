@@ -323,7 +323,7 @@ imprimirStorage();*/
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
   let sumaOrden = 0;
-cuerpoTablaOrden.innerHTML = '';
+  cuerpoTablaOrden.innerHTML = '';
 
   itemsPedidos.forEach(
     (item) => {
@@ -362,7 +362,7 @@ en el modal navegar las tabs de listas de items (x)
 boton para cambiar dispnibilidad de item (x)
 */
 
-//evento que si es la clave correcta habilite el boton
+//evento que si es la clave correcta habilite el boton FUNCIONA OK, DEJAR ASI
 let claveAcceso = document.getElementById('claveAcceso');
 
 claveAcceso.oninput = () => {
@@ -375,13 +375,6 @@ claveAcceso.oninput = () => {
 
   habilitarBoton();
 }
-
-//llamado a elementos del panel donde van las listas,
-let listaAccesoAll = document.getElementById('listaAccesoAll');
-let listaAccesoTablas = document.getElementById('listaAccesoTablas');
-let listaAccesoQuesos = document.getElementById('listaAccesoQuesos');
-let listaAccesoVinos = document.getElementById('listaAccesoVinos');
-
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
   if (disponibilidad == true) {
@@ -403,54 +396,77 @@ const botonDisponibilidadTexto = disponibilidad => {
 }
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
 
+//REPENSAR TABS
 //funcion para crear el contenido de las tabs, las tabs que no andan LOL
 const deshabilitarFuncion = item => {
   item.deshabilitar();
 }
 
-const listarItems = (arrayItems) => {
-  let renglonesLista = '';
+//CREAR EL INTERIOR DE LOS DIVS 
+let arrayAllItems = tablas.concat(quesos, vinos);
+console.log(arrayAllItems)
 
-  arrayItems.forEach(
+const crearListaAcceso = array => {
+
+  //aca creamos la table con el table head
+  let tablaLista = document.createElement('table');
+  tablaLista.className = 'table is-striped is-fullwidth';
+  tablaLista.innerHTML = `
+  <thead>
+  <tr>
+  <th class='is-light'>Item</th>
+  <th class='is.light'>Disponibilidad</th>
+  </tr>
+  </thead>
+  `
+  //el id del tbody va a depender del id del contenidoTabs y a su vez tiene que filtrar sobre el array
+  //un swith para sacar el id?
+  let div = document.getElementsByClassName('contenidoTabs')
+  let idDivFuncion = div => {
+    let idDiv = '';
+
+    switch (div) {
+      case tabAccesoAll:
+        idDiv = 'listaAccesoAll';
+        break;
+      case tabAccesoTablas:
+        idDiv = 'listaAccesoTablas';
+        break
+      case tabAccesoQuesos:
+        idDiv = 'listaAccesoQuesos';
+        break;
+      case tabAccesoVinos:
+        idDiv = 'listaAccesoVinos';
+        break; 
+      default:
+        console.log('error funcion idDIv');
+        break;  
+    }
+
+  }
+
+  //aca creamos el tbody, despues le appendeamos los renglones
+  let cuerpoTablaLista = document.createElement('tbody');
+  cuerpoTablaLista.id = '';
+  cuerpoTablaLista.innerHTML = '';
+
+  array.forEach(
     (item) => {
-      let claseBotonDisponibilidad = botonDisponibilidadClase(item.disponibilidad);
-      let textoBotonDisponibilidad = botonDisponibilidadTexto(item.disponibilidad);
+      let renglonesLista = document.createElement('tr');
 
-      renglonesLista += `
-            <tr>
-            <td>${item.nombre}</td>
-            <td>
-            <button class="button ${claseBotonDisponibilidad}" type="button" id="botonDisponibilidad${item.nombre}">${textoBotonDisponibilidad}</button>
-            </td>
-            </tr>
+      renglonesLista.innerHTML = `
+            <td>${item.pedido.nombre}</td>
+            <td><button class="${botonDisponibilidadClase}" type="button">${botonDisponibilidadTexto}</button></td>
             `;
 
-      listaAccesoAll.innerHTML = renglonesLista;
+      cuerpoTablaLista.append(renglonesLista);
 
-      let botonDeshabilitarItem = document.getElementById(`botonDisponibilidad${item.nombre}`);
-
-      //ESTO NO ANDA, NO DA ERROR
-      botonDeshabilitarItem.onclick = () => {
-        let itemDeshabilitado = arrayItems.find(itemDeshabilitar => itemDeshabilitar.nombre == item.nombre);
-        deshabilitarFuncion(itemDeshabilitado);
-
-        listarItems();
-      }
     }
-  );
-  return renglonesLista
-};
+  )
+  tablaLista.append(cuerpoTablaLista);
 
-//guardo los resultados de las funciones para cada array
-renglonesListaTablas = listarItems(tablas);
-renglonesListaQuesos = listarItems(quesos);
-renglonesListaVinos = listarItems(vinos);
+}
 
-//inyecto la lista en el html
-listaAccesoAll.innerHTML = renglonesListaTablas + renglonesListaQuesos + renglonesListaVinos;
-listaAccesoTablas.innerHTML = renglonesListaTablas;
-listaAccesoQuesos.innerHTML = renglonesListaQuesos;
-listaAccesoVinos.innerHTML = renglonesListaVinos;
 
 //FUNCIONAMIENTO DE TABS, QUE NO FUNCIONAN
 //evento para que se activen las tabs (intento n5)
