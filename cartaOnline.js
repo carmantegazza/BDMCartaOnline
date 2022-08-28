@@ -97,8 +97,9 @@ const degus = {
 /*
 Manipoulacion del html segun objetos
 */
-//funcion para crear el boton segun disponibilidad
-const crearBotonDeItem = (disponibilidad) => {
+//MAIN orden: herotitulo/herocards x3
+//funcion para crear el boton segun disponibilidad (para agregar a la card)
+const crearBotonDeItem = disponibilidad => {
 
   let botonAgregar = document.createElement('button');
   botonAgregar.className = 'button is-primary is-fullwidth';
@@ -120,166 +121,133 @@ const crearBotonDeItem = (disponibilidad) => {
 };
 let botonDeItem = crearBotonDeItem();
 
-//funciones para crear cards, REVISAR COMO ACHICAR ESTO, tengo uno que no funciona en drafts
-//funcion para crear Cards para quesos
-const crearCardQueso = queso => {
-
-  let botonDeItem = crearBotonDeItem(queso.disponibilidad);
-
-  let cardFooter = document.createElement('div');
-  cardFooter.className = 'card-footer';
-  cardFooter.append(botonDeItem);
-
-  let cardContent = document.createElement('div');
-  cardContent.className = 'card-content';
-  cardContent.innerHTML = `
-        <h3 class="title is-4">${queso.nombre}</h3>
-        <p>${queso.leche}</p>
-        <p>${queso.origen}</p>
-        <p>$ ${queso.precio}</p>
-        `;
-
-  let cardQueso = document.createElement('div');
-  cardQueso.className = 'card';
-  cardQueso.append(cardContent);
-  cardQueso.append(cardFooter);
-
-  let columnaCardQueso = document.createElement('div');
-  columnaCardQueso.className = 'column is-one-third';
-  columnaCardQueso.append(cardQueso);
-
-  //evento para agregar quesos a la orden
-  botonDeItem.onclick = () => {
-    let itemPedido = new ItemPedido(queso, 1);
-    itemsPedidos.push(itemPedido);
-
-    ordenarItemsPedidos();
-  };
-  return columnaCardQueso;
+//funcion que devuelve string el tipo de item (para agregar a clases e ids)
+const stringItem = array => {
+  let tipoItem = '';
+  switch (array) {
+    case tablas:
+      tipoItem = 'tabla';
+      break;
+    case vinos:
+      tipoItem = 'vino';
+      break;
+    case quesos:
+      tipoItem = 'queso';
+      break;
+    default:
+      console.log('error funcion cards')
+  }
+  return tipoItem
 };
 
-//funcion para vinos
-const crearCardVino = vino => {
+//funcion que crea el hero de los titulos
+const crearHeroTitulo = array => {
+  let tipoItem = stringItem(array);
+  let sectionHeroTitulo = document.createElement('div');
+  sectionHeroTitulo.className = 'hero is-primary is small';
+  let bodyHeroTitulo = document.createElement('div');
+  bodyHeroTitulo.className = 'hero-body';
+  bodyHeroTitulo.id = `${tipoItem}sTitulo`;
 
-  let botonDeItem = crearBotonDeItem(vino.disponibilidad);
-
-  let cardFooter = document.createElement('div');
-  cardFooter.className = 'card-footer';
-  cardFooter.append(botonDeItem);
-
-  let cardContent = document.createElement('div');
-  cardContent.className = 'card-content';
-  cardContent.innerHTML = `
-          <h3 class="title is-4">${vino.nombre}</h3>
-          <p>${vino.cepa}</p>
-          <p>${vino.bodega}</p>
-          <p>$ ${vino.precio}</p>
+  //innerhtml de los titulos
+  switch (bodyHeroTitulo.id) {
+    case 'tablasTitulo':
+      bodyHeroTitulo.innerHTML = `
+  <p class="title is-3 has-text-centered">
+  Degustaciones de Quesos
+  </p>
+  <p class="subtitle has-text-centered">
+  A cualquiera de nuestras tablas podes sumarle una degustación de 3 copas de vinos elegidos por
+  nuestra Sommelier
+  </p>
   `;
+      break;
+    case 'quesosTitulo':
+      bodyHeroTitulo.innerHTML = `
+  <p class="title is-3 has-text-centered">
+  Quesos
+  </p>
+  <p class="subtitle has-text-centered">
+  Porciones de quesos seleccionados, acompañados de pan de masamadre y dip de conservas casera
+  </p>
+  `;
+      break;
+    case 'vinosTitulo':
+      bodyHeroTitulo.innerHTML = `
+  <p class="title is-3 has-text-centered">
+  Copas de Vino
+  </p>
+  <p class="subtitle has-text-centered">
+  Vinos argentinos diversos y seleccionados especialmente!
+  </p>
+  `;
+      break;
+  }
 
-  let cardVino = document.createElement('div');
-  cardVino.className = 'card';
-  cardVino.append(cardContent);
-  cardVino.append(cardFooter);
+  sectionHeroTitulo.append(bodyHeroTitulo);
 
-  let columnaCardVino = document.createElement('div');
-  columnaCardVino.className = 'column is-one-third';
-  columnaCardVino.append(cardVino);
-
-  //evento para agregar vinos a la orden
-  botonDeItem.onclick = () => {
-    let itemPedido = new ItemPedido(vino, 1);
-    itemsPedidos.push(itemPedido);
-
-    ordenarItemsPedidos();
-  };
-
-  return columnaCardVino;
+  return sectionHeroTitulo;
 };
 
-//funcion para tablas
-//checkbox para agregar degustacion, no anda revisar el evento
-let checkboxDegus = document.getElementById('sumarDegus')
+//llamado a los funciones de titulos:
+let heroTituloTablas = crearHeroTitulo(tablas);
+let heroTituloQuesos = crearHeroTitulo(quesos);
+let heroTituloVinos = crearHeroTitulo(vinos);
 
-const crearCardTabla = tabla => {
+//funcion que crea el hero contenedor de las cards
+const crearHeroCards = array => {
+  let tipoItem = stringItem(array);
 
-  let botonDeItem = crearBotonDeItem(tabla.disponibilidad);
+  let sectionHero = document.createElement('div');
+  sectionHero.className = 'hero';
+  let bodyHero = document.createElement('div');
+  bodyHero.className = `hero-body bg-${tipoItem}s`;
+  let columnsCards = document.createElement('div');
+  columnsCards.className = 'columns is-3 is-multiline is-centered';
+  columnsCards.id = `grilla${tipoItem}s`;
 
-  let cardFooter = document.createElement('div');
-  cardFooter.className = 'card-footer';
-  cardFooter.append(botonDeItem);
+  array.forEach(
+    (tipoItem) => {
+      let columnCard = document.createElement('div');
+      columnCard.className = 'column is-one-third';
+      let card = document.createElement('div');
+      card.className = 'card'
 
-  let cardContent = document.createElement('div');
-  cardContent.className = 'card-content';
-  cardContent.innerHTML = `
-          <h3 class="title is-4">${tabla.nombre}</h3>
-          <p>${tabla.detalle}</p>
-          <p>$ ${tabla.precio}</p>
-          <div class="content mt-3 has-text-weight-semibold">
-          <label class="checkbox">
-          <input type="checkbox" id="sumarDegus"> Sumar degustacion de vinos ($ 800)
-          </label>
-          </div>
+      let cardContent = document.createElement('div');
+      cardContent.className = 'card-content';
+      cardContent.innerHTML = `
+          <h3 class="title is-4">${tipoItem.nombre}</h3>
+          <p>${tipoItem.detItem}</p>
+          <p>${tipoItem.detItem2}</p>
+          <p>$ ${tipoItem.precio}</p>
           `;
 
-  let cardTabla = document.createElement('div');
-  cardTabla.className = 'card';
-  cardTabla.append(cardContent);
-  cardTabla.append(cardFooter);
+      let botonDeItem = crearBotonDeItem(tipoItem.disponibilidad);
+      let cardFooter = document.createElement('div');
+      cardFooter.className = 'card-footer';
+      cardFooter.append(botonDeItem);
 
-  let columnaCardTabla = document.createElement('div');
-  columnaCardTabla.className = 'column is-one-third';
-  columnaCardTabla.append(cardTabla);
-
-  //evento para agregar tablas a la orden
-  botonDeItem.onclick = () => {
-    let itemPedido = new ItemPedido(tabla, 1);
-    itemsPedidos.push(itemPedido);
-
-    //localStorage.setItem('miOrden', JSON.stringify(itemsPedidos));
-    ordenarItemsPedidos();
-  };
-  return columnaCardTabla
-};
-
-//ordenar elementos en html
-//llamado al elemento html donde van las grillas
-let listaTablas = document.getElementById('listaTablas')
-let grillaQuesos = document.getElementById('grillaQuesos')
-let grillaVinos = document.getElementById('grillaVinos')
-
-//funciones para las grillas, son iguales, no se como simplicar KMN
-//funcion para ordenar lista de tablitas
-const ordenarListaTablas = () => {
-  tablas.forEach(
-    (tabla) => {
-      let columnaCardTabla = crearCardTabla(tabla)
-      listaTablas.append(columnaCardTabla)
+      card.append(cardContent, cardFooter);
+      columnCard.append(card);
+      columnsCards.append(columnCard);
     }
   )
-}
-ordenarListaTablas();
 
-//funcion que ordena la grilla de quesos
-const ordenarGrillaQuesos = () => {
-  quesos.forEach(
-    (queso) => {
-      let columnaCard = crearCardQueso(queso)
-      grillaQuesos.append(columnaCard);
-    }
-  );
-}
-ordenarGrillaQuesos();
+  bodyHero.append(columnsCards);
+  sectionHero.append(bodyHero);
 
-//funcion para ordenar grilla vinos
-const ordenarGrillaVinos = () => {
-  vinos.forEach(
-    (vino) => {
-      let columnaCard = crearCardVino(vino)
-      grillaVinos.append(columnaCard)
-    }
-  );
+  return sectionHero;
 }
-ordenarGrillaVinos();
+//llamado a la funcion de las cards
+let heroCardsTablas = crearHeroCards(tablas);
+let heroCardsQuesos = crearHeroCards(quesos);
+let heroCardsVinos = crearHeroCards(vinos);
+
+//esto deberia armar el main, RECEMOS
+let mainCont = document.getElementById('main');
+mainCont.append(heroTituloTablas, heroCardsTablas,
+  heroTituloQuesos, heroCardsQuesos,
+  heroTituloVinos, heroCardsVinos);
 
 //MODAL DE ORDEN
 //llamado al contenedor de la orden
@@ -358,23 +326,12 @@ const ordenarItemsPedidos = () => {
 /*
 MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
 habilitarse el boton que dispara el modal con una clave (o)
-en el modal navegar las tabs de listas de items (x)
+en el modal navegar las tabs de listas de items (o)
 boton para cambiar dispnibilidad de item (x)
 */
 
-//evento que si es la clave correcta habilite el boton FUNCIONA OK, DEJAR ASI
-let claveAcceso = document.getElementById('claveAcceso');
-
-claveAcceso.oninput = () => {
-  const habilitarBoton = () => {
-    if (claveAcceso.value == '1234') {
-      let botonIngresar = document.getElementById('botonIngresar');
-      botonIngresar.disabled = false;
-    }
-  }
-
-  habilitarBoton();
-}
+//TABS ACCESO CONTENIDO 
+//MIRA QUE BELLEZA ESTO ME RE QUIERO
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
   if (disponibilidad == true) {
@@ -396,85 +353,129 @@ const botonDisponibilidadTexto = disponibilidad => {
 }
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
 
-//REPENSAR TABS
-//funcion para crear el contenido de las tabs, las tabs que no andan LOL
-const deshabilitarFuncion = item => {
-  item.deshabilitar();
-}
+//funcion que cambia la dispo
+//intento de hacer funcion el metodo n3
+//me parece que voy a tner que buscar el item con el index, MAÑANA!
+/*const cambiarDispo = item => {
+  if (tablas.includes(item) == true) {
+    tabla.deshabilitar();
+  } else if (quesos.includes(item) == true) {
+    queso.deshabilitar();
+  } else if (vinos.includes(item) == true) {
+    vino.deshabilitar
+  } else {
+    console.log('error funcion cambiarDispo')
+  }
+  return item.disponibilidad;
+}*/
 
-//CREAR EL INTERIOR DE LOS DIVS 
-let arrayAllItems = tablas.concat(quesos, vinos);
-console.log(arrayAllItems)
-
-const crearListaAcceso = array => {
-
-  //aca creamos la table con el table head
-  let tablaLista = document.createElement('table');
-  tablaLista.className = 'table is-striped is-fullwidth';
-  tablaLista.innerHTML = `
-  <thead>
-  <tr>
-  <th class='is-light'>Item</th>
-  <th class='is.light'>Disponibilidad</th>
-  </tr>
-  </thead>
-  `
-  //el id del tbody va a depender del id del contenidoTabs y a su vez tiene que filtrar sobre el array
-  //un swith para sacar el id?
-  let div = document.getElementsByClassName('contenidoTabs')
-  let idDivFuncion = div => {
-    let idDiv = '';
-
-    switch (div) {
-      case tabAccesoAll:
-        idDiv = 'listaAccesoAll';
-        break;
-      case tabAccesoTablas:
-        idDiv = 'listaAccesoTablas';
-        break
-      case tabAccesoQuesos:
-        idDiv = 'listaAccesoQuesos';
-        break;
-      case tabAccesoVinos:
-        idDiv = 'listaAccesoVinos';
-        break; 
-      default:
-        console.log('error funcion idDIv');
-        break;  
-    }
-
+//FUNCION QUE CREA LOS CONT DE LAS TABS
+const crearContenedorTabs = array => {
+  //aca saco la palabra que define al array para reutilizar en clases y ids
+  let id = '';
+  switch (array) {
+    case tablas:
+      id = 'Tablas';
+      break;
+    case vinos:
+      id = 'Vinos';
+      break;
+    case quesos:
+      id = 'Quesos';
+      break;
+    default:
+      console.log('error funcion listas')
   }
 
-  //aca creamos el tbody, despues le appendeamos los renglones
-  let cuerpoTablaLista = document.createElement('tbody');
-  cuerpoTablaLista.id = '';
-  cuerpoTablaLista.innerHTML = '';
+  //aca creo el html 
+  let contenedorBoxTabs = document.getElementById('boxTabs');
+  let contenedorTabs = document.createElement('div');
+  contenedorTabs.className = 'content';
+  contenedorTabs.id = 'contenedorTabs';
+  contenedorBoxTabs.append(contenedorTabs);
+  contenedorTabs.innerHTML = `
+      <div class="contenidoTabs" id="tabAcceso${id}">
+          <table class="table is-striped is-fullwidth">
+              <thead>
+                  <tr>
+                      <td class="is-light">Item</td>
+                      <td class="is-light">Disponibilidad</td>
+                  </tr>
+              </thead>
+              <tbody id="listaAcceso${id}"></tbody>
+          </table>
+      </div>    
+      `;
 
+  //aca le agrego el active a la tab que esta abierta por default
+  let tabActiva = document.getElementById('tabAccesoTablas')
+  tabActiva.classList.add('active');
+
+  //ahora tengo que crear los renglones
+  let cuerpoTablaLista = document.getElementById(`listaAcceso${id}`)
   array.forEach(
     (item) => {
       let renglonesLista = document.createElement('tr');
+      let claseBotonDisponibilidad = botonDisponibilidadClase(item.disponibilidad);
+      let textoBotonDisponibilidad = botonDisponibilidadTexto(item.disponibilidad);
 
       renglonesLista.innerHTML = `
-            <td>${item.pedido.nombre}</td>
-            <td><button class="${botonDisponibilidadClase}" type="button">${botonDisponibilidadTexto}</button></td>
-            `;
+                  <td>${item.nombre}</td>
+                  <td>
+                  <button class="button ${claseBotonDisponibilidad}" type="button" id="dispoItem${item.nombre}">${textoBotonDisponibilidad}</button>
+                  </td>                
+              `;
+      cuerpoTablaLista.append(renglonesLista)
 
-      cuerpoTablaLista.append(renglonesLista);
+      let botonDispo = document.getElementById(`dispoItem${item.nombre}`);
+      botonDispo.onclick = () => {
+        //intento funcion n2, aca adentro funciona pero tengo que sacar el resultado
+        const cambiarDispo = () => {
+          let disponibilidad = item.disponibilidad;
+          if (disponibilidad == true) {
+            item.disponibilidad = false;
+          } else {
+            item.disponibilidad = true;
+          };
 
+          return item.disponibilidad;
+        }
+        cambiarDispo();
+
+        //esto para checkear que se cambia la disponibilidad
+        console.log(item.disponibilidad);
+
+      };
     }
-  )
-  tablaLista.append(cuerpoTablaLista);
+  );
 
+};
+
+//LLAMADO A LAS FUNCIONES
+crearContenedorTabs(tablas);
+crearContenedorTabs(vinos);
+crearContenedorTabs(quesos);
+
+//evento que si es la clave correcta habilite el boton FUNCIONA OK, DEJAR ASI
+let claveAcceso = document.getElementById('claveAcceso');
+
+claveAcceso.oninput = () => {
+  const habilitarBoton = () => {
+    if (claveAcceso.value == '1234') {
+      let botonIngresar = document.getElementById('botonIngresar');
+      botonIngresar.disabled = false;
+    }
+  }
+  habilitarBoton();
 }
-
-
-//FUNCIONAMIENTO DE TABS, QUE NO FUNCIONAN
-//evento para que se activen las tabs (intento n5)
-let contenedorTabs = document.querySelector('.tabs');
+//FUNCIONAMIENTO DE TABS
+//evento para que se activen las tabs (intento n5) 
+//con el cambio de estructura FUNCIONAAAAA, GRACIAS SHINEE
+let divTabs = document.querySelector('.tabs');
 let tablinks = document.querySelectorAll('.tablinks');
 let contenidoTabs = document.querySelectorAll('.contenidoTabs');
 
-contenedorTabs.onclick = e => {
+divTabs.onclick = e => {
   //esta en la tab donde pasa el evento
   const tabA = e.target;
   //esto es para llamar a los elementos por el id del data-target
@@ -488,8 +489,9 @@ contenedorTabs.onclick = e => {
   });
   tabA.classList.add('is-active');
 
-  //este console.log es para ver que agarra bien el id
-  console.log(id)
+  //este console.log es para ver que agarra bien el cambio de clase, 
+  //lo toma pero no toma las caracteristicas de la clase (checkear doc de bulma)
+  console.log(tabA.className)
 
   contenidoTabs.forEach(block => {
     block.classList.remove('active');
@@ -499,10 +501,16 @@ contenedorTabs.onclick = e => {
   bloque.classList.add('active');
 }
 
+//boton cambiar disponibilidad LETS GET IT
+
+
 /*
 ME FALTA:
-ARREGLAR LO QUE NO ANDA
-HACER QUE FUNCIONEN LAS TABS, AAARAGGGGGSGSG
+ARREGLAR LO QUE NO ANDA (o)
+HACER QUE FUNCIONEN LAS TABS, AAARAGGGGGSGSG (o)
+BOTON DE CAMBIAR DISPONIBILIDAAAAAAAD! 
+ - TENGO UNA FUNCION ADENTRO DEL FOREACH QUE CUASI FUNCIONA
+ - TENGO UNA FUNCION ARIBA QUE NO FUNCIONA PARA NADA, KMN
 */
 
 /*

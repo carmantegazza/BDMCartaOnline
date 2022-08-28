@@ -50,60 +50,8 @@
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
     </header>
-    <main>
-        <!--seccion Tablas-->
-        <section class="hero is-primary is-small">
-            <div class="hero-body">
-                <p class="title is-3 has-text-centered">
-                    Degustaciones de Quesos
-                </p>
-                <p class="subtitle has-text-centered">
-                    A cualquiera de nuestras tablas podes sumarle una degustación de 3 copas de vinos elegidos por
-                    nuestra Sommelier
-                </p>
-            </div>
-        </section>
-        <section class="hero">
-            <div class="hero-body bg-tablas">
-                <div class="columns is-centered is-mobile">
-                    <div class="columns is-3 is-centered" id="listaTablas"></div>
-                </div>
-            </div>
-        </section>
-        <!--seccion Quesos-->
-        <section class="hero is-primary is-small">
-            <div class="hero-body">
-                <p class="title is-3 has-text-centered">
-                    Quesos
-                </p>
-                <p class="subtitle has-text-centered">
-                    Porciones de quesos seleccionados, acompañados de pan de masamadre y dip de conservas casera
-                </p>
-            </div>
-        </section>
-        <section class="hero">
-            <div class="hero-body bg-quesos">
-                <div class="columns is-3 is-multiline is-centered" id="grillaQuesos">
-                </div>
-            </div>
-        </section>
-        <!--seccion Vinos-->
-        <section class="hero is-primary is-small">
-            <div class="hero-body">
-                <p class="title is-3 has-text-centered">
-                    Copas de Vino
-                </p>
-                <p class="subtitle has-text-centered">
-                    Vinos argentinos diversos y seleccionados especialmente!
-                </p>
-            </div>
-        </section>
-        <section class="hero">
-            <div class="hero-body bg-vinos">
-                <div class="columns is-3 is-multiline is-centered" id="grillaVinos">
-                </div>
-            </div>
-        </section>
+    <main id="main">
+            <!--el main esta todo en js-->
     </main>
     <!--footer-->
     <footer>
@@ -129,25 +77,14 @@
         <div id="modalAcceso" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
-                <div class="box" id="contenedorTabs">
+                <div class="box" id="boxTabs">
                     <p class="title is-3 has-text-primary has-text-centered">Disponibilidad</p>
                     <div class="tabs is-centered">
                         <ul>
-                            <li class="tablinks is-active"><a data-target="tabAccesoAll">Todos los productos</a></li>
-                            <li class="tablinks"><a data-target="tabAccesoTablas">Tablas</a></li>
+                            <li class="tablinks is-active"><a data-target="tabAccesoTablas">Tablas</a></li>
                             <li class="tablinks"><a data-target="tabAccesoQuesos">Quesos</a></li>
                             <li class="tablinks"><a data-target="tabAccesoVinos">Vinos</a></li>
                         </ul>
-                    </div>
-                    <div class="content">
-                        <div class="contenidoTabs active" id="tabAccessoAll">
-                        </div>
-                        <div class="contenidoTabs" id="tabAccessoTablas">
-                        </div>
-                        <div class="contenidoTabs" id="tabAccessoQuesos">
-                        </div>
-                        <div class="contenidoTabs" id="tabAccessoVinos">
-                        </div>
                     </div>
                 </div>
             </div>
