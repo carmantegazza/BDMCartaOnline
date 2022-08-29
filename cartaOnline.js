@@ -111,12 +111,9 @@ const crearBotonDeItem = disponibilidad => {
   botonNoDisponible.disabled = true;
   botonNoDisponible.innerText = 'No Disponible';
 
-  //(ACA PODRIA IR TERNARIO?)
-  if (disponibilidad == true) {
-    boton = botonAgregar
-  } else {
-    boton = botonNoDisponible
-  };
+  //TERNARIO (if que define boton segun dispo)
+  disponibilidad == true ? boton = botonAgregar : boton = botonNoDisponible;
+
   return boton
 };
 let botonDeItem = crearBotonDeItem();
@@ -334,21 +331,15 @@ boton para cambiar dispnibilidad de item (x)
 //MIRA QUE BELLEZA ESTO ME RE QUIERO
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
-  if (disponibilidad == true) {
-    claseBoton = 'is-success'
-  } else {
-    claseBoton = 'is-primary'
-  }
+  disponibilidad == true ? claseBoton = 'is-success': claseBoton = 'is-primary';
+
   return claseBoton
 }
 let claseBotonDisponibilidad = botonDisponibilidadClase();
 
 const botonDisponibilidadTexto = disponibilidad => {
-  if (disponibilidad == true) {
-    textoBoton = 'Disponible'
-  } else {
-    textoBoton = 'No Disponible'
-  }
+  disponibilidad == true ? textoBoton = 'Disponible': textoBoton = 'No Disponible';
+
   return textoBoton
 }
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
@@ -432,12 +423,8 @@ const crearContenedorTabs = array => {
         //intento funcion n2, aca adentro funciona pero tengo que sacar el resultado
         const cambiarDispo = () => {
           let disponibilidad = item.disponibilidad;
-          if (disponibilidad == true) {
-            item.disponibilidad = false;
-          } else {
-            item.disponibilidad = true;
-          };
-
+          disponibilidad == true ? item.disponibilidad = false : item.disponibilidad = true;
+          
           return item.disponibilidad;
         }
         cambiarDispo();
