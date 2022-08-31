@@ -230,11 +230,20 @@ const crearHeroCards = array => {
     }
   )
 
+    botonDeItem.onclick = () => {
+      let itemPedido = new ItemPedido(tipoItem.nombre, 1);
+      itemsPedidos.push(itemPedido);
+
+      ordenarItemsPedidos();
+    }
+
   bodyHero.append(columnsCards);
   sectionHero.append(bodyHero);
 
   return sectionHero;
-}
+
+};
+
 //llamado a la funcion de las cards
 let heroCardsTablas = crearHeroCards(tablas);
 let heroCardsQuesos = crearHeroCards(quesos);
@@ -287,6 +296,7 @@ imprimirStorage();*/
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
+
   let sumaOrden = 0;
   cuerpoTablaOrden.innerHTML = '';
 
@@ -320,6 +330,12 @@ const ordenarItemsPedidos = () => {
   );
 };
 
+//CONFIRMAR ORDEN
+
+//resetear numero de orden (borra el local storage)
+let botonResetOrden = document.getElementById('botonResetOrden');
+botonResetOrden.onclick = () => localStorage.clear();
+
 /*
 MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
 habilitarse el boton que dispara el modal con una clave (o)
@@ -331,14 +347,14 @@ boton para cambiar dispnibilidad de item (x)
 //MIRA QUE BELLEZA ESTO ME RE QUIERO
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
-  disponibilidad == true ? claseBoton = 'is-success': claseBoton = 'is-primary';
+  disponibilidad == true ? claseBoton = 'is-success' : claseBoton = 'is-primary';
 
   return claseBoton
 }
 let claseBotonDisponibilidad = botonDisponibilidadClase();
 
 const botonDisponibilidadTexto = disponibilidad => {
-  disponibilidad == true ? textoBoton = 'Disponible': textoBoton = 'No Disponible';
+  disponibilidad == true ? textoBoton = 'Disponible' : textoBoton = 'No Disponible';
 
   return textoBoton
 }
@@ -424,7 +440,7 @@ const crearContenedorTabs = array => {
         const cambiarDispo = () => {
           let disponibilidad = item.disponibilidad;
           disponibilidad == true ? item.disponibilidad = false : item.disponibilidad = true;
-          
+
           return item.disponibilidad;
         }
         cambiarDispo();
