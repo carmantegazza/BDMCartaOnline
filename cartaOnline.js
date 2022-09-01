@@ -55,6 +55,13 @@ class ItemPedido {
   }
 }
 
+class Orden {
+  constructor(numero, total) {
+    this.numero = numero;
+    this.total = total;
+  }
+}
+
 //creacion de objetos y arrays
 let tabla1 = new Tabla('Pampa', 'Gouda, Camembert, Crottin', 1500, true)
 let tabla2 = new Tabla('Patagonia', 'Lincoln, Brie, Patagonzola', 2200, true)
@@ -88,6 +95,7 @@ vinos.push(vino1, vino2, vino3, vino4, vino5, vino6, vino7, vino8, vino9)
 
 //array con los items de la orden
 const itemsPedidos = [];
+const ordenesConfirmadas = [];
 
 
 /*
@@ -257,6 +265,7 @@ mainCont.append(heroTituloTablas, heroCardsTablas,
 let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
 let footTablaOrden = document.querySelector('#footTablaOrden')
 
+
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
 
@@ -266,11 +275,11 @@ const ordenarItemsPedidos = () => {
   itemsPedidos.forEach(
     (item) => {
       let renglonesOrden = document.createElement('tr');
-
+      
       renglonesOrden.innerHTML = `
-            <td>${item.cantidad}</td>
-            <td>${item.pedido}</td>
-            <td>$ ${item.precio}</td>
+      <td>${item.cantidad}</td>
+      <td>${item.pedido}</td>
+      <td>$ ${item.precio}</td>
             <td><button class="delete" type="button" id="borrarItem${item.pedido}"></button></td>
             `;
 
@@ -284,33 +293,56 @@ const ordenarItemsPedidos = () => {
 
         ordenarItemsPedidos();
       };
-
+      
       sumaOrden += item.cantidad * item.precio;
       footTablaOrden.innerHTML = `
       <tr>
       <td>Total $ ${sumaOrden}</td>
       </tr>
-      `;
+      `
     }
   );
+
+  let fecha = moment().format('L');
+  let hora = moment().format('LT');
   let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent')
   ordenConfirmadaContent.innerHTML = `
-    <p>Aca va fecha y hora<p>
-    <p>Muchas gracias!</p>
-    <p>El total es de $ ${sumaOrden}</p>
-    `;
+  <div class="columns is-multiline has-text-centered">
+    <div class="column is-half">
+    <p>Fecha: ${fecha}</p>
+    </div>
+    <div class="column is-half">
+    <p>Hora: ${hora}</p>
+    </div>
+    <div class="column is-full">
+    <p class="has-text-primary has-text-weight-semibold">Muchas gracias!</p>
+    <p class="nuevaOrden"></p>
+    </div>
+  </div>
+  `;
 };
 
+  /*
+  COFNIRMAR ORDEN
+  evento del boton confirmar orden, lo que quiero que haga
+  vaciar el array de items pedidos (o)
+  generar numero de orden (x)
+  checkear storage para generar numero de orden (x)
+  */
+  let botonConfirmarOrden = document.getElementById('botonConfirmarOrden');
+  botonConfirmarOrden.onclick = () => {
+    itemsPedidos.length = 0;
+    ordenarItemsPedidos();
 
+    /*if (localStorage.getItem('1') == null) {
+      numero = 1
+    }
+    let ordenConfirmada = new Orden(numero, sumaOrden);
+    localStorage.setItem(numero, sumaOrden)
+    ordenesConfirmadas.push(ordenConfirmada);
 
-
-console.log(itemsPedidos);
-
-//CONFIRMAR ORDEN
-
-//resetear numero de orden (borra el local storage)
-let botonResetOrden = document.getElementById('botonResetOrden');
-botonResetOrden.onclick = () => localStorage.clear();
+  }*/
+}
 
 /*
 MODAL DE ACCESO PERSONAL, lo que deberia hacer es:
@@ -318,6 +350,11 @@ habilitarse el boton que dispara el modal con una clave (o)
 en el modal navegar las tabs de listas de items (o)
 boton para cambiar dispnibilidad de item (x)
 */
+
+//resetear numero de orden (borra el local storage)
+let botonResetOrden = document.getElementById('botonResetOrden');
+botonResetOrden.onclick = () => localStorage.clear();
+
 
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
@@ -337,7 +374,7 @@ let textoBotonDisponibilidad = botonDisponibilidadTexto();
 //funcion que cambia la dispo
 //intento de hacer funcion el metodo n3
 //me parece que voy a tner que buscar el item con el index, MAÑANA!
-/*const cambiarDispo = item => {
+const cambiarDispo = item => {
   if (tablas.includes(item) == true) {
     tabla.deshabilitar();
   } else if (quesos.includes(item) == true) {
@@ -348,7 +385,7 @@ let textoBotonDisponibilidad = botonDisponibilidadTexto();
     console.log('error funcion cambiarDispo')
   }
   return item.disponibilidad;
-}*/
+}
 
 //funcion que crea las tabs
 const crearContenedorTabs = array => {
@@ -478,6 +515,7 @@ HACER QUE FUNCIONEN LAS TABS, AAARAGGGGGSGSG (o)
 BOTON DE CAMBIAR DISPONIBILIDAAAAAAAD! 
  - TENGO UNA FUNCION ADENTRO DEL FOREACH QUE CUASI FUNCIONA
  - TENGO UNA FUNCION ARIBA QUE NO FUNCIONA PARA NADA, KMN
+STORAGE PARA CALCULAR NUMERO DE ORDEN, NO ANDA
 */
 
 /*
