@@ -17,9 +17,9 @@ class Tabla {
 };
 
 class Queso {
-  constructor(nombre, leche, origen, precio, disponibilidad) {
+  constructor(nombre, detalle, origen, precio, disponibilidad) {
     this.nombre = nombre
-    this.leche = leche
+    this.detalle = detalle
     this.origen = origen
     this.precio = precio
     this.disponibilidad = disponibilidad
@@ -32,9 +32,9 @@ class Queso {
 };
 
 class Vino {
-  constructor(nombre, cepa, bodega, precio, disponibilidad) {
+  constructor(nombre, detalle, bodega, precio, disponibilidad) {
     this.nombre = nombre
-    this.cepa = cepa
+    this.detalle = detalle
     this.bodega = bodega
     this.precio = precio
     this.disponibilidad = disponibilidad
@@ -48,16 +48,17 @@ class Vino {
 
 //clase para item de la orden
 class ItemPedido {
-  constructor(pedido, cantidad) {
+  constructor(pedido, cantidad, precio) {
     this.pedido = pedido;
     this.cantidad = cantidad;
+    this.precio = precio;
   }
 }
 
 //creacion de objetos y arrays
-let tabla1 = new Tabla('Tablita #1', 'Gouda, Camembert, Crottin', 1500, true)
-let tabla2 = new Tabla('Tablita #2', 'Lincoln, Brie, Patagonzola', 2200, true)
-let tabla3 = new Tabla('Tablita #3', 'Goya, Pecorino, Chevrotin', 2700, true)
+let tabla1 = new Tabla('Pampa', 'Gouda, Camembert, Crottin', 1500, true)
+let tabla2 = new Tabla('Patagonia', 'Lincoln, Brie, Patagonzola', 2200, true)
+let tabla3 = new Tabla('Picantes', 'Goya, Pecorino, Chevrotin', 2700, true)
 const tablas = []
 tablas.push(tabla1, tabla2, tabla3)
 
@@ -88,11 +89,6 @@ vinos.push(vino1, vino2, vino3, vino4, vino5, vino6, vino7, vino8, vino9)
 //array con los items de la orden
 const itemsPedidos = [];
 
-//creo el objeto degus para despues agregarlo a la orden como extra
-const degus = {
-  nombre: 'Degustacion de Vinos',
-  precio: '800'
-};
 
 /*
 Manipoulacion del html segun objetos
@@ -111,7 +107,6 @@ const crearBotonDeItem = disponibilidad => {
   botonNoDisponible.disabled = true;
   botonNoDisponible.innerText = 'No Disponible';
 
-  //TERNARIO (if que define boton segun dispo)
   disponibilidad == true ? boton = botonAgregar : boton = botonNoDisponible;
 
   return boton
@@ -137,7 +132,7 @@ const stringItem = array => {
   return tipoItem
 };
 
-//funcion que crea el hero de los titulos
+//funcion que crea el hero de los titulos, esto esta OK
 const crearHeroTitulo = array => {
   let tipoItem = stringItem(array);
   let sectionHeroTitulo = document.createElement('div');
@@ -191,7 +186,9 @@ let heroTituloTablas = crearHeroTitulo(tablas);
 let heroTituloQuesos = crearHeroTitulo(quesos);
 let heroTituloVinos = crearHeroTitulo(vinos);
 
-//funcion que crea el hero contenedor de las cards
+//funcion que crea el hero contenedor de las cards, 
+//aca tengo problemas con los detalles de los opjetos, 
+//repensar antes de entrega final!
 const crearHeroCards = array => {
   let tipoItem = stringItem(array);
 
@@ -205,6 +202,7 @@ const crearHeroCards = array => {
 
   array.forEach(
     (tipoItem) => {
+
       let columnCard = document.createElement('div');
       columnCard.className = 'column is-one-third';
       let card = document.createElement('div');
@@ -214,8 +212,7 @@ const crearHeroCards = array => {
       cardContent.className = 'card-content';
       cardContent.innerHTML = `
           <h3 class="title is-4">${tipoItem.nombre}</h3>
-          <p>${tipoItem.detItem}</p>
-          <p>${tipoItem.detItem2}</p>
+          <p>${tipoItem.detalle}</p>
           <p>$ ${tipoItem.precio}</p>
           `;
 
@@ -227,15 +224,15 @@ const crearHeroCards = array => {
       card.append(cardContent, cardFooter);
       columnCard.append(card);
       columnsCards.append(columnCard);
+
+      botonDeItem.onclick = item => {
+        let itemPedido = new ItemPedido(tipoItem.nombre, 1, tipoItem.precio);
+        itemsPedidos.push(itemPedido);
+
+        ordenarItemsPedidos();
+      }
     }
   )
-
-    botonDeItem.onclick = () => {
-      let itemPedido = new ItemPedido(tipoItem.nombre, 1);
-      itemsPedidos.push(itemPedido);
-
-      ordenarItemsPedidos();
-    }
 
   bodyHero.append(columnsCards);
   sectionHero.append(bodyHero);
@@ -249,7 +246,7 @@ let heroCardsTablas = crearHeroCards(tablas);
 let heroCardsQuesos = crearHeroCards(quesos);
 let heroCardsVinos = crearHeroCards(vinos);
 
-//esto deberia armar el main, RECEMOS
+//esto arma el orden de elemnetos del main
 let mainCont = document.getElementById('main');
 mainCont.append(heroTituloTablas, heroCardsTablas,
   heroTituloQuesos, heroCardsQuesos,
@@ -259,40 +256,6 @@ mainCont.append(heroTituloTablas, heroCardsTablas,
 //llamado al contenedor de la orden
 let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
 let footTablaOrden = document.querySelector('#footTablaOrden')
-
-//funciones
-//esto deberia recuperar los items del storage, ANDAAAAAAAAA 
-/*const recuperarOrden = () => {
-  if (localStorage.getItem('miOrden') != null) {
-    itemStorage = JSON.parse(localStorage.getItem('miOrden'));
-  }
-
-  return itemStorage
-}
-recuperarOrden();
-
-//esto imprime lo que quedo en el storage en el carrito, FUNCIONA VOY A LLORAR
-const imprimirStorage = () => {
-  let renglonesStorage = '';
-
-  let itemsStorage = recuperarOrden();
-
-  itemsStorage.forEach(
-    (item) => {
-      renglonesStorage += `
-            <tr>
-            <td>${item.cantidad}</td>
-            <td>${item.pedido.nombre}</td>
-            <td>$ ${item.pedido.precio}</td>
-            <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
-            </tr>
-            `;
-
-      cuerpoTablaOrden.innerHTML = renglonesStorage;
-    }
-  )
-}
-imprimirStorage();*/
 
 //funcion que ordena el contenido de la orden
 const ordenarItemsPedidos = () => {
@@ -306,29 +269,42 @@ const ordenarItemsPedidos = () => {
 
       renglonesOrden.innerHTML = `
             <td>${item.cantidad}</td>
-            <td>${item.pedido.nombre}</td>
-            <td>$ ${item.pedido.precio}</td>
-            <td><button class="delete" type="button" id="borrarItem${item.pedido.nombre}"></button></td>
+            <td>${item.pedido}</td>
+            <td>$ ${item.precio}</td>
+            <td><button class="delete" type="button" id="borrarItem${item.pedido}"></button></td>
             `;
 
       cuerpoTablaOrden.append(renglonesOrden);
 
-      //EVENTO PARA EL BOTON DE BORRAR ITEM DE LA ORDEN, INTENTO 4(SPLICE), NO ANDA NOT SURPRISED
-      let botonBorrarItem = document.getElementById(`borrarItem${item.pedido.nombre}`);
+      //evento para borrar items de la oden
+      let botonBorrarItem = document.getElementById(`borrarItem${item.pedido}`);
       botonBorrarItem.onclick = () => {
-        let itemBorrado = itemsPedidos.indexOf(itemBorrar => itemBorrar.pedido.nombre == item.pedido.nombre);
+        let itemBorrado = itemsPedidos.indexOf(itemBorrar => itemBorrar.pedido == item.pedido);
         itemsPedidos.splice(itemBorrado);
 
         ordenarItemsPedidos();
       };
 
-      localStorage.setItem('miOrden', JSON.stringify(itemsPedidos));
-
-      sumaOrden += item.cantidad * item.pedido.precio;
-      footTablaOrden.innerText = `Total: $ ${sumaOrden}`
+      sumaOrden += item.cantidad * item.precio;
+      footTablaOrden.innerHTML = `
+      <tr>
+      <td>Total $ ${sumaOrden}</td>
+      </tr>
+      `;
     }
   );
+  let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent')
+  ordenConfirmadaContent.innerHTML = `
+    <p>Aca va fecha y hora<p>
+    <p>Muchas gracias!</p>
+    <p>El total es de $ ${sumaOrden}</p>
+    `;
 };
+
+
+
+
+console.log(itemsPedidos);
 
 //CONFIRMAR ORDEN
 
@@ -343,8 +319,6 @@ en el modal navegar las tabs de listas de items (o)
 boton para cambiar dispnibilidad de item (x)
 */
 
-//TABS ACCESO CONTENIDO 
-//MIRA QUE BELLEZA ESTO ME RE QUIERO
 //funciones para clase (color) y texot de boton de disponbilidad (ACA PODRIA IR TERNARIO?)
 const botonDisponibilidadClase = disponibilidad => {
   disponibilidad == true ? claseBoton = 'is-success' : claseBoton = 'is-primary';
@@ -376,7 +350,7 @@ let textoBotonDisponibilidad = botonDisponibilidadTexto();
   return item.disponibilidad;
 }*/
 
-//FUNCION QUE CREA LOS CONT DE LAS TABS
+//funcion que crea las tabs
 const crearContenedorTabs = array => {
   //aca saco la palabra que define al array para reutilizar en clases y ids
   let id = '';
@@ -451,7 +425,6 @@ const crearContenedorTabs = array => {
       };
     }
   );
-
 };
 
 //LLAMADO A LAS FUNCIONES
@@ -486,26 +459,17 @@ divTabs.onclick = e => {
   //esta para agarrar el contenido de la tab con id = target
   const bloque = document.getElementById(id)
 
-  //el remover anda en los dos, no anda el agregar class
   tablinks.forEach(a => {
     a.classList.remove('is-active');
   });
   tabA.classList.add('is-active');
 
-  //este console.log es para ver que agarra bien el cambio de clase, 
-  //lo toma pero no toma las caracteristicas de la clase (checkear doc de bulma)
-  console.log(tabA.className)
-
   contenidoTabs.forEach(block => {
     block.classList.remove('active');
   });
 
-  //aca no agarra el id, da null
   bloque.classList.add('active');
 }
-
-//boton cambiar disponibilidad LETS GET IT
-
 
 /*
 ME FALTA:
@@ -547,6 +511,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  (document.querySelectorAll('.botonModalOrdenConfirmada') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+    const modalOrden = document.getElementById('modalOrden')
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+      closeModal(modalOrden)
+    });
+  });
+
   //
   (document.querySelectorAll('.botonModalClave') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
@@ -561,9 +536,11 @@ document.addEventListener('DOMContentLoaded', () => {
   (document.querySelectorAll('.botonModalAcceso') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
+    const modalClave = document.getElementById('modalClave')
 
     $trigger.addEventListener('click', () => {
       openModal($target);
+      closeModal(modalClave)
     });
   });
 

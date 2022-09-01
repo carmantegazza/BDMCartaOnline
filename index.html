@@ -45,19 +45,31 @@
                         <tbody id="cuerpoTablaOrden">
                         </tbody>
                     </table>
+                    <button class="button is-success botonModalOrdenConfirmada"
+                        data-target="modalOrdenConfirmada">Confirmar Orden</button>
                 </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
+        <!--mensaje de orden confirmada-->
+        <div id="modalOrdenConfirmada" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box" id="ordenConfirmadaContent">
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+        </div>
     </header>
     <main id="main">
-            <!--el main esta todo en js-->
+        <!--el main esta todo en js-->
     </main>
     <!--footer-->
     <footer>
         <section class="hero has-background-light">
             <div class="hero-body">
-                <a><button class="button is-primary botonModalClave" data-target="modalClave">Acceso Personal</button></a>
+                <a><button class="button is-primary botonModalClave" data-target="modalClave">Acceso
+                        Personal</button></a>
             </div>
         </section>
         <!--Modal Acceso Personal-->
@@ -66,14 +78,16 @@
             <div class="modal-content">
                 <div class="box">
                     <div class="columns is-mobile">
-                        <div class="column is-two-thirds"><input class="input" type="text" placeholder="Le saque la clave para probar tabs" id="claveAcceso"></div>
-                        <div class="column"><a><button class="button is-primary is-fullwidth botonModalAcceso" data-target="modalAcceso" id="botonIngresar">Ingresar</button></a></div>
+                        <div class="column is-two-thirds"><input class="input" type="text"
+                                placeholder="Le saque la clave para probar tabs" id="claveAcceso"></div>
+                        <div class="column"><a><button class="button is-primary is-fullwidth botonModalAcceso"
+                                    data-target="modalAcceso" id="botonIngresar">Ingresar</button></a></div>
                     </div>
                 </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
-      
+
         <div id="modalAcceso" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
