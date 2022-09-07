@@ -5,29 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/style.css">
-    <title>Bar du Marche - Carta Online</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Bar du Marche > Pop-up Event!</title>
 </head>
 
 <body>
     <header>
-        <section class="hero" id="top">
-            <div class="hero-body is-small has-background-light">
-                <nav class="navbar has-background-light" role="navigation" aria-label="main navigation">
-                    <div class="navbar-brand">
-                        <h1><a class="title is-1" href="#top">BAR DU MARCHE</a></h1>
-                    </div>
-                    <div class="navbar-end">
-                        <div class="navbar-item">
-                            <button class="button is-primary botonModalOrden" data-target="modalOrden">
-                                Mi Orden
-                            </button>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </section>
-        <!--modal de orden-->
+        <!--aca va titulo y boton de MI ORDEN y sus modales-->
+    </header>
+    <main>
+        <!--aca van las cards de productos-->
+        <button class="button is-primary botonModalOrden" data-target="modalOrden">
+            Mi Orden
+        </button>
         <div id="modalOrden" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -60,11 +51,21 @@
                 <button class="modal-close is-large" aria-label="close"></button>
             </div>
         </div>
-    </header>
-    <main id="main">
-        <!--el main esta todo en js-->
+
+        <section class="hero">
+            <div class="hero-body">
+                <p class="title has-text-centered color-gold">Tablas de Degustacion</p>
+                <p class="subtitle has-text-centered"></p>
+                <div class="columns is-3 is-multiline is-centered" id="contTablas"></div>
+                <p class="title has-text-centered color-gold">Quesos</p>
+                <p class="subtitle has-text-centered"></p>
+                <div class="columns is-3 is-multiline is-centered" id="contQuesos"></div>
+                <p class="title has-text-centered color-gold">Vinos</p>
+                <p class="subtitle has-text-centered"></p>
+                <div class="columns is-3 is-multiline is-centered" id="contVinos"></div>
+            </div>
+        </section>
     </main>
-    <!--footer-->
     <footer>
         <section class="hero has-background-light">
             <div class="hero-body">
@@ -100,6 +101,41 @@
                             <li class="tablinks"><a data-target="tabAccesoVinos">Vinos</a></li>
                         </ul>
                     </div>
+                    <div class="content" id="contenedorTabs">
+                        <div class="contenidoTabs active" id="tabAccesoTablas">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <td class="is-light">Item</td>
+                                        <td class="is-light">Disponibilidad</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaAccesoTablas"></tbody>
+                            </table>
+                        </div>    
+                        <div class="contenidoTabs" id="tabAccesoQuesos">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <td class="is-light">Item</td>
+                                        <td class="is-light">Disponibilidad</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaAccesoQuesos"></tbody>
+                            </table>
+                        </div>    
+                        <div class="contenidoTabs" id="tabAccesoVinos">
+                            <table class="table is-striped is-fullwidth">
+                                <thead>
+                                    <tr>
+                                        <td class="is-light">Item</td>
+                                        <td class="is-light">Disponibilidad</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaAccesoVinos"></tbody>
+                            </table>
+                        </div>    
+                    </div>
                 </div>
                 <div class="box">
                     <p class="title is-3 has-text-primary has-text-centered">Reset</p>
@@ -110,9 +146,10 @@
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
     </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/es.min.js"></script>
-    <script src="./cartaOnline.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 
 </html>
