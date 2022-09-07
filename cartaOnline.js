@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // evento para que el boton dispare el modal
-  (document.querySelectorAll('.botonModalOrden') || []).forEach(($trigger) => {
+  (document.querySelectorAll('.botonModalOrden, .botonModalClave') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
 
@@ -561,14 +561,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   //
-  (document.querySelectorAll('.botonModalClave') || []).forEach(($trigger) => {
+  /*(document.querySelectorAll('.botonModalClave') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
 
     $trigger.addEventListener('click', () => {
       openModal($target);
     });
-  });
+  });*/
 
 
   (document.querySelectorAll('.botonModalAcceso') || []).forEach(($trigger) => {
