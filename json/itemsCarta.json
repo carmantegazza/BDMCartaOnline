@@ -1,0 +1,148 @@
+[{
+        "tipo": "tabla",
+        "nombre": "Tablita 1",
+        "detalle": "Gouda, Camembert, Crottin",
+        "precio": 1500,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "tabla",
+        "nombre": "Tablita 2",
+        "detalle": "Lincoln, Brie, Patagonzola",
+        "precio": 2200,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "tabla",
+        "nombre": "Tablita 3",
+        "detalle": "Goya, Pecorino, Chevrotin",
+        "precio": 2700,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Gouda",
+        "detalle": "Vaca",
+        "precio": 500,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Camembert",
+        "detalle": "Vaca",
+        "precio": 580,
+        "disponibilidad": false
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Crottin",
+        "detalle": "Cabra",
+        "precio": 630,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Lincoln",
+        "detalle": "Vaca",
+        "precio": 690,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Patagonzola",
+        "detalle": "Oveja",
+        "precio": 900,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Brie",
+        "detalle": "Vaca",
+        "precio": 750,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Goya",
+        "detalle": "Vaca",
+        "precio": 750,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Pecorino",
+        "detalle": "Oveja",
+        "precio": 1200,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "queso",
+        "nombre": "Chevrotin",
+        "detalle": "Cabra",
+        "precio": 1080,
+        "disponibilidad": false
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Zorzal",
+        "detalle": "Pinot Noir",
+        "precio": 650,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "A Lisa",
+        "detalle": "Malbec",
+        "precio": 720,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Nuna",
+        "detalle": "Chardonnay",
+        "precio": 570,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Zaha",
+        "detalle": "Marsanne",
+        "precio": 700,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Asa Nisi Masa",
+        "detalle": "Malbec",
+        "precio": 750,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Petite Fleur",
+        "detalle": "Malbec",
+        "precio": 750,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Castizo",
+        "detalle": "Cabernet Franc",
+        "precio": 650,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Pinto Verdot",
+        "detalle": "Petit Verdot",
+        "precio": 800,
+        "disponibilidad": true
+    },
+    {
+        "tipo": "vino",
+        "nombre": "Demencial",
+        "detalle": "Blanco de Corte",
+        "precio": 670,
+        "disponibilidad": true
+    }
+]

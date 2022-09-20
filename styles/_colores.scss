@@ -1,14 +1,18 @@
-/*colores**/
-$color-marca: #DD4740;
-$color-light: #EDDFB3;
-$color-faded: #eddfb3d2;
-$color-dark: #4A3933;
+$color-marca: pink;
+$color-gold: gold;
 
-/*OVERRIDEAR COLORES DE BULMA*/
-/*color primario*/
-$primary:  #DD4740;
-$light: #EDDFB3;
+.color-marca {
+    color: $color-marca;
+}
 
-/*modal*/
-$modal-background-background-color: $color-faded;
-$table-cell-heading-color: $color-marca;
+.color-gold {
+    color: $color-gold;
+}
+
+.contenidoTabs {
+    display: none;
+}
+
+.active {
+    display: block;
+}
