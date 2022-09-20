@@ -1,8 +1,8 @@
-//arrays
+//declaro arrays vacios
 let items = [];
 let itemsPedidos = [];
 
-//clase para item de la orden
+//clase para items de la orden
 class ItemPedido {
   constructor(pedido, cantidad, precio) {
     this.pedido = pedido;
@@ -11,19 +11,18 @@ class ItemPedido {
   }
 }
 
-//funciones
+//llamado a funciones
 traerItems();
 //confirmarOrden();
 //cambiarDispo();
 
-//async
+//funcion async para traer datos desde el json
 async function traerItems() {
   const URLJSON = "../json/itemsCarta.json"
   const response = await fetch(URLJSON)
   const data = await response.json()
   items = data;
 
-  console.log(items);
   crearCards(items);
   crearContenidoTabs(items);
 }
@@ -47,7 +46,7 @@ let crearBotonDeItem = disponibilidad => {
 };
 let botonDeItem = crearBotonDeItem();
 
-//crear cards
+//funcion para crear cards de items
 const crearCards = array => {
   let contTablas = document.getElementById('contTablas')
   let contQuesos = document.getElementById('contQuesos')
@@ -86,7 +85,7 @@ const crearCards = array => {
           contVinos.appendChild(columnCard)
           break
         default:
-          console.log('error switch')
+          console.log('error switch funcion crearCards')
       }
 
       botonDeItem.onclick = () => {
@@ -99,20 +98,30 @@ const crearCards = array => {
   )
 }
 
-//funcion que ordena el contenido de la orden
+/* FUNCIONES DE LA ORDEN 
+renderizar tabla de orden, sumar el total, mensaje de footer
+*/
 
+//llamado a elementos de la tabla
 let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
 let footTablaOrden = document.querySelector('#footTablaOrden')
 
-const ordenarItemsPedidos = () => {
-
+//funcion para sumar total
+const sumarOrden = () => {
   let sumaOrden = 0;
+  for (const item of itemsPedidos) {
+    sumaOrden = sumaOrden + (item.precio * item.cantidad)
+  }
+  return sumaOrden
+}
+
+//funcion para ordenar contenido orden
+const ordenarItemsPedidos = () => {
   cuerpoTablaOrden.innerHTML = '';
 
   itemsPedidos.forEach(
     (item) => {
       let renglonesOrden = document.createElement('tr');
-
       renglonesOrden.innerHTML = `
       <td>${item.cantidad}</td>
       <td>${item.pedido}</td>
@@ -130,16 +139,28 @@ const ordenarItemsPedidos = () => {
 
         ordenarItemsPedidos();
       };
-
-      sumaOrden += item.cantidad * item.precio;
-      footTablaOrden.innerHTML = `
-      <tr>
-      <td>Total $ ${sumaOrden}</td>
-      </tr>
-      `
     }
   );
 
+  //creacion del footer de la tabla (mensaje o suma y deshabilitacion de boton)
+  let sumaOrden = sumarOrden();
+  let botonConfirmarOrden = document.getElementById('botonConfirmarOrden')
+  if (sumaOrden == 0) {
+    footTablaOrden.innerHTML = `
+    <tr>
+    <td class="has-text-centered">Aqui no hay nada! Hace clic en 'Agregar' en cualquiera de nuestras opciones disponibles para agregarlo a la orden </td>
+    </tr>`
+    botonConfirmarOrden.disabled = true
+  } else {
+    footTablaOrden.innerHTML = `
+    <tr>
+    <td>Total $ ${sumaOrden}</td>
+    </tr>
+    `
+    botonConfirmarOrden.disabled = false
+  }
+
+  //mensaje de confirmacion de orden
   let fecha = moment().format('L');
   let hora = moment().format('LT');
   let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent')
@@ -152,15 +173,19 @@ const ordenarItemsPedidos = () => {
     <p>Hora: ${hora}</p>
     </div>
     <div class="column is-full">
+    <p>El total es de $${sumaOrden}</p>
+    <p>En efectivo tenes 10% de descuento seria $${sumaOrden*0.9}
     <p class="has-text-primary has-text-weight-semibold">Muchas gracias!</p>
     <p class="nuevaOrden"></p>
     </div>
   </div>
   `;
 };
-
 ordenarItemsPedidos();
 
+/*FUNCIONES DEL TABLERO DE ACCESO DE PERSONAL
+renderizar items segun tipo, 
+ver disponibilidad, cambiar disponibilidad, resetear conteo de ordenes */
 
 //funciones para clase (color) y texto de boton de disponbilidad 
 const botonDisponibilidadClase = disponibilidad => {
@@ -177,12 +202,12 @@ const botonDisponibilidadTexto = disponibilidad => {
 }
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
 
-//funcion que crea las tabs
+//funcion que crea las tabs de items segun tipo
 const crearContenidoTabs = array => {
   let listaAccesoTablas = document.getElementById('listaAccesoTablas')
   let listaAccesoQuesos = document.getElementById('listaAccesoQuesos')
   let listaAccesoVinos = document.getElementById('listaAccesoVinos')
-  
+
   array.forEach(
     (item) => {
       let renglonesLista = document.createElement('tr');
@@ -192,7 +217,7 @@ const crearContenidoTabs = array => {
       renglonesLista.innerHTML = `
                   <td>${item.nombre}</td>
                   <td>
-                  <button class="button ${claseBotonDisponibilidad}" type="button" id="dispoItem${item.nombre}">${textoBotonDisponibilidad}</button>
+                  <button class="button ${claseBotonDisponibilidad} botonesDispo" type="button" id="dispoItem${item.nombre}">${textoBotonDisponibilidad}</button>
                   </td>                
               `;
 
@@ -209,28 +234,37 @@ const crearContenidoTabs = array => {
         default:
           console.log('error en el swithch de contenido')
       }
-
-      /*let botonDispo = document.getElementById(`dispoItem${item.nombre}`);
-      botonDispo.onclick = () => {
-        //intento funcion n2, aca adentro funciona pero tengo que sacar el resultado
-        const cambiarDispo = () => {
-          let disponibilidad = item.disponibilidad;
-          disponibilidad == true ? item.disponibilidad = false : item.disponibilidad = true;
-
-          return item.disponibilidad;
-        }
-        cambiarDispo();
-
-        //esto para checkear que se cambia la disponibilidad
-        console.log(item.disponibilidad);
-
-      };*/
     }
   );
 };
 crearContenidoTabs(items);
 
-//FUNCIONAMIENTO DE TABS
+//funcion para cambio de disponibilidad
+
+let botonesDispo = document.getElementsByClassName('botonesDispo')
+console.log(botonesDispo)
+botonesDispo.onclick = () => {
+  let itemCambiaDispo = botonesDispo.find(i => i.position == items.position)
+  
+}
+
+/*botonDispo.onclick = () => {
+  //intento funcion n2, aca adentro funciona pero tengo que sacar el resultado
+  const cambiarDispo = () => {
+    let disponibilidad = item.disponibilidad;
+    disponibilidad == true ? item.disponibilidad = false : item.disponibilidad = true;
+
+    return item.disponibilidad;
+  }
+  cambiarDispo();
+
+  //esto para checkear que se cambia la disponibilidad
+  console.log(item.disponibilidad);
+
+};*/
+
+/*FUNCIONALIDAD DE TABS Y MODALES*/
+//tabs
 let divTabs = document.querySelector('.tabs');
 let tablinks = document.querySelectorAll('.tablinks');
 let contenidoTabs = document.querySelectorAll('.contenidoTabs');
@@ -255,49 +289,40 @@ divTabs.onclick = e => {
   bloque.classList.add('active');
 }
 
-//FUNCIONAMIENTO DE MODAL
+//modales
 document.addEventListener('DOMContentLoaded', () => {
-  // funciones que abren y cierran modales
-  function openModal($el) {
-    $el.classList.add('is-active');
-  }
+  //funciones que abren y cierran modales
+  const abrirModal = $el => $el.classList.add('is-active');
+  const cerrarModal = $el => $el.classList.remove('is-active');
 
-  function closeModal($el) {
-    $el.classList.remove('is-active');
-  }
-
-  // evento para que el boton dispare el modal
+  //evento que triggerea los modales
   (document.querySelectorAll('.botonModalOrden, .botonModalOrdenConfirmada, .botonModalClave, .botonModalAcceso') || []).forEach(($trigger) => {
     const modal = $trigger.dataset.target;
     const $target = document.getElementById(modal);
-
     $trigger.addEventListener('click', () => {
-      openModal($target);
+      abrirModal($target);
     });
   });
 
+  //eventos para que se cierre el modal ya abrierot (en orden y en acceso personal)
   (document.querySelectorAll('.botonModalOrdenConfirmada') || []).forEach(($trigger) => {
     const modalOrden = document.getElementById('modalOrden')
-
     $trigger.addEventListener('click', () => {
-      closeModal(modalOrden)
+      cerrarModal(modalOrden)
     });
   });
-
   (document.querySelectorAll('.botonModalAcceso') || []).forEach(($trigger) => {
     const modalClave = document.getElementById('modalClave')
-
     $trigger.addEventListener('click', () => {
-      closeModal(modalClave)
+      cerrarModal(modalClave)
     });
   });
 
   // evento para que el modal se cierre desde cualquier lado donde haga click
   (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
     const $target = $close.closest('.modal');
-
     $close.addEventListener('click', () => {
-      closeModal($target);
+      cerrarModal($target);
     });
   });
 });
