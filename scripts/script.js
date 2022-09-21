@@ -1,6 +1,9 @@
 //declaro arrays vacios
 let items = [];
 let itemsPedidos = [];
+let ordenes = [];
+let resumenOrdenes = [];
+
 
 //clase para items de la orden
 class ItemPedido {
@@ -11,10 +14,17 @@ class ItemPedido {
   }
 }
 
-//llamado a funciones
+//clase para las ordenes
+class OrdenConfirmada {
+  constructor(numero, hora, total) {
+    this.numero = numero;
+    this.hora = hora;
+    this.total = total;
+  }
+};
+
+//llamado a funcion async
 traerItems();
-//confirmarOrden();
-//cambiarDispo();
 
 //funcion async para traer datos desde el json
 async function traerItems() {
@@ -24,9 +34,9 @@ async function traerItems() {
   items = data;
 
   crearCards(items);
-  crearContenidoTabs(items);
 }
 
+/*RENDERIZAR ITEMS*/
 //funcion para crear el boton segun disponibilidad (para agregar a la card)
 let crearBotonDeItem = disponibilidad => {
 
@@ -102,6 +112,15 @@ const crearCards = array => {
 renderizar tabla de orden, sumar el total, mensaje de footer
 */
 
+//declaro variables usadas
+let numeroOrden = '';
+let fecha = moment().format('L');
+let hora = moment().format('LT');
+
+//creo variables con elementos del html
+let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent');
+let modalOrdenConfirmada = document.getElementById('modalOrdenConfirmada');
+
 //llamado a elementos de la tabla
 let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
 let footTablaOrden = document.querySelector('#footTablaOrden')
@@ -126,8 +145,8 @@ const ordenarItemsPedidos = () => {
       <td>${item.cantidad}</td>
       <td>${item.pedido}</td>
       <td>$ ${item.precio}</td>
-            <td><button class="delete" type="button" id="borrarItem${item.pedido}"></button></td>
-            `;
+      <td><button class="delete" type="button" id="borrarItem${item.pedido}"></button></td>
+      `;
 
       cuerpoTablaOrden.append(renglonesOrden);
 
@@ -159,13 +178,25 @@ const ordenarItemsPedidos = () => {
     `
     botonConfirmarOrden.disabled = false
   }
+};
+ordenarItemsPedidos();
 
+//evento boton Confirmar Orden
+botonConfirmarOrden.onclick = () => {
+  let sumaOrden = sumarOrden(itemsPedidos);
+  //verifico el storage para continuidad de numero de ordenes
+  if (localStorage.getItem('ordenes') != null) {
+    numeroOrden = ordenes.length + 1;
+  } else {
+    numeroOrden = 1;
+  };
+  //creo objeto de orden y lo pusheo al array, y lo subo al storage
+  let nuevaOrden = new OrdenConfirmada(numeroOrden, hora, sumaOrden);
+  ordenes.push(nuevaOrden);
+  localStorage.setItem('ordenes', JSON.stringify(ordenes));
   //mensaje de confirmacion de orden
-  let fecha = moment().format('L');
-  let hora = moment().format('LT');
-  let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent')
   ordenConfirmadaContent.innerHTML = `
-  <div class="columns is-multiline has-text-centered">
+    <div class="columns is-multiline has-text-centered">
     <div class="column is-half">
     <p>Fecha: ${fecha}</p>
     </div>
@@ -173,6 +204,7 @@ const ordenarItemsPedidos = () => {
     <p>Hora: ${hora}</p>
     </div>
     <div class="column is-full">
+    <p>Tu orden es la numero ${numeroOrden}</p>
     <p>El total es de $${sumaOrden}</p>
     <p>En efectivo tenes 10% de descuento seria $${sumaOrden*0.9}
     <p class="has-text-primary has-text-weight-semibold">Muchas gracias!</p>
@@ -180,12 +212,51 @@ const ordenarItemsPedidos = () => {
     </div>
   </div>
   `;
+
+  itemsPedidos = [];
+  ordenarItemsPedidos();
+  console.log(itemsPedidos);
 };
-ordenarItemsPedidos();
 
 /*FUNCIONES DEL TABLERO DE ACCESO DE PERSONAL
 renderizar items segun tipo, 
 ver disponibilidad, cambiar disponibilidad, resetear conteo de ordenes */
+
+//obtener resumen de ordenes
+let cuerpoResumen = document.getElementById('cuerpoResumen');
+let footResumen = document.getElementById('footResumen');
+let botonResumirOrden = document.getElementById('botonResetDispo');
+
+const resumirOrdenes = () => {
+  resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
+  console.log('funciona el log de la funcion resumir');
+  cuerpoResumen.innerHTML = '';
+
+ resumenOrdenes.forEach(
+    (orden) => {
+      let renglonesResumen = document.createElement('tr')
+      renglonesResumen.innerHTML = `
+      <td>${orden.hora}</td>
+      <td>#${orden.numero}</td>
+      <td>$${orden.total}</td>
+      `;
+
+      cuerpoResumen.append(renglonesResumen);
+    }
+  )
+  
+  footResumen.innerHTML = `
+  <tr>Total Ordenes = ${resumenOrdenes.length}</tr>
+  <tr>Total Ventas = $</tr>
+  `;
+}
+resumirOrdenes();
+
+//reseteo de ordenes
+let botonResetOrden = document.getElementById('botonResetOrden');
+botonResetOrden.onclick = () => {
+  localStorage.clear()
+};
 
 //funciones para clase (color) y texto de boton de disponbilidad 
 const botonDisponibilidadClase = disponibilidad => {
@@ -203,7 +274,7 @@ const botonDisponibilidadTexto = disponibilidad => {
 let textoBotonDisponibilidad = botonDisponibilidadTexto();
 
 //funcion que crea las tabs de items segun tipo
-const crearContenidoTabs = array => {
+let crearContenidoTabs = array => {
   let listaAccesoTablas = document.getElementById('listaAccesoTablas')
   let listaAccesoQuesos = document.getElementById('listaAccesoQuesos')
   let listaAccesoVinos = document.getElementById('listaAccesoVinos')
@@ -234,19 +305,42 @@ const crearContenidoTabs = array => {
         default:
           console.log('error en el swithch de contenido')
       }
+
+      let botonDispo = document.getElementById(`dispoItem${item.nombre}`)
+      botonDispo.onclick = e => {
+        let disponibilidad = e.disponibilidad;
+        if (disponibilidad = true) {
+          disponibilidad = false;
+        } else {
+          disponibilidad = true
+        };
+      };
+
+      crearCards;
+      crearContenidoTabs;
+
     }
   );
 };
 crearContenidoTabs(items);
 
 //funcion para cambio de disponibilidad
-
-let botonesDispo = document.getElementsByClassName('botonesDispo')
+/*let botonesDispo = document.getElementsByClassName('botonesDispo');
 console.log(botonesDispo)
-botonesDispo.onclick = () => {
-  let itemCambiaDispo = botonesDispo.find(i => i.position == items.position)
-  
-}
+botonesDispo = Array.from(botonesDispo);
+console.log(botonesDispo)
+
+
+let botonDispo = '';
+botonesDispo.forEach = (
+  (boton) => {
+  botonDispo = boton.indexOf;
+  }
+)
+console.log(botonDispo);
+
+
+
 
 /*botonDispo.onclick = () => {
   //intento funcion n2, aca adentro funciona pero tengo que sacar el resultado

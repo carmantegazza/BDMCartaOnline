@@ -51,7 +51,6 @@
                 <button class="modal-close is-large" aria-label="close"></button>
             </div>
         </div>
-
         <section class="hero">
             <div class="hero-body">
                 <p class="title has-text-centered color-gold">Tablas de Degustacion</p>
@@ -88,10 +87,25 @@
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
-
         <div id="modalAcceso" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
+                <div class="box">
+                    <p class="title is-3 has-text-primary has-text-centered">Reset</p>
+                    <button class="button is-success" id="botonResetDispo">Disponibilidad</button>
+                    <button class="button is-success" id="botonResetOrden">Ordenes</button>
+                    <table class="table is-striped is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th class="is-light">Hora</th>
+                                <th class="is-light">Orden</th>
+                                <th class="is-light">Total</th>
+                            </tr>
+                        </thead>
+                        <tfoot id="footResumen"></tfoot>
+                        <tbody id="cuerpoResumen"></tbody>
+                    </table>
+                </div>
                 <div class="box" id="boxTabs">
                     <p class="title is-3 has-text-primary has-text-centered">Disponibilidad</p>
                     <div class="tabs is-centered">
@@ -137,16 +151,10 @@
                         </div>    
                     </div>
                 </div>
-                <div class="box">
-                    <p class="title is-3 has-text-primary has-text-centered">Reset</p>
-                    <button class="button is-success" id="botonResetDispo">Disponibilidad</button>
-                    <button class="button is-success" id="botonResetOrden">Ordenes</button>
-                </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/es.min.js"></script>
     <script src="scripts/script.js"></script>
