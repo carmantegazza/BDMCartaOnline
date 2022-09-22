@@ -36,8 +36,8 @@
                         <tbody id="cuerpoTablaOrden">
                         </tbody>
                     </table>
-                    <button class="button is-success botonModalOrdenConfirmada"
-                        data-target="modalOrdenConfirmada" id="botonConfirmarOrden">Confirmar Orden</button>
+                    <button class="button is-success botonModalOrdenConfirmada" data-target="modalOrdenConfirmada"
+                        id="botonConfirmarOrden">Confirmar Orden</button>
                 </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
@@ -91,64 +91,25 @@
             <div class="modal-background"></div>
             <div class="modal-content">
                 <div class="box">
-                    <p class="title is-3 has-text-primary has-text-centered">Reset</p>
-                    <button class="button is-success" id="botonResetDispo">Disponibilidad</button>
-                    <button class="button is-success" id="botonResetOrden">Ordenes</button>
-                    <table class="table is-striped is-fullwidth">
-                        <thead>
+                    <p class="title is-3 has-text-primary has-text-centered">Ordenes</p>
+                    <table class="table is-bordered is-fullwidth">
+                        <!--<thead>
                             <tr>
                                 <th class="is-light">Hora</th>
                                 <th class="is-light">Orden</th>
                                 <th class="is-light">Total</th>
                             </tr>
-                        </thead>
+                        </thead>-->
                         <tfoot id="footResumen"></tfoot>
                         <tbody id="cuerpoResumen"></tbody>
                     </table>
-                </div>
-                <div class="box" id="boxTabs">
-                    <p class="title is-3 has-text-primary has-text-centered">Disponibilidad</p>
-                    <div class="tabs is-centered">
-                        <ul>
-                            <li class="tablinks is-active"><a data-target="tabAccesoTablas">Tablas</a></li>
-                            <li class="tablinks"><a data-target="tabAccesoQuesos">Quesos</a></li>
-                            <li class="tablinks"><a data-target="tabAccesoVinos">Vinos</a></li>
-                        </ul>
-                    </div>
-                    <div class="content" id="contenedorTabs">
-                        <div class="contenidoTabs active" id="tabAccesoTablas">
-                            <table class="table is-striped is-fullwidth">
-                                <thead>
-                                    <tr>
-                                        <td class="is-light">Item</td>
-                                        <td class="is-light">Disponibilidad</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="listaAccesoTablas"></tbody>
-                            </table>
-                        </div>    
-                        <div class="contenidoTabs" id="tabAccesoQuesos">
-                            <table class="table is-striped is-fullwidth">
-                                <thead>
-                                    <tr>
-                                        <td class="is-light">Item</td>
-                                        <td class="is-light">Disponibilidad</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="listaAccesoQuesos"></tbody>
-                            </table>
-                        </div>    
-                        <div class="contenidoTabs" id="tabAccesoVinos">
-                            <table class="table is-striped is-fullwidth">
-                                <thead>
-                                    <tr>
-                                        <td class="is-light">Item</td>
-                                        <td class="is-light">Disponibilidad</td>
-                                    </tr>
-                                </thead>
-                                <tbody id="listaAccesoVinos"></tbody>
-                            </table>
-                        </div>    
+                    <div class="columns is-align-items-center mt-4">
+                        <div class="column is-4">
+                            <button class="button is-success is-fullwidth" id="botonResetOrden">Resetear</button>
+                        </div>
+                        <div class="column is-8">
+                            <p class="has-text-danger">Borrar registro de ordenes hasta el momento</p>
+                        </div>
                     </div>
                 </div>
             </div>
