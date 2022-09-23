@@ -1,9 +1,9 @@
-//declaro arrays vacios
+//ARRAYS Y CLASES DE OBJETOS
+//arrays
 let items = [];
 let itemsPedidos = [];
 let ordenes = [];
 let resumenOrdenes = [];
-
 //clase para items de la orden
 class ItemPedido {
   constructor(pedido, cantidad, precio) {
@@ -11,7 +11,7 @@ class ItemPedido {
     this.cantidad = cantidad;
     this.precio = precio;
   }
-}
+};
 //clase para las ordenes
 class OrdenConfirmada {
   constructor(numero, hora, total) {
@@ -21,20 +21,24 @@ class OrdenConfirmada {
   }
 };
 
-//llamado a funcion async
-traerItems();
-
-//funcion async para traer datos desde el json
+/*FUNCION ASYNC
+para traer datos desde el json*/
 async function traerItems() {
-  const URLJSON = "../json/itemsCarta.json"
-  const response = await fetch(URLJSON)
-  const data = await response.json()
+  const URLJSON = "../json/itemsCarta.json";
+  const response = await fetch(URLJSON);
+  const data = await response.json();
   items = data;
 
   crearCards(items);
 }
+traerItems();
 
-/*RENDERIZAR ITEMS*/
+//FUNCIONES PARA CREAR CARDS DE ITEMS
+//llamo elementos del html donde van a ir las cards
+let contTablas = document.getElementById('contTablas');
+let contQuesos = document.getElementById('contQuesos');
+let contVinos = document.getElementById('contVinos');
+
 //funcion para crear el boton segun disponibilidad (para agregar a la card)
 let crearBotonDeItem = disponibilidad => {
 
@@ -54,11 +58,6 @@ let crearBotonDeItem = disponibilidad => {
 };
 let botonDeItem = crearBotonDeItem();
 
-//llamo elementos del html que voy a usar
-let contTablas = document.getElementById('contTablas')
-let contQuesos = document.getElementById('contQuesos')
-let contVinos = document.getElementById('contVinos')
-
 //funcion para crear cards de items
 const crearCards = array => {
   array.forEach(
@@ -67,7 +66,7 @@ const crearCards = array => {
       let columnCard = document.createElement('div');
       columnCard.className = 'column is-one-quarter';
       let card = document.createElement('div');
-      card.className = 'card'
+      card.className = 'card';
       let cardContent = document.createElement('div');
       cardContent.className = 'card-content';
       cardContent.innerHTML = `
@@ -86,31 +85,30 @@ const crearCards = array => {
       //condicional para ubicar cards segun tipo de item
       switch (item.tipo) {
         case 'tabla':
-          contTablas.appendChild(columnCard)
+          contTablas.appendChild(columnCard);
           break
         case 'queso':
-          contQuesos.appendChild(columnCard)
+          contQuesos.appendChild(columnCard);
           break
         case 'vino':
-          contVinos.appendChild(columnCard)
+          contVinos.appendChild(columnCard);
           break
         default:
-          console.log('error switch funcion crearCards')
-      }
+          console.log('error switch funcion crearCards');
+      };
       //evento del boton para agregar item a la orden
       botonDeItem.onclick = () => {
         let itemPedido = new ItemPedido(item.nombre, 1, item.precio);
         itemsPedidos.push(itemPedido);
 
         ordenarItemsPedidos();
-      }
+      };
     }
   )
-}
+};
 
 /* FUNCIONES DE LA ORDEN 
-renderizar tabla de orden, sumar el total, mensaje de footer
-*/
+renderizar sumar total, renderizar items en tabla, mensaje de footer de tabla, confirmar orden, subir al storage */
 //declaro variables a usar
 let numeroOrden = '';
 let fecha = moment().format('L');
@@ -118,26 +116,28 @@ let hora = moment().format('LT');
 let sumaOrden;
 let sumaOrdenEft;
 
-//variables de elementos del html
+//elementos del html 
+//de la orden
+let cuerpoTablaOrden = document.getElementById('cuerpoTablaOrden');
+let mensajeTablaOrden = document.getElementById('mensajeTablaOrden');
+let botonConfirmarOrden = document.getElementById('botonConfirmarOrden');
+//de la orden confirmada
 let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent');
 let modalOrdenConfirmada = document.getElementById('modalOrdenConfirmada');
-//elementos de la tabla
-let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden');
-let mensajeTablaOrden = document.querySelector('#mensajeTablaOrden');
-//llamado elementos del input
-let nombreOrden = document.getElementById('nombreOrden')
+//del input
+let nombreOrden = document.getElementById('nombreOrden');
 let pagoEfectivo = document.getElementById('pagoEfectivo');
 
 //funcion para sumar total
 const sumarOrden = () => {
   let sumaOrden = 0;
   for (const item of itemsPedidos) {
-    sumaOrden = sumaOrden + (item.precio * item.cantidad)
+    sumaOrden = sumaOrden + (item.precio * item.cantidad);
   }
   return sumaOrden
-}
+};
 
-//funcion para ordenar contenido orden
+//funcion para ordenar contenido orden, evento confirmar
 const ordenarItemsPedidos = () => {
   cuerpoTablaOrden.innerHTML = '';
 
@@ -150,7 +150,6 @@ const ordenarItemsPedidos = () => {
       <td>$ ${item.precio}</td>
       <td><button class="delete" type="button" id="borrarItem${item.pedido}"></button></td>
       `;
-
       cuerpoTablaOrden.append(renglonesOrden);
 
       //evento para borrar items de la oden
@@ -163,11 +162,9 @@ const ordenarItemsPedidos = () => {
       };
     }
   );
-
   //creacion del footer de la tabla (mensaje o suma y deshabilitacion de boton)
   sumaOrden = sumarOrden();
   sumaOrdenEft = sumarOrden() * 0.9;
-  let botonConfirmarOrden = document.getElementById('botonConfirmarOrden')
   if (sumaOrden == 0) {
     mensajeTablaOrden.innerText = `Aún no agregaste nada a tu orden!`;
     botonConfirmarOrden.disabled = true;
@@ -181,21 +178,22 @@ const ordenarItemsPedidos = () => {
 };
 ordenarItemsPedidos();
 
-
-
 //evento boton Confirmar Orden
 botonConfirmarOrden.onclick = () => {
   sumaOrden = sumarOrden(itemsPedidos);
   sumaOrdenEft = sumarOrden() * 0.9;
+
   //verifico el storage para continuidad de numero de ordenes
   if (localStorage.getItem('ordenes') != null) {
     numeroOrden = ordenes.length + 1;
   } else {
     numeroOrden = 1;
   };
+
   //verifico el medio de pago para saber el total de la venta
-  let totalOrden
+  let totalOrden;
   pagoEfectivo.checked == true ? totalOrden = sumaOrdenEft : totalOrden = sumaOrden;
+
   //creo objeto de orden y lo pusheo al array, y lo subo al storage
   let nuevaOrden = new OrdenConfirmada(numeroOrden, hora, totalOrden);
   ordenes.push(nuevaOrden);
@@ -217,9 +215,10 @@ botonConfirmarOrden.onclick = () => {
     </div>
   </div>
   `;
-
+  //limpio datos de imput
   nombreOrden.value = '';
-  //vacio el array de items pedidos
+  pagoEfectivo.checked = false;
+  //limpio array de items pedidos
   itemsPedidos = [];
   ordenarItemsPedidos();
 };
@@ -227,12 +226,13 @@ botonConfirmarOrden.onclick = () => {
 /*FUNCIONES DEL TABLERO DE ACCESO DE PERSONAL
 renderizar items segun tipo, 
 ver disponibilidad, cambiar disponibilidad, resetear conteo de ordenes */
-
-//llamo elementos del html a usar
+//elementos del html a usar en modal clave
+let claveAcceso = document.getElementById('claveAcceso');
 let botonIngresar = document.getElementById('botonIngresar');
+//en modal acceso
 let cuerpoResumen = document.getElementById('cuerpoResumen');
 let footResumen = document.getElementById('footResumen');
-let botonResumirOrden = document.getElementById('botonResetDispo');
+let botonResetOrden = document.getElementById('botonResetOrden');
 
 //traigo los datos del storage
 resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
@@ -244,7 +244,7 @@ const sumarTotalVentas = () => {
     totalVentas = totalVentas + orden.total;
   }
   return totalVentas
-}
+};
 
 //funcion para renderizar el contenido del storage
 const resumirOrdenes = () => {
@@ -268,11 +268,11 @@ const resumirOrdenes = () => {
   <td class="has-text-weight-semibold">Total Ventas = $${totalVentas}</td>
   </tr>
   `;
-}
+};
+//ejecuto la funcion solo si hay ordenes
 resumenOrdenes != null && resumirOrdenes();
 
 //evento habilitar boton de acceso con contraseña
-let claveAcceso = document.getElementById('claveAcceso');
 claveAcceso.oninput = () => {
   const habilitarBoton = () => {
     if (claveAcceso.value == '1234') {
@@ -280,10 +280,9 @@ claveAcceso.oninput = () => {
     }
   }
   habilitarBoton();
-}
+};
 
-// evento reseteo de ordenes
-let botonResetOrden = document.getElementById('botonResetOrden');
+//evento reseteo de ordenes (limpia storage)
 botonResetOrden.onclick = () => {
   localStorage.clear();
   cuerpoResumen.innerHTML = '';
@@ -291,7 +290,7 @@ botonResetOrden.onclick = () => {
 };
 
 /*FUNCIONALIDAD DE MODALES*/
-//modales
+//modales traidos de bulma, modificados segun necesidad
 document.addEventListener('DOMContentLoaded', () => {
   //funciones que abren y cierran modales
   const abrirModal = $el => $el.classList.add('is-active');
