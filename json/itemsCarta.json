@@ -13,13 +13,6 @@
         "disponibilidad": true
     },
     {
-        "tipo": "tabla",
-        "nombre": "Tablita 3",
-        "detalle": "Goya, Pecorino, Chevrotin",
-        "precio": 2700,
-        "disponibilidad": true
-    },
-    {
         "tipo": "queso",
         "nombre": "Gouda",
         "detalle": "Vaca",
@@ -76,13 +69,6 @@
         "disponibilidad": true
     },
     {
-        "tipo": "queso",
-        "nombre": "Chevrotin",
-        "detalle": "Cabra",
-        "precio": 1080,
-        "disponibilidad": false
-    },
-    {
         "tipo": "vino",
         "nombre": "Zorzal",
         "detalle": "Pinot Noir",
@@ -112,13 +98,6 @@
     },
     {
         "tipo": "vino",
-        "nombre": "Asa Nisi Masa",
-        "detalle": "Malbec",
-        "precio": 750,
-        "disponibilidad": true
-    },
-    {
-        "tipo": "vino",
         "nombre": "Petite Fleur",
         "detalle": "Malbec",
         "precio": 750,
@@ -136,7 +115,7 @@
         "nombre": "Pinto Verdot",
         "detalle": "Petit Verdot",
         "precio": 800,
-        "disponibilidad": true
+        "disponibilidad": false
     },
     {
         "tipo": "vino",

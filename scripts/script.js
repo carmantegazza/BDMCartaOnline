@@ -39,11 +39,11 @@ async function traerItems() {
 let crearBotonDeItem = disponibilidad => {
 
   let botonAgregar = document.createElement('button');
-  botonAgregar.className = 'button is-primary is-fullwidth';
+  botonAgregar.className = 'button is-warning is-fullwidth';
   botonAgregar.innerText = 'Agregar';
 
   let botonNoDisponible = document.createElement('button');
-  botonNoDisponible.className = 'button is-light is-fullwidth';
+  botonNoDisponible.className = 'button is-fullwidth';
   botonNoDisponible.title = 'Disabled button';
   botonNoDisponible.disabled = true;
   botonNoDisponible.innerText = 'No Disponible';
@@ -65,7 +65,7 @@ const crearCards = array => {
     (item) => {
       //creo html de las cards
       let columnCard = document.createElement('div');
-      columnCard.className = 'column is-one-third';
+      columnCard.className = 'column is-one-quarter';
       let card = document.createElement('div');
       card.className = 'card'
       let cardContent = document.createElement('div');
@@ -115,13 +115,18 @@ renderizar tabla de orden, sumar el total, mensaje de footer
 let numeroOrden = '';
 let fecha = moment().format('L');
 let hora = moment().format('LT');
+let sumaOrden;
+let sumaOrdenEft;
 
-//llamo elementos del html que voy a usar en esta seccion
+//variables de elementos del html
 let ordenConfirmadaContent = document.getElementById('ordenConfirmadaContent');
 let modalOrdenConfirmada = document.getElementById('modalOrdenConfirmada');
-//llamado a elementos de la tabla
-let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden')
-let footTablaOrden = document.querySelector('#footTablaOrden')
+//elementos de la tabla
+let cuerpoTablaOrden = document.querySelector('#cuerpoTablaOrden');
+let mensajeTablaOrden = document.querySelector('#mensajeTablaOrden');
+//llamado elementos del input
+let nombreOrden = document.getElementById('nombreOrden')
+let pagoEfectivo = document.getElementById('pagoEfectivo');
 
 //funcion para sumar total
 const sumarOrden = () => {
@@ -160,36 +165,39 @@ const ordenarItemsPedidos = () => {
   );
 
   //creacion del footer de la tabla (mensaje o suma y deshabilitacion de boton)
-  let sumaOrden = sumarOrden();
+  sumaOrden = sumarOrden();
+  sumaOrdenEft = sumarOrden() * 0.9;
   let botonConfirmarOrden = document.getElementById('botonConfirmarOrden')
   if (sumaOrden == 0) {
-    footTablaOrden.innerHTML = `
-    <tr>
-    <td class="has-text-centered">Aqui no hay nada! Hace clic en 'Agregar' en cualquiera de nuestras opciones disponibles para agregarlo a la orden </td>
-    </tr>`
-    botonConfirmarOrden.disabled = true
+    mensajeTablaOrden.innerText = `Aún no agregaste nada a tu orden!`;
+    botonConfirmarOrden.disabled = true;
   } else {
-    footTablaOrden.innerHTML = `
-    <tr>
-    <td>Total $ ${sumaOrden}</td>
-    </tr>
-    `
-    botonConfirmarOrden.disabled = false
+    mensajeTablaOrden.innerText = `
+    Total $${sumaOrden}.
+    En efectivo tenes 10% de descuento, seria $${sumaOrdenEft}.
+    `;
+    botonConfirmarOrden.disabled = false;
   }
 };
 ordenarItemsPedidos();
 
+
+
 //evento boton Confirmar Orden
 botonConfirmarOrden.onclick = () => {
-  let sumaOrden = sumarOrden(itemsPedidos);
+  sumaOrden = sumarOrden(itemsPedidos);
+  sumaOrdenEft = sumarOrden() * 0.9;
   //verifico el storage para continuidad de numero de ordenes
   if (localStorage.getItem('ordenes') != null) {
     numeroOrden = ordenes.length + 1;
   } else {
     numeroOrden = 1;
   };
+  //verifico el medio de pago para saber el total de la venta
+  let totalOrden
+  pagoEfectivo.checked == true ? totalOrden = sumaOrdenEft : totalOrden = sumaOrden;
   //creo objeto de orden y lo pusheo al array, y lo subo al storage
-  let nuevaOrden = new OrdenConfirmada(numeroOrden, hora, sumaOrden);
+  let nuevaOrden = new OrdenConfirmada(numeroOrden, hora, totalOrden);
   ordenes.push(nuevaOrden);
   localStorage.setItem('ordenes', JSON.stringify(ordenes));
   //mensaje de confirmacion de orden
@@ -202,14 +210,15 @@ botonConfirmarOrden.onclick = () => {
     <p>Hora: ${hora}</p>
     </div>
     <div class="column is-full">
+    <p class="has-text-weight-semibold color-marca is-capitalized">Muchas gracias ${nombreOrden.value}!</p>
     <p>Tu orden es la numero ${numeroOrden}</p>
-    <p>El total es de $${sumaOrden}</p>
-    <p>En efectivo tenes 10% de descuento seria $${sumaOrden*0.9}
-    <p class="has-text-primary has-text-weight-semibold">Muchas gracias!</p>
-    <p class="nuevaOrden"></p>
+    <p>El total es $${totalOrden}</p>
+    <p>Acercate a la caja para realizar el pago!</p>
     </div>
   </div>
   `;
+
+  nombreOrden.value = '';
   //vacio el array de items pedidos
   itemsPedidos = [];
   ordenarItemsPedidos();
@@ -220,24 +229,25 @@ renderizar items segun tipo,
 ver disponibilidad, cambiar disponibilidad, resetear conteo de ordenes */
 
 //llamo elementos del html a usar
+let botonIngresar = document.getElementById('botonIngresar');
 let cuerpoResumen = document.getElementById('cuerpoResumen');
 let footResumen = document.getElementById('footResumen');
 let botonResumirOrden = document.getElementById('botonResetDispo');
 
+//traigo los datos del storage
 resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
-console.log(resumenOrdenes)
+
 //funcion para calcular el total de ventas
 const sumarTotalVentas = () => {
   let totalVentas = 0;
   for (const orden of resumenOrdenes) {
-    totalVentas =  totalVentas + orden.total;
+    totalVentas = totalVentas + orden.total;
   }
   return totalVentas
 }
 
 //funcion para renderizar el contenido del storage
 const resumirOrdenes = () => {
-  console.log('funciona el log de la funcion resumir');
   cuerpoResumen.innerHTML = '';
 
   resumenOrdenes.forEach(
@@ -261,7 +271,18 @@ const resumirOrdenes = () => {
 }
 resumenOrdenes != null && resumirOrdenes();
 
-//reseteo de ordenes
+//evento habilitar boton de acceso con contraseña
+let claveAcceso = document.getElementById('claveAcceso');
+claveAcceso.oninput = () => {
+  const habilitarBoton = () => {
+    if (claveAcceso.value == '1234') {
+      botonIngresar.disabled = false;
+    }
+  }
+  habilitarBoton();
+}
+
+// evento reseteo de ordenes
 let botonResetOrden = document.getElementById('botonResetOrden');
 botonResetOrden.onclick = () => {
   localStorage.clear();

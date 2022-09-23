@@ -13,12 +13,21 @@
 <body>
     <header>
         <!--aca va titulo y boton de MI ORDEN y sus modales-->
-    </header>
-    <main>
-        <!--aca van las cards de productos-->
-        <button class="button is-primary botonModalOrden" data-target="modalOrden">
-            Mi Orden
-        </button>
+        <nav class="navbar is-justify-content-space-between p-3" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand is-align-items-center">
+                <h1 class="title is-1 color-marca">BAR DU MARCHE</h1>
+            </div>
+            <div class="navbar-item">
+                <p class="subtitle is-6 is-italic">Hacé tu pedido y acercate a retirarlo cuando llamemos tu numero de orden!</p>
+            </div>
+            <div class="navbar-item">
+                <button class="button is-warning is-centered botonModalOrden" data-target="modalOrden">
+                    Mi Orden
+                </button>
+            </div>
+            </div>
+        </nav>
+        <!--Modal de Orden (items pedidos)-->
         <div id="modalOrden" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -26,23 +35,34 @@
                     <table class="table is-striped is-fullwidth">
                         <thead>
                             <tr>
-                                <th class="is-primary">Cantidad</th>
-                                <th class="is-primary">Item</th>
-                                <th class="is-primary">Precio</th>
+                                <th class="is-light">Cantidad</th>
+                                <th class="is-light">Item</th>
+                                <th class="is-light">Precio</th>
+                                <th class="is-light">Eliminar</th>
+
                             </tr>
                         </thead>
-                        <tfoot id="footTablaOrden">
-                        </tfoot>
                         <tbody id="cuerpoTablaOrden">
                         </tbody>
                     </table>
-                    <button class="button is-success botonModalOrdenConfirmada" data-target="modalOrdenConfirmada"
-                        id="botonConfirmarOrden">Confirmar Orden</button>
+                    <p class="has-text-centered" id="mensajeTablaOrden">
+                    </p>
+                    <div class="field is-grouped is-align-items-center is-justify-content-center pt-5">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Nombre" id="nombreOrden">
+                        </div>
+                        <div class="control">
+                            <input type="checkbox" id="pagoEfectivo">
+                            Efectivo
+                        </div>
+                        <button class="button is-warning botonModalOrdenConfirmada" data-target="modalOrdenConfirmada"
+                            id="botonConfirmarOrden">Confirmar Orden</button>
+                    </div>
                 </div>
+                <button class="modal-close is-large" aria-label="close"></button>
             </div>
-            <button class="modal-close is-large" aria-label="close"></button>
         </div>
-        <!--mensaje de orden confirmada-->
+        <!--Modal de orden confirmada-->
         <div id="modalOrdenConfirmada" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -51,64 +71,69 @@
                 <button class="modal-close is-large" aria-label="close"></button>
             </div>
         </div>
+    </header>
+    <main>
+        <!--Seccion de cards de productos-->
         <section class="hero">
-            <div class="hero-body">
-                <p class="title has-text-centered color-gold">Tablas de Degustacion</p>
-                <p class="subtitle has-text-centered"></p>
-                <div class="columns is-3 is-multiline is-centered" id="contTablas"></div>
-                <p class="title has-text-centered color-gold">Quesos</p>
-                <p class="subtitle has-text-centered"></p>
-                <div class="columns is-3 is-multiline is-centered" id="contQuesos"></div>
-                <p class="title has-text-centered color-gold">Vinos</p>
-                <p class="subtitle has-text-centered"></p>
-                <div class="columns is-3 is-multiline is-centered" id="contVinos"></div>
+            <div class="hero-body " id="fondoPagina">
+                <p class="title is-2 has-text-centered ">Tablas de Degustación</p>
+                <p class="subtitle has-text-centered">Degustación de 3 variedades de queso, acompañado de dip de
+                    conservas casero y pan de masa madre.</p>
+                <div class="columns is-multiline is-centered" id="contTablas"></div>
+                <p class="title is-2 has-text-centered">Quesos</p>
+                <p class="subtitle has-text-centered">Seleccionados especialmente de pequeños productores nacionales.
+                </p>
+                <div class="columns is-multiline is-centered" id="contQuesos"></div>
+                <p class="title is-2 has-text-centered">Vinos</p>
+                <p class="subtitle has-text-centered">Las mejores etiquetas de nuestra carta elegidas por nuestra
+                    Sommelier.</p>
+                <div class="columns is-multiline is-centered" id="contVinos"></div>
             </div>
         </section>
     </main>
     <footer>
-        <section class="hero has-background-light">
-            <div class="hero-body">
-                <a><button class="button is-primary botonModalClave" data-target="modalClave">Acceso
-                        Personal</button></a>
+        <nav class="navbar is-justify-content-center is-align-items-center" role="navigation"
+            aria-label="main navigation">
+            <p class="is-size-6 is-italic px-3">Acceso para personal de Bar du Marche</p>
+            <div class="nav-item">
+                <button class="button is-warning botonModalClave" data-target="modalClave">Acceso</button>
             </div>
-        </section>
-        <!--Modal Acceso Personal-->
+        </nav>
+        <!--Modal Clave de Acceso-->
         <div class="modal" id="modalClave">
             <div class="modal-background"></div>
             <div class="modal-content">
                 <div class="box">
                     <div class="columns is-mobile">
-                        <div class="column is-two-thirds"><input class="input" type="text"
-                                placeholder="Le saque la clave para probar tabs" id="claveAcceso"></div>
-                        <div class="column"><a><button class="button is-primary is-fullwidth botonModalAcceso"
-                                    data-target="modalAcceso" id="botonIngresar">Ingresar</button></a></div>
+                        <div class="column is-two-thirds">
+                            <input class="input" type="text" placeholder="La clave es 1234"
+                                id="claveAcceso">
+                        </div>
+                        <div class="column">
+                            <a><button class="button is-warning is-fullwidth botonModalAcceso" data-target="modalAcceso"
+                                    id="botonIngresar" disabled>Ingresar</button></a>
+                        </div>
                     </div>
                 </div>
             </div>
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
+        <!--Modal Acceso Personal-->
         <div id="modalAcceso" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
                 <div class="box">
-                    <p class="title is-3 has-text-primary has-text-centered">Ordenes</p>
+                    <p class="title is-3 has-text-centered color-marca">Ordenes</p>
                     <table class="table is-bordered is-fullwidth">
-                        <!--<thead>
-                            <tr>
-                                <th class="is-light">Hora</th>
-                                <th class="is-light">Orden</th>
-                                <th class="is-light">Total</th>
-                            </tr>
-                        </thead>-->
                         <tfoot id="footResumen"></tfoot>
                         <tbody id="cuerpoResumen"></tbody>
                     </table>
                     <div class="columns is-align-items-center mt-4">
-                        <div class="column is-4">
-                            <button class="button is-success is-fullwidth" id="botonResetOrden">Resetear</button>
+                        <div class="column is-two-thirds">
+                            <p class="has-text-centered has-text-danger">Borrar registro de ordenes hasta el momento</p>
                         </div>
-                        <div class="column is-8">
-                            <p class="has-text-danger">Borrar registro de ordenes hasta el momento</p>
+                        <div class="column is-one-third ">
+                            <button class="button is-light is-fullwidth" id="botonResetOrden">Resetear</button>
                         </div>
                     </div>
                 </div>
@@ -116,6 +141,7 @@
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
     </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/es.min.js"></script>
     <script src="scripts/script.js"></script>

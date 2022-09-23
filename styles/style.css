@@ -1,23 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Arvo:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nixie+One&display=swap");
 .color-marca {
-  color: pink;
+  color: #CD1D1E;
 }
 
 .color-gold {
   color: gold;
 }
 
-.contenidoTabs {
-  display: none;
-}
-
-.active {
-  display: block;
+.bg-marca {
+  background-color: #CD1D1E;
 }
 
 /*fonts*/
 .title {
-  font-family: 'Arvo', serif;
+  font-family: "Arvo", serif;
 }
-/*# sourceMappingURL=style.css.map */
+
+/*FONDOS*/
+#fondoPagina {
+  background-image: url(../media/tablaQuesos.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}/*# sourceMappingURL=style.css.map */

@@ -1,4 +1,4 @@
-$color-marca: pink;
+$color-marca: #CD1D1E;
 $color-gold: gold;
 
 .color-marca {
@@ -9,10 +9,6 @@ $color-gold: gold;
     color: $color-gold;
 }
 
-.contenidoTabs {
-    display: none;
-}
-
-.active {
-    display: block;
+.bg-marca {
+    background-color: $color-marca;
 }
