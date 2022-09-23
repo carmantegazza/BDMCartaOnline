@@ -24,9 +24,9 @@ class OrdenConfirmada {
 /*FUNCION ASYNC
 para traer datos desde el json*/
 async function traerItems() {
-  const URLJSON = "../json/itemsCarta.json"
-  const response = await fetch(URLJSON)
-  const data = await response.json()
+  const URLJSON = "json/itemsCarta.json";
+  const response = await fetch(URLJSON);
+  const data = await response.json();
   items = data
 
   crearCards(items);
