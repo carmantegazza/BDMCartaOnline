@@ -26,7 +26,7 @@ async function traerItems() {
   const URLJSON = "json/itemsCarta.json";
   const response = await fetch(URLJSON);
   const data = await response.json();
-  items = data;
+  items = data
 
   crearCards(items);
 }
