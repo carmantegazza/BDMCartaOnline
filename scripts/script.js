@@ -271,20 +271,22 @@ const resumirOrdenes = () => {
   </tr>
   `;
 };
-//ejecuto la funcion solo si hay ordenes
-//ordenes != null && resumirOrdenes();
 
-//evento habilitar boton de acceso con contraseña
-claveAcceso.oninput = () => {
-  const habilitarBoton = () => {
-    if (claveAcceso.value == '1234') {
-      botonIngresar.disabled = false;
-    }
+//funcion para habiltar boton de ingreso con clave
+const habilitarBoton = () => {
+  if (claveAcceso.value == '1234') {
+    botonIngresar.disabled = false;
   }
-  habilitarBoton();
-};
+}
+//evento que ejecuta la funcion
+claveAcceso.oninput = () => habilitarBoton();
 
-botonIngresar.onclick = () => resumirOrdenes();
+//evento de boton Ingresas (renderiza ordenes y limpia el modal de clave)
+botonIngresar.onclick = () => {
+  resumirOrdenes();
+  claveAcceso.value = '';
+  botonIngresar.disabled = true;
+};
 
 //evento reseteo de ordenes (limpia storage)
 botonResetOrden.onclick = () => {
@@ -309,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  //eventos para que se cierre el modal ya abrierot (en orden y en acceso personal)
+  //eventos para que se cierre el modal ya abrierto (en orden y en acceso personal)
   (document.querySelectorAll('.botonModalOrdenConfirmada') || []).forEach(($trigger) => {
     const modalOrden = document.getElementById('modalOrden')
     $trigger.addEventListener('click', () => {
@@ -323,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // evento para que el modal se cierre desde cualquier lado donde haga click
+  //evento para que el modal se cierre desde cualquier lado donde haga click
   (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
     const $target = $close.closest('.modal');
     $close.addEventListener('click', () => {
