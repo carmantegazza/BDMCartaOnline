@@ -2,7 +2,6 @@
 //arrays
 let items = [];
 let itemsPedidos = [];
-let ordenes = [];
 let resumenOrdenes = [];
 //clase para items de la orden
 class ItemPedido {
@@ -24,7 +23,7 @@ class OrdenConfirmada {
 /*FUNCION ASYNC
 para traer datos desde el json*/
 async function traerItems() {
-  const URLJSON = "../json/itemsCarta.json";
+  const URLJSON = "json/itemsCarta.json";
   const response = await fetch(URLJSON);
   const data = await response.json();
   items = data;
@@ -116,6 +115,9 @@ let hora = moment().format('LT');
 let sumaOrden;
 let sumaOrdenEft;
 
+//array de ordenes
+let ordenes = JSON.parse(localStorage.getItem('ordenes')) || [];
+
 //elementos del html 
 //de la orden
 let cuerpoTablaOrden = document.getElementById('cuerpoTablaOrden');
@@ -184,7 +186,7 @@ botonConfirmarOrden.onclick = () => {
   sumaOrdenEft = sumarOrden() * 0.9;
 
   //verifico el storage para continuidad de numero de ordenes
-  if (localStorage.getItem('ordenes') != null) {
+  if (ordenes != null) {
     numeroOrden = ordenes.length + 1;
   } else {
     numeroOrden = 1;
@@ -235,12 +237,12 @@ let footResumen = document.getElementById('footResumen');
 let botonResetOrden = document.getElementById('botonResetOrden');
 
 //traigo los datos del storage
-resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
+//resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
 
 //funcion para calcular el total de ventas
 const sumarTotalVentas = () => {
   let totalVentas = 0;
-  for (const orden of resumenOrdenes) {
+  for (const orden of ordenes) {
     totalVentas = totalVentas + orden.total;
   }
   return totalVentas
@@ -250,7 +252,7 @@ const sumarTotalVentas = () => {
 const resumirOrdenes = () => {
   cuerpoResumen.innerHTML = '';
 
-  resumenOrdenes.forEach(
+  ordenes.forEach(
     (orden) => {
       let renglonesResumen = document.createElement('tr')
       renglonesResumen.innerHTML = `
@@ -264,13 +266,13 @@ const resumirOrdenes = () => {
   let totalVentas = sumarTotalVentas();
   footResumen.innerHTML = `
   <tr>
-  <td class="has-text-weight-semibold">Total Ordenes = ${resumenOrdenes.length}</td>
+  <td class="has-text-weight-semibold">Total Ordenes = ${ordenes.length}</td>
   <td class="has-text-weight-semibold">Total Ventas = $${totalVentas}</td>
   </tr>
   `;
 };
 //ejecuto la funcion solo si hay ordenes
-resumenOrdenes != null && resumirOrdenes();
+//ordenes != null && resumirOrdenes();
 
 //evento habilitar boton de acceso con contraseña
 claveAcceso.oninput = () => {
@@ -281,6 +283,8 @@ claveAcceso.oninput = () => {
   }
   habilitarBoton();
 };
+
+botonIngresar.onclick = () => resumirOrdenes();
 
 //evento reseteo de ordenes (limpia storage)
 botonResetOrden.onclick = () => {
