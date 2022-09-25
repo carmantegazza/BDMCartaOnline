@@ -10,6 +10,9 @@ class ItemPedido {
     this.cantidad = cantidad;
     this.precio = precio;
   }
+  sumarItem() {
+    this.cantidad++
+  }
 };
 //clase para las ordenes
 class OrdenConfirmada {
@@ -17,7 +20,7 @@ class OrdenConfirmada {
     this.numero = numero;
     this.hora = hora;
     this.total = total;
-  }
+  } 
 };
 
 /*FUNCION ASYNC
@@ -69,7 +72,7 @@ const crearCards = array => {
       let cardContent = document.createElement('div');
       cardContent.className = 'card-content';
       cardContent.innerHTML = `
-      <h3 class="title is-4">${item.nombre}</h3>
+      <h3 class="title is-3">${item.nombre}</h3>
       <p>${item.detalle}</p>
       <p>$ ${item.precio}</p>
       `;
@@ -97,14 +100,30 @@ const crearCards = array => {
       };
       //evento del boton para agregar item a la orden
       botonDeItem.onclick = () => {
-        let itemPedido = new ItemPedido(item.nombre, 1, item.precio);
-        itemsPedidos.push(itemPedido);
-
+        console.log(`${item.nombre}`)
+        let posicion = itemsPedidos.includes(i => i.pedido == item.nombre)
+        console.log(posicion)
+        console.log(itemsPedidos)
+        if (posicion == true) {
+          itemsPedidos[posicion].sumarItem;
+        } else {
+          let itemPedido = new ItemPedido(item.nombre, 1, item.precio);
+          itemsPedidos.push(itemPedido);
+          console.log(itemPedido.pedido)
+        }
         ordenarItemsPedidos();
+
+        setTimeout(() => {botonDeItem.innerText = 'Agregado a la orden!'}, 300);
+        setTimeout(() => {botonDeItem.innerText = 'Agregar'}, 1000)
+
       };
     }
   )
 };
+
+const agregarItem = itemPedido => {
+
+}
 
 /* FUNCIONES DE LA ORDEN 
 renderizar sumar total, renderizar items en tabla, mensaje de footer de tabla, confirmar orden, subir al storage */
@@ -116,7 +135,9 @@ let sumaOrden;
 let sumaOrdenEft;
 
 //array de ordenes
-let ordenes = JSON.parse(localStorage.getItem('ordenes')) || [];
+//let ordenes = JSON.parse(localStorage.getItem('ordenes')) || [];
+
+let checkearOrdenes = () => ordenes = JSON.parse(localStorage.getItem('ordenes')) || [];
 
 //elementos del html 
 //de la orden
@@ -186,7 +207,7 @@ botonConfirmarOrden.onclick = () => {
   sumaOrdenEft = sumarOrden() * 0.9;
 
   //verifico el storage para continuidad de numero de ordenes
-  if (ordenes != null) {
+  if (checkearOrdenes() != null) {
     numeroOrden = ordenes.length + 1;
   } else {
     numeroOrden = 1;
