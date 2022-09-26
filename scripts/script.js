@@ -102,13 +102,13 @@ const crearCards = array => {
       //evento del boton para agregar item a la orden
       botonDeItem.onclick = () => {
         let itemPedido = new ItemPedido(item.nombre, 1, item.precio);
-        itemsPedidos.push(itemPedido);
-
+        //itemsPedidos.push(itemPedido);
+        agregarItem(itemPedido);
         ordenarItemsPedidos();
 
         setTimeout(() => {
           botonDeItem.innerText = 'Agregado a la orden!'
-        }, 300);
+        }, 150);
         setTimeout(() => {
           botonDeItem.innerText = 'Agregar'
         }, 1000)
@@ -117,6 +117,21 @@ const crearCards = array => {
     }
   )
 };
+
+//funcion agregar items
+const agregarItem = itemPedido => {
+  let itemYaPedido = itemsPedidos.find(i => i.pedido == itemPedido.pedido)
+  if (itemYaPedido == undefined) {
+    let itemApedir = {
+      ...itemPedido,
+      cantidad:1
+    };
+    itemsPedidos.push(itemApedir)
+  } else {
+    let index = itemsPedidos.findIndex(i => i.pedido == itemPedido.pedido)
+    itemsPedidos[index].cantidad += 1
+  }
+}
 
 /* FUNCIONES DE LA ORDEN 
 renderizar sumar total, renderizar items en tabla, mensaje de footer de tabla, confirmar orden, subir al storage */
@@ -155,7 +170,7 @@ const borrarItem = itemBorrar => {
   console.log(itemBorrado);
 }
 
-//funcion para ordenar contenido orden, evento confirmar
+//funcion para ordenar contenido orden
 const ordenarItemsPedidos = () => {
   cuerpoTablaOrden.innerHTML = '';
 
