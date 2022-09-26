@@ -12,9 +12,9 @@
 
 <body>
     <section class="hero" id="fondoPagina">
-        <div class="hero-head p-3">
+        <div class="hero-head mb-5">
             <!--aca va titulo y boton de MI ORDEN y sus modales-->
-            <nav class="navbar is-justify-content-space-between">
+            <nav class="navbar is-fixed-top is-justify-content-space-around has-background-light">
                 <div class="navbar-brand is-align-items-center">
                     <h1 class="title is-1 color-marca">BAR DU MARCHE</h1>
                 </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="control">
                                 <input type="checkbox" id="pagoEfectivo">
-                                Efectivo
+                                Pago en efectivo!
                             </div>
                             <button class="button is-warning botonModalOrdenConfirmada"
                                 data-target="modalOrdenConfirmada" id="botonConfirmarOrden">Confirmar Orden</button>
@@ -74,27 +74,33 @@
             </div>
         </div>
         <!--Seccion de cards de productos-->
-        <div class="hero-body">
-            <p class="title is-2 has-text-centered">Tablas de Degustación</p>
-            <p class="subtitle has-text-centered">Degustación de 3 variedades de queso, acompañado de dip de
-                conservas casero y pan de masa madre.</p>
+        <div class="hero-body mt-5">
+            <div class="fondo-fade mb-3 p-1">
+                <p class="title is-2 has-text-centered">Tablas de Degustación</p>
+                <p class="subtitle has-text-centered">Degustación de 3 variedades de queso, acompañado de dip de
+                    conservas casero y pan de masa madre.</p>
+            </div>
             <div class="columns is-multiline is-centered" id="contTablas"></div>
-            <p class="title is-2 has-text-centered">Quesos</p>
-            <p class="subtitle has-text-centered">Seleccionados especialmente de pequeños productores nacionales.
-            </p>
+            <div class="fondo-fade mb-3 p-1">
+                <p class="title is-2 has-text-centered">Quesos</p>
+                <p class="subtitle has-text-centered">Seleccionados especialmente de pequeños productores nacionales.
+                </p>
+            </div>
             <div class="columns is-multiline is-centered" id="contQuesos"></div>
-            <p class="title is-2 has-text-centered">Vinos</p>
-            <p class="subtitle has-text-centered">Las mejores etiquetas de nuestra carta elegidas por nuestra
-                Sommelier.</p>
+            <div class="fondo-fade mb-3 p-1">
+                <p class="title is-2 has-text-centered">Vinos</p>
+                <p class="subtitle has-text-centered">Las mejores etiquetas de nuestra carta elegidas por nuestra
+                    Sommelier.</p>
+            </div>
             <div class="columns is-multiline is-centered" id="contVinos"></div>
         </div>
-        <nav class="navbar is-justify-content-center is-align-items-center">
-            <p class="is-size-6 is-italic px-3">Acceso para personal de Bar du Marche</p>
-            <div class="nav-item">
-                <button class="button is-warning botonModalClave" data-target="modalClave">Acceso</button>
-            </div>
-        </nav>
         <div class="hero-foot">
+            <nav class="navbar is-justify-content-center is-align-items-center has-background-light">
+                <p class="is-size-6 is-italic px-3">Acceso para personal de Bar du Marche</p>
+                <div class="nav-item">
+                    <button class="button is-warning botonModalClave" data-target="modalClave">Acceso</button>
+                </div>
+            </nav>
             <!--Modal Clave de Acceso-->
             <div class="modal" id="modalClave">
                 <div class="modal-background"></div>
@@ -125,12 +131,12 @@
                         </table>
                         <div class="columns is-align-items-center mt-4">
                             <div class="column is-two-thirds">
-                                <p class="has-text-centered has-text-danger fw-semibold">Borrar registro de ordenes
+                                <p class="has-text-centered">Borrar registro de ordenes
                                     hasta el
                                     momento</p>
                             </div>
                             <div class="column is-one-third ">
-                                <button class="button is-light is-fullwidth" id="botonResetOrden">Resetear</button>
+                                <button class="button is-warning is-fullwidth" id="botonResetOrden">Resetear</button>
                             </div>
                         </div>
                     </div>
