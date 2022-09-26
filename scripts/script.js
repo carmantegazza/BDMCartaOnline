@@ -180,6 +180,9 @@ const ordenarItemsPedidos = () => {
       //evento para borrar items de la oden
       let botonBorrarItem = document.getElementById(`borrarItem${item.pedido}`);
       botonBorrarItem.onclick = () => {
+        let itemAborrar = itemsPedidos.includes(i => i.pedido == item.pedido)
+        console.log(itemAborrar)
+
         let itemBorrado = itemsPedidos.indexOf(itemBorrar => itemBorrar.pedido == item.pedido);
         itemsPedidos.splice(itemBorrado);
         ordenarItemsPedidos();

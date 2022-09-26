@@ -11,135 +11,134 @@
 </head>
 
 <body>
-    <header>
-        <!--aca va titulo y boton de MI ORDEN y sus modales-->
-        <nav class="navbar is-justify-content-space-between p-3">
-            <div class="navbar-brand is-align-items-center">
-                <h1 class="title is-1 color-marca">BAR DU MARCHE</h1>
-            </div>
-            <div class="navbar-item">
-                <p class="subtitle is-6 is-italic">Hacé tu pedido y acercate a retirarlo cuando llamemos tu numero de orden!</p>
-            </div>
-            <div class="navbar-item">
-                <button class="button is-warning is-centered botonModalOrden" data-target="modalOrden">
-                    Mi Orden
-                </button>
-            </div>
-            </div>
-        </nav>
-        <!--Modal de Orden (items pedidos)-->
-        <div id="modalOrden" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <div class="box">
-                    <table class="table is-striped is-fullwidth">
-                        <thead>
-                            <tr>
-                                <th class="is-light">Cantidad</th>
-                                <th class="is-light">Item</th>
-                                <th class="is-light">Precio Uni</th>
-                                <th class="is-light">Precio Total</th>
-                                <th class="is-light">Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cuerpoTablaOrden">
-                        </tbody>
-                    </table>
-                    <p class="has-text-centered" id="mensajeTablaOrden">
-                    </p>
-                    <div class="field is-grouped is-align-items-center is-justify-content-center pt-5">
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Nombre" id="nombreOrden">
+    <section class="hero" id="fondoPagina">
+        <div class="hero-head p-3">
+            <!--aca va titulo y boton de MI ORDEN y sus modales-->
+            <nav class="navbar is-justify-content-space-between">
+                <div class="navbar-brand is-align-items-center">
+                    <h1 class="title is-1 color-marca">BAR DU MARCHE</h1>
+                </div>
+                <div class="navbar-item">
+                    <p class="subtitle is-6 is-italic">Hacé tu pedido y acercate a retirarlo cuando llamemos tu numero
+                        de orden!</p>
+                </div>
+                <div class="navbar-item">
+                    <button class="button is-warning is-centered botonModalOrden" data-target="modalOrden">
+                        Mi Orden
+                    </button>
+                </div>
+            </nav>
+            <!--Modal de Orden (items pedidos)-->
+            <div id="modalOrden" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th class="is-light">Cantidad</th>
+                                    <th class="is-light">Item</th>
+                                    <th class="is-light">Precio Uni</th>
+                                    <th class="is-light">Precio Total</th>
+                                    <th class="is-light">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaOrden">
+                            </tbody>
+                        </table>
+                        <p class="has-text-centered" id="mensajeTablaOrden">
+                        </p>
+                        <div class="field is-grouped is-align-items-center is-justify-content-center pt-5">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Nombre" id="nombreOrden">
+                            </div>
+                            <div class="control">
+                                <input type="checkbox" id="pagoEfectivo">
+                                Efectivo
+                            </div>
+                            <button class="button is-warning botonModalOrdenConfirmada"
+                                data-target="modalOrdenConfirmada" id="botonConfirmarOrden">Confirmar Orden</button>
                         </div>
-                        <div class="control">
-                            <input type="checkbox" id="pagoEfectivo">
-                            Efectivo
-                        </div>
-                        <button class="button is-warning botonModalOrdenConfirmada" data-target="modalOrdenConfirmada"
-                            id="botonConfirmarOrden">Confirmar Orden</button>
                     </div>
+                    <button class="modal-close is-large" aria-label="close"></button>
                 </div>
-                <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+            <!--Modal de orden confirmada-->
+            <div id="modalOrdenConfirmada" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box" id="ordenConfirmadaContent">
+                    </div>
+                    <button class="modal-close is-large" aria-label="close"></button>
+                </div>
             </div>
         </div>
-        <!--Modal de orden confirmada-->
-        <div id="modalOrdenConfirmada" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <div class="box" id="ordenConfirmadaContent">
-                </div>
-                <button class="modal-close is-large" aria-label="close"></button>
-            </div>
-        </div>
-    </header>
-    <main>
         <!--Seccion de cards de productos-->
-        <section class="hero">
-            <div class="hero-body " id="fondoPagina">
-                <p class="title is-2 has-text-centered ">Tablas de Degustación</p>
-                <p class="subtitle has-text-centered">Degustación de 3 variedades de queso, acompañado de dip de
-                    conservas casero y pan de masa madre.</p>
-                <div class="columns is-multiline is-centered" id="contTablas"></div>
-                <p class="title is-2 has-text-centered">Quesos</p>
-                <p class="subtitle has-text-centered">Seleccionados especialmente de pequeños productores nacionales.
-                </p>
-                <div class="columns is-multiline is-centered" id="contQuesos"></div>
-                <p class="title is-2 has-text-centered">Vinos</p>
-                <p class="subtitle has-text-centered">Las mejores etiquetas de nuestra carta elegidas por nuestra
-                    Sommelier.</p>
-                <div class="columns is-multiline is-centered" id="contVinos"></div>
-            </div>
-        </section>
-    </main>
-    <footer>
+        <div class="hero-body">
+            <p class="title is-2 has-text-centered">Tablas de Degustación</p>
+            <p class="subtitle has-text-centered">Degustación de 3 variedades de queso, acompañado de dip de
+                conservas casero y pan de masa madre.</p>
+            <div class="columns is-multiline is-centered" id="contTablas"></div>
+            <p class="title is-2 has-text-centered">Quesos</p>
+            <p class="subtitle has-text-centered">Seleccionados especialmente de pequeños productores nacionales.
+            </p>
+            <div class="columns is-multiline is-centered" id="contQuesos"></div>
+            <p class="title is-2 has-text-centered">Vinos</p>
+            <p class="subtitle has-text-centered">Las mejores etiquetas de nuestra carta elegidas por nuestra
+                Sommelier.</p>
+            <div class="columns is-multiline is-centered" id="contVinos"></div>
+        </div>
         <nav class="navbar is-justify-content-center is-align-items-center">
             <p class="is-size-6 is-italic px-3">Acceso para personal de Bar du Marche</p>
             <div class="nav-item">
                 <button class="button is-warning botonModalClave" data-target="modalClave">Acceso</button>
             </div>
         </nav>
-        <!--Modal Clave de Acceso-->
-        <div class="modal" id="modalClave">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <div class="box">
-                    <div class="columns is-mobile">
-                        <div class="column is-two-thirds">
-                            <input class="input" type="text" placeholder="La clave es 1234"
-                                id="claveAcceso">
-                        </div>
-                        <div class="column">
-                            <a><button class="button is-warning is-fullwidth botonModalAcceso" data-target="modalAcceso"
-                                    id="botonIngresar" disabled>Ingresar</button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-        </div>
-        <!--Modal Acceso Personal-->
-        <div id="modalAcceso" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <div class="box">
-                    <p class="title is-3 has-text-centered color-marca">Ordenes</p>
-                    <table class="table is-bordered is-fullwidth">
-                        <tfoot id="footResumen"></tfoot>
-                        <tbody id="cuerpoResumen"></tbody>
-                    </table>
-                    <div class="columns is-align-items-center mt-4">
-                        <div class="column is-two-thirds">
-                            <p class="has-text-centered has-text-danger fw-semibold">Borrar registro de ordenes hasta el momento</p>
-                        </div>
-                        <div class="column is-one-third ">
-                            <button class="button is-light is-fullwidth" id="botonResetOrden">Resetear</button>
+        <div class="hero-foot">
+            <!--Modal Clave de Acceso-->
+            <div class="modal" id="modalClave">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <div class="columns is-mobile">
+                            <div class="column is-two-thirds">
+                                <input class="input" type="text" placeholder="La clave es 1234" id="claveAcceso">
+                            </div>
+                            <div class="column">
+                                <a><button class="button is-warning is-fullwidth botonModalAcceso"
+                                        data-target="modalAcceso" id="botonIngresar" disabled>Ingresar</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <button class="modal-close is-large" aria-label="close"></button>
             </div>
-            <button class="modal-close is-large" aria-label="close"></button>
+            <!--Modal Acceso Personal-->
+            <div id="modalAcceso" class="modal">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="box">
+                        <p class="title is-3 has-text-centered color-marca">Ordenes</p>
+                        <table class="table is-bordered is-fullwidth">
+                            <tfoot id="footResumen"></tfoot>
+                            <tbody id="cuerpoResumen"></tbody>
+                        </table>
+                        <div class="columns is-align-items-center mt-4">
+                            <div class="column is-two-thirds">
+                                <p class="has-text-centered has-text-danger fw-semibold">Borrar registro de ordenes
+                                    hasta el
+                                    momento</p>
+                            </div>
+                            <div class="column is-one-third ">
+                                <button class="button is-light is-fullwidth" id="botonResetOrden">Resetear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+            </div>
         </div>
-    </footer>
+    </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/es.min.js"></script>
