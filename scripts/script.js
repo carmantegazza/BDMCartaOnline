@@ -14,9 +14,6 @@ class ItemPedido {
     this.cantidad = cantidad;
     this.precio = precio;
   }
-  sumarItem() {
-    this.cantidad++
-  }
 };
 //clase para las ordenes
 class OrdenConfirmada {
@@ -33,7 +30,7 @@ async function traerItems() {
   const URLJSON = "json/itemsCarta.json";
   const response = await fetch(URLJSON);
   const data = await response.json();
-  items = data
+  items = data;
 
   crearCards(items);
 }
@@ -76,13 +73,12 @@ const crearCards = array => {
       let cardContent = document.createElement('div');
       cardContent.className = 'card-content';
       cardContent.innerHTML = `
-      <h3 class="title is-3">${item.nombre}</h3>
+      <h3 class="title is-4">${item.nombre}</h3>
       <p>${item.detalle}</p>
       <p>$ ${item.precio}</p>
       `;
       //creo boton de disponibilidad y lo pongo en el footer de la card
       let botonDeItem = crearBotonDeItem(item.disponibilidad);
-      botonDeItem.class = 'botonDeItem';
       let cardFooter = document.createElement('div');
       cardFooter.className = 'card-footer';
       cardFooter.append(botonDeItem);
@@ -122,7 +118,6 @@ const crearCards = array => {
   )
 };
 
-
 /* FUNCIONES DE LA ORDEN 
 renderizar sumar total, renderizar items en tabla, mensaje de footer de tabla, confirmar orden, subir al storage */
 //declaro variables a usar
@@ -153,13 +148,20 @@ const sumarOrden = () => {
   return sumaOrden
 };
 
-//funcion para ordenar contenido orden, sumar cantidad, borrar item
+//funcion para borrar item
+const borrarItem = itemBorrar => {
+  let itemBorrado = itemsPedidos.findIndex((item) => itemBorrar.pedido == item.pedido)
+  itemsPedidos.splice(itemBorrado,1);
+  console.log(itemBorrado);
+}
+
+//funcion para ordenar contenido orden, evento confirmar
 const ordenarItemsPedidos = () => {
   cuerpoTablaOrden.innerHTML = '';
 
   itemsPedidos.forEach(
     (item) => {
-      let precioTotal = item.precio*item.cantidad;
+      let precioTotal = item.precio * item.cantidad;
       let renglonesOrden = document.createElement('tr');
       renglonesOrden.innerHTML = `
       <td><input class="input is-rounded is-small" id="${item.pedido}Cantidad" type="number" value="${item.cantidad}" min="1" max="10" step="1"></td>
@@ -177,18 +179,16 @@ const ordenarItemsPedidos = () => {
         item.cantidad = nuevaCantidad;
         ordenarItemsPedidos();
       })
+
       //evento para borrar items de la oden
       let botonBorrarItem = document.getElementById(`borrarItem${item.pedido}`);
       botonBorrarItem.onclick = () => {
-        let itemAborrar = itemsPedidos.includes(i => i.pedido == item.pedido)
-        console.log(itemAborrar)
-
-        let itemBorrado = itemsPedidos.indexOf(itemBorrar => itemBorrar.pedido == item.pedido);
-        itemsPedidos.splice(itemBorrado);
+        borrarItem(item);
         ordenarItemsPedidos();
-      };
+      }
     }
   );
+
   //creacion del footer de la tabla (mensaje o suma y deshabilitacion de boton)
   sumaOrden = sumarOrden();
   sumaOrdenEft = sumarOrden() * 0.9;
@@ -211,7 +211,7 @@ botonConfirmarOrden.onclick = () => {
   sumaOrdenEft = sumarOrden() * 0.9;
 
   //verifico el storage para continuidad de numero de ordenes
-  if (ordenes != []) {
+  if (ordenes != null) {
     numeroOrden = ordenes.length + 1;
   } else {
     numeroOrden = 1;
@@ -251,7 +251,8 @@ botonConfirmarOrden.onclick = () => {
 };
 
 /*FUNCIONES DEL TABLERO DE ACCESO DE PERSONAL
-renderizar resumen ordenes, resetear conteo de ordenes */
+renderizar items segun tipo, 
+ver disponibilidad, cambiar disponibilidad, resetear conteo de ordenes */
 //elementos del html a usar en modal clave
 let claveAcceso = document.getElementById('claveAcceso');
 let botonIngresar = document.getElementById('botonIngresar');
@@ -259,6 +260,9 @@ let botonIngresar = document.getElementById('botonIngresar');
 let cuerpoResumen = document.getElementById('cuerpoResumen');
 let footResumen = document.getElementById('footResumen');
 let botonResetOrden = document.getElementById('botonResetOrden');
+
+//traigo los datos del storage
+//resumenOrdenes = JSON.parse(localStorage.getItem('ordenes'));
 
 //funcion para calcular el total de ventas
 const sumarTotalVentas = () => {
@@ -313,9 +317,7 @@ botonIngresar.onclick = () => {
 botonResetOrden.onclick = () => {
   localStorage.clear();
   cuerpoResumen.innerHTML = '';
-  footResumen.innerHTML = `
-  <td class="has-text-centered">Reiniciaste el conteo de ordenes!</td>
-  `;
+  footResumen.innerHTML = '';
 };
 
 /*FUNCIONALIDAD DE MODALES*/
